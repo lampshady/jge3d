@@ -36,5 +36,7 @@ public class Window extends JFrame {
 		window.setExtendedState(Frame.MAXIMIZED_BOTH);
 		
 		window.setVisible(true);
+		
+		//Fuck off Adam
 	}	
 }
