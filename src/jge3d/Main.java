@@ -1,6 +1,5 @@
 package jge3d;
 
-import javax.swing.Timer;
 import jge3d.Window;
 
 public class Main {
@@ -8,16 +7,34 @@ public class Main {
 		//Create window
 		Window window = new Window();
 		
-		//Enter Main Loop
-		Timer timer = new Timer(0, null);
-		float oldTime = 0;
-		float newTime;
-
-		/*do{
-			//Get time
-			//newTime = timer.
+		//stuff
+		boolean done=true;
+		
+		//Timer related stuff
+		final long tick_ms = 32;
+		long dt = 0;
+		long phys_timer_prev = System.currentTimeMillis();
+		long phys_timer_curr = phys_timer_prev;
+		long game_timer = System.currentTimeMillis();
+		
+		do{
+			phys_timer_curr = System.currentTimeMillis();
+			
+			//DO YALL PHYSICS BOOOOYYYYY
+			//mWorld->stepSimulation(((float)(phys_timer_curr - phys_timer_prev))/1000.0, 10);
+			
+			phys_timer_prev = phys_timer_curr;
 			
 			//Compare to last time
-		}while(true);*/
+			dt = System.currentTimeMillis() - game_timer;
+			while( dt >= tick_ms ) {
+				dt -= tick_ms;
+				game_timer += tick_ms;
+				
+				//Grab user input
+
+				//Do stuff that needs to occur every tick
+			}
+		} while(!done);
 	}
 }

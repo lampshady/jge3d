@@ -8,7 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 
-public class Window {
+@SuppressWarnings("serial")
+public class Window extends JFrame {
 	//opening the window
 	public Window()
 	{
@@ -35,5 +36,5 @@ public class Window {
 		window.setExtendedState(Frame.MAXIMIZED_BOTH);
 		
 		window.setVisible(true);
-	}
+	}	
 }
