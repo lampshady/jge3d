@@ -1,6 +1,7 @@
 package jge3d;
 
 import jge3d.Window;
+import net.java.games.*;
 
 public class Main {
 	public static void main(String[] args) {
