@@ -20,7 +20,7 @@ public class Main {
 		do{
 			phys_timer_curr = System.currentTimeMillis();
 			
-			//DO YALL PHYSICS BOOOOYYYYY
+			//DO YALL PHYSICS BOOOOYYYYY srsly
 			//mWorld->stepSimulation(((float)(phys_timer_curr - phys_timer_prev))/1000.0, 10);
 			
 			phys_timer_prev = phys_timer_curr;
