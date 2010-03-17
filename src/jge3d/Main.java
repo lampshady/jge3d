@@ -1,5 +1,6 @@
 package jge3d;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,18 +10,31 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import com.sun.opengl.util.Animator;
 
 public class Main implements GLEventListener{
 	static JFrame window = new JFrame();
 	static GLCanvas canvas = new GLCanvas();
+	
+	static JPanel topRightPane = new JPanel();
+	static JPanel bottomRightPane = new JPanel();
+	
+	static JSplitPane innerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topRightPane, bottomRightPane); 
+	static JSplitPane mainPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, canvas, innerPane);
+	
 	static Animator animator = new Animator(canvas);
 	static GLU glu = new GLU();
 	
+	static float rotationAngle = 0.0f;
+	static long previousTime = 0;
+	
 	public static void main(String[] args) {
 		canvas.addGLEventListener(new Main());
-		window.add(canvas);
+		canvas.setPreferredSize(new Dimension(0, 0));
+		window.add(mainPane);
 		window.setSize(640, 480);
 		window.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
@@ -49,10 +63,51 @@ public class Main implements GLEventListener{
 		gl.glLoadIdentity();
 		gl.glTranslatef( 0.0f, 0.0f, -5.0f);
 		
-		//gl.glBegin();
-		//gl.glEnd();
+		gl.glRotatef(rotationAngle, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(rotationAngle, 0.0f, 1.0f, 0.0f);
+		gl.glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
+		gl.glRotatef(rotationAngle, 0.0f, 1.0f, 0.0f);
+	 
+		gl.glBegin(GL.GL_TRIANGLES);
+	 
+		// Front
+		gl.glColor3f(0.0f, 1.0f, 1.0f); 
+		gl.glVertex3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(0.0f, 0.0f, 1.0f); 
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+		gl.glColor3f(0.0f, 0.0f, 0.0f); 
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+	 
+		// Right Side Facing Front
+		gl.glColor3f(0.0f, 1.0f, 1.0f); 
+		gl.glVertex3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(0.0f, 0.0f, 1.0f); 
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+		gl.glColor3f(0.0f, 0.0f, 0.0f); 
+		gl.glVertex3f(0.0f, -1.0f, -1.0f);
+	 
+		// Left Side Facing Front
+		gl.glColor3f(0.0f, 1.0f, 1.0f); 
+		gl.glVertex3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(0.0f, 0.0f, 1.0f); 
+		gl.glVertex3f(0.0f, -1.0f, -1.0f);
+		gl.glColor3f(0.0f, 0.0f, 0.0f); 
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+	 
+		// Bottom
+		gl.glColor3f(0.0f, 0.0f, 0.0f); 
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+		gl.glColor3f(0.1f, 0.1f, 0.1f); 
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+		gl.glColor3f(0.2f, 0.2f, 0.2f); 
+		gl.glVertex3f(0.0f, -1.0f, -1.0f);
+	 
+		gl.glEnd();
+
 		
 		gl.glFlush();
+		
+		rotationAngle += 0.2f;
 		
 	}
 
@@ -88,7 +143,7 @@ public class Main implements GLEventListener{
 		gl.glMatrixMode(GL.GL_PROJECTION);
 		gl.glLoadIdentity();
 		
-		glu.gluPerspective(50.0f, aspectRatio, 1.0, 1000.0);
+		glu.gluPerspective(90.0f, aspectRatio, 1.0, 200.0);
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
 	}
