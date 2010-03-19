@@ -1,150 +1,233 @@
 package jge3d;
 
-import java.awt.Dimension;
+import java.awt.Canvas;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCanvas;
-import javax.media.opengl.GLEventListener;
-import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 
-import com.sun.opengl.util.Animator;
+public class Main {
+	static JFrame window;
+	static JSplitPane mainSplit;
+	static JPanel TopPane;
+	static JPanel LeftPane;
+	static Canvas GLView;
+	static JPanel RightPane;
+	static JPanel TextureView;
+	static JPanel TreeView;
+	
+	static DisplayMode chosenMode = null;
+	
+	public static void main(String[] args) throws LWJGLException {
+		//create the window and all that jazz
+		initWindow();
+		 
+		//setup the initial perspective
+		initGL();
+		 
+		boolean isRunning = true;
+		float pos = 0;
+		float xrot = 0;
+		float yrot = 0;
+		float zrot = 0;
+		
+		//render
+		while (isRunning) {
+			Display.makeCurrent();
+		    // perform game logic updates here
+		    pos += 0.01f;    
+		    
+		    // render using OpenGL 
+		    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
+			GL11.glLoadIdentity();
+			
+	        GL11.glTranslatef(0.0f, 0.0f, -10.0f); // Move Into The Screen 5 Units
+	        GL11.glRotatef(xrot, 1.0f, 0.0f, 0.0f); // Rotate On The X Axis
+	        GL11.glRotatef(yrot, 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
+	        GL11.glRotatef(zrot, 0.0f, 0.0f, 1.0f); // Rotate On The Z Axis
+	        
+	        GL11.glBegin(GL11.GL_QUADS);
+		        // Front Face
+	        	GL11.glColor3f(1.0f,0.0f,0.0f);
+		        GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
+		        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Qua        
+		        // Back Face
+		        GL11.glColor3f(0.0f,1.0f,0.0f);
+		        GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Right Of The Texture and Quad
+		        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Left Of The Texture and Quad
+		        // Top Face
+		        GL11.glColor3f(0.0f,0.0f,1.0f);
+		        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
+		        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Bottom Left Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Bottom Right Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
+		        // Bottom Face
+		        GL11.glColor3f(1.0f,0.0f,1.0f);
+		        GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Top Right Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Top Left Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
+		        GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
+		        // Right face
+		        GL11.glColor3f(1.0f,1.0f,0.0f);
+		        GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Quad
+		        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
+		        // Left Face
+		        GL11.glColor3f(0.0f,1.0f,1.0f);
+		        GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Left Of The Texture and Quad
+		        GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
+		        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
+		        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
+	        GL11.glEnd();
 
-public class Main implements GLEventListener{
-	static JFrame window = new JFrame();
-	static GLCanvas canvas = new GLCanvas();
+	        xrot += 0.03f; // X Axis Rotation
+	        yrot += 0.02f; // Y Axis Rotation
+	        zrot += 0.04f; // Z Axis Rotation
+
+			GL11.glFlush();
+			 
+			// now tell the screen to update
+			Display.update();
+			Display.releaseContext();
+		}
+	}
 	
-	static JPanel topRightPane = new JPanel();
-	static JPanel bottomRightPane = new JPanel();
-	
-	static JSplitPane innerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topRightPane, bottomRightPane); 
-	static JSplitPane mainPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, canvas, innerPane);
-	
-	static Animator animator = new Animator(canvas);
-	static GLU glu = new GLU();
-	
-	static float rotationAngle = 0.0f;
-	static long previousTime = 0;
-	
-	public static void main(String[] args) {
-		canvas.addGLEventListener(new Main());
-		canvas.setPreferredSize(new Dimension(0, 0));
-		window.add(mainPane);
-		window.setSize(640, 480);
+	protected static void initWindow()
+	{
+		// we're aiming for an 800x600 display.
+		int targetWidth = 800;
+		int targetHeight = 600;
+		
+		window = new JFrame();
+		GLView = new Canvas();
+		RightPane = new JPanel();
+		
+		//Make it so closing the window closes the program
 		window.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
 				System.exit(0);
 			}
 		});
 		
-		window.setVisible(true);
-		
-		animator.start();
-			/* |
-			 * |-> Creates a GLAutoDrawable
-			 * |		\-> Creates GL
-			 * |-> Throws event for init(), passes GLAutoDrawable
-			 * |-> Loops event for display(), passes GLAutoDrawable
-			 */
-	}
-
-	@Override
-	public void display(GLAutoDrawable drawable) {
-		final GL gl = drawable.getGL();
-		
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-		gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
-		
-		gl.glLoadIdentity();
-		gl.glTranslatef( 0.0f, 0.0f, -5.0f);
-		
-		gl.glRotatef(rotationAngle, 1.0f, 0.0f, 0.0f);
-		gl.glRotatef(rotationAngle, 0.0f, 1.0f, 0.0f);
-		gl.glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
-		gl.glRotatef(rotationAngle, 0.0f, 1.0f, 0.0f);
-	 
-		gl.glBegin(GL.GL_TRIANGLES);
-	 
-		// Front
-		gl.glColor3f(0.0f, 1.0f, 1.0f); 
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); 
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.0f, 0.0f, 0.0f); 
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-	 
-		// Right Side Facing Front
-		gl.glColor3f(0.0f, 1.0f, 1.0f); 
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); 
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.0f, 0.0f, 0.0f); 
-		gl.glVertex3f(0.0f, -1.0f, -1.0f);
-	 
-		// Left Side Facing Front
-		gl.glColor3f(0.0f, 1.0f, 1.0f); 
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); 
-		gl.glVertex3f(0.0f, -1.0f, -1.0f);
-		gl.glColor3f(0.0f, 0.0f, 0.0f); 
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-	 
-		// Bottom
-		gl.glColor3f(0.0f, 0.0f, 0.0f); 
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.1f, 0.1f, 0.1f); 
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.2f, 0.2f, 0.2f); 
-		gl.glVertex3f(0.0f, -1.0f, -1.0f);
-	 
-		gl.glEnd();
-
-		
-		gl.glFlush();
-		
-		rotationAngle += 0.2f;
-		
-	}
-
-	@Override
-	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
-			boolean deviceChanged) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void init(GLAutoDrawable drawable) {
-		// TODO Auto-generated method stub
-		GL gl = drawable.getGL();
-		gl.glShadeModel(GL.GL_SMOOTH);
-		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		gl.glClearDepth(1.0f);
-		gl.glEnable(GL.GL_DEPTH_TEST);
-		gl.glDepthFunc(GL.GL_LEQUAL);
-		gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, 
-			  GL.GL_NICEST);
-	}
-
-	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height) {
-		GL gl = drawable.getGL();
-		if(height <= 0){
-			height = 1;
+		//Embed display into left pane
+		try{
+			Display.setParent(GLView);
+		}catch(LWJGLException e)
+		{
+			Sys.alert("Unable to set parent.", e.toString());
+		    System.exit(0);
 		}
-		float aspectRatio = (float)width / (float)height;
+		 
+		//
+		chosenMode = new DisplayMode(targetWidth, targetHeight);
+	
+		GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
+		RightPane.setSize((int)(chosenMode.getWidth()*(.225)), chosenMode.getHeight());
 		
-		gl.glMatrixMode(GL.GL_PROJECTION);
-		gl.glLoadIdentity();
+		window.setLayout(null);
 		
-		glu.gluPerspective(90.0f, aspectRatio, 1.0, 200.0);
-		gl.glMatrixMode(GL.GL_MODELVIEW);
-		gl.glLoadIdentity();
+		window.add(GLView);
+		window.add(RightPane);
+		window.setSize( chosenMode.getWidth(), chosenMode.getHeight());
+		window.setVisible(true);
+		//window.setResizable(false);
+		
+		try {
+		    Display.create();
+		} catch (LWJGLException e) {
+		    Sys.alert("Unable to create display.", e.toString());
+		    System.exit(0);
+		}
+		
+		setupInputs();
+	}
+	
+	public static void initGL(){
+		//initialize the view
+		setPerspective();
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		GL11.glClearDepth(1.0f);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthFunc(GL11.GL_LEQUAL);
+		GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
+		GL11.glClearColor(0,0,0,0);
+	}
+	
+	public static void setPerspective()
+	{
+		GL11.glViewport(0, 0, GLView.getWidth(), GLView.getHeight());
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GLU.gluPerspective(45.0f, (float) GLView.getWidth() / (float) GLView.getHeight(), 1f, 200.0f);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);	
+	}
+	
+	public static void setupInputs()
+	{
+		Sys.alert("Called", "Input Setup");
+		window.addMouseListener( new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.print("Mouse Clicked");
+			}
+		});
+		
+		GLView.addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.print("Mouse Dragged");
+			}
+		});
+		
 	}
 }
