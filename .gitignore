@@ -1,2 +1,3 @@
-bin/jge3d
-.classpath
+bin
+.settings
+

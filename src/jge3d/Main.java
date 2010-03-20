@@ -280,7 +280,6 @@ public class Main {
 						Translation[2] += -deltaY/2;
 					}
 					
-					boolean temp = Mouse.isButtonDown(2);
 					if(Mouse.isButtonDown(2))
 					{
 						//Change Perspective
