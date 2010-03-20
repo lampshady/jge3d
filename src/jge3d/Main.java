@@ -2,12 +2,15 @@ package jge3d;
 
 import java.awt.Canvas;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.lang.Math;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -20,6 +23,8 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.glu.GLU;
+
+import jge3d.ObjParser;
 
 public class Main {
 	static JFrame window;
@@ -46,13 +51,23 @@ public class Main {
 		try{		//create the window and all that jazz
 		initWindow();
 		 
+		//Add Object parser
+		//Create a file chooser
+		//final JFileChooser fc = new JFileChooser();
+		//In response to a button click:
+		//int returnVal = fc.showOpenDialog(window);
+		//BufferedReader objfile = new BufferedReader(new FileReader(fc.getSelectedFile()));
+
+		BufferedReader objfile = new BufferedReader(new FileReader("lib/Models/humanoid_tri.obj"));
+		ObjParser model = new ObjParser(objfile, true);
+		
 		//setup the initial perspective
 		initGL();
 		
 		//Setup Inputs
 		setupInputs();
 		
-		draw();
+		draw(model);
 		while (isRunning) {
 			
 			handleMouse();
@@ -62,7 +77,7 @@ public class Main {
 			//System.out.print(Display.isActive());
 			//if( !Display.isActive() )
 			//{
-				draw();
+				draw(model);
 			//}
 			
 		}
@@ -149,7 +164,7 @@ public class Main {
 		Keyboard.create();
 	}
 	
-	public static void draw() throws LWJGLException
+	public static void draw(ObjParser model) throws LWJGLException
 	{
 		Display.makeCurrent();
 	    // perform game logic updates here
@@ -166,7 +181,10 @@ public class Main {
         GL11.glRotatef(Rotation[0], 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
         GL11.glRotatef(Rotation[1], 1.0f, 0.0f, 0.0f); // Rotate On The X Axis
         //GL11.glRotatef(zrot, 0.0f, 0.0f, 1.0f); // Rotate On The Z Axis
+
+        model.opengldraw();
         
+        /*
         GL11.glBegin(GL11.GL_QUADS);
 	        // Front Face
         	GL11.glColor3f(1.0f,0.0f,0.0f);
@@ -205,7 +223,7 @@ public class Main {
 	        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
 	        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
         GL11.glEnd();
-        
+        */
         //xrot += 0.03f; // X Axis Rotation
         //yrot += 0.02f; // Y Axis Rotation
         //zrot += 0.04f; // Z Axis Rotation
