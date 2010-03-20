@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.Math;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -21,7 +20,6 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Dimension;
 import org.lwjgl.util.glu.GLU;
 
 import jge3d.ObjParser;
@@ -36,53 +34,54 @@ public class Main {
 	static JPanel TextureView;
 	static JPanel TreeView;
 	static boolean isRunning = true;
-	static float pos = 0;
 	static float[] CameraRotation = {0,0}; //Angle up/down, side-to-side
 	static float[] CameraPosition = {0,0,0}; // x, y, z
 	static float CameraDistance = 10;
 	static float[] Rotation = {0,0,0};// x, y, z
-	static float[] Translation = {0,0,-10};// x, y, z
+	static float[] Translation = {0,0,-500};// x, y, z
 	static float zCameraTrans = 0;
+	static long prev_time=0;
+	static int frames=0;
 	
 	
 	static DisplayMode chosenMode = null;
 	
 	public static void main(String[] args) throws LWJGLException {
-		try{		//create the window and all that jazz
-		initWindow();
-		 
-		//Add Object parser
-		//Create a file chooser
-		//final JFileChooser fc = new JFileChooser();
-		//In response to a button click:
-		//int returnVal = fc.showOpenDialog(window);
-		//BufferedReader objfile = new BufferedReader(new FileReader(fc.getSelectedFile()));
-
-		BufferedReader objfile = new BufferedReader(new FileReader("lib/Models/humanoid_tri.obj"));
-		ObjParser model = new ObjParser(objfile, true);
-		
-		//setup the initial perspective
-		initGL();
-		
-		//Setup Inputs
-		setupInputs();
-		
-		draw(model);
-		while (isRunning) {
+		try{		
+			//create the window and all that jazz
+			initWindow();
+			 
+			//Add Object parser
+			//Create a file chooser
+			final JFileChooser fc = new JFileChooser("lib/Models/");
+			//In response to a button click:
+			fc.showOpenDialog(window);
 			
-			handleMouse();
-			//handleKeyboard();
+			BufferedReader objfile = new BufferedReader(new FileReader(fc.getSelectedFile()));	//use the line below if you don't want to have to click everytime
+			//BufferedReader objfile = new BufferedReader(new FileReader("lib/Models/teapot.obj"));
+			ObjParser model = new ObjParser(objfile, true);
 			
-			//Only draw if the display is in the foreground
-			//System.out.print(Display.isActive());
-			//if( !Display.isActive() )
-			//{
-				draw(model);
-			//}
+			//setup the initial perspective
+			initGL();
+			
+			//Setup Inputs
+			setupInputs();
+			
+			draw(model);
+			while (isRunning) {
+				
+				handleMouse();
+				//handleKeyboard();
+				
+				//Only draw if the display is in the foreground
+				//System.out.print(Display.isActive());
+				//if( !Display.isActive() )
+				//{
+					draw(model);
+				//}
 			
 		}
-		}catch(Exception e)
-		{
+		} catch(Exception e)	{
 			System.out.print("\nError Occured.  Exiting." + e.toString());
 			System.exit(-1);
 		}
@@ -153,7 +152,7 @@ public class Main {
 		//GL11.glViewport(0, 0, GLView.getWidth(), GLView.getHeight());
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(45.0f, (float) GLView.getWidth() / (float) GLView.getHeight(), 1f, 200.0f);
+		GLU.gluPerspective(45.0f, (float) GLView.getWidth() / (float) GLView.getHeight(), 1f, 20000.0f);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
@@ -168,7 +167,7 @@ public class Main {
 	{
 		Display.makeCurrent();
 	    // perform game logic updates here
-	    pos += 0.01f;  
+
 	    
 		// render using OpenGL 
 	    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
@@ -180,7 +179,6 @@ public class Main {
         GL11.glTranslatef(Translation[0], Translation[1], Translation[2]); // Move Into The Screen 5 Units
         GL11.glRotatef(Rotation[0], 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
         GL11.glRotatef(Rotation[1], 1.0f, 0.0f, 0.0f); // Rotate On The X Axis
-        //GL11.glRotatef(zrot, 0.0f, 0.0f, 1.0f); // Rotate On The Z Axis
 
         model.opengldraw();
         
@@ -224,15 +222,19 @@ public class Main {
 	        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
         GL11.glEnd();
         */
-        //xrot += 0.03f; // X Axis Rotation
-        //yrot += 0.02f; // Y Axis Rotation
-        //zrot += 0.04f; // Z Axis Rotation
 
 		GL11.glFlush();
 		 
 		// now tell the screen to update
 		Display.update();
 		Display.releaseContext();
+		
+		frames++;
+		if ( (System.currentTimeMillis()-prev_time) >= 1000 ) {
+			window.setTitle("Fps: " + ((frames*1000)/(System.currentTimeMillis()-prev_time)) );
+			prev_time=System.currentTimeMillis();
+			frames = 0;
+		}
 	}
 	
 	public static void handleMouse() throws LWJGLException

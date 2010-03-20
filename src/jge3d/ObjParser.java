@@ -215,36 +215,29 @@ public class ObjParser {
 			} else {
 				polytype = GL11.GL_POLYGON;
 			}
-			GL11.glBegin(polytype);
-			////////////////////////////
-			
-			for (int w=0;w<tempfaces.length;w++) {
-				if (tempfacesnorms[w] != 0) {
-					float normtempx = ((float[])vertexsetsnorms.get(tempfacesnorms[w] - 1))[0];
-					float normtempy = ((float[])vertexsetsnorms.get(tempfacesnorms[w] - 1))[1];
-					float normtempz = ((float[])vertexsetsnorms.get(tempfacesnorms[w] - 1))[2];
-					GL11.glNormal3f(normtempx, normtempy, normtempz);
+			GL11.glBegin(polytype);	
+				GL11.glColor3f(0.5f,0.5f,0.5f);
+				for (int w=0;w<tempfaces.length;w++) {
+					if (tempfacesnorms[w] != 0) {
+						float normtempx = ((float[])vertexsetsnorms.get(tempfacesnorms[w] - 1))[0];
+						float normtempy = ((float[])vertexsetsnorms.get(tempfacesnorms[w] - 1))[1];
+						float normtempz = ((float[])vertexsetsnorms.get(tempfacesnorms[w] - 1))[2];
+						GL11.glNormal3f(normtempx, normtempy, normtempz);
+					}
+					
+					if (tempfacestexs[w] != 0) {
+						float textempx = ((float[])vertexsetstexs.get(tempfacestexs[w] - 1))[0];
+						float textempy = ((float[])vertexsetstexs.get(tempfacestexs[w] - 1))[1];
+						float textempz = ((float[])vertexsetstexs.get(tempfacestexs[w] - 1))[2];
+						GL11.glTexCoord3f(textempx,1f-textempy,textempz);
+					}
+					
+					float tempx = ((float[])vertexsets.get(tempfaces[w] - 1))[0];
+					float tempy = ((float[])vertexsets.get(tempfaces[w] - 1))[1];
+					float tempz = ((float[])vertexsets.get(tempfaces[w] - 1))[2];
+					GL11.glVertex3f(tempx,tempy,tempz);
 				}
-				
-				if (tempfacestexs[w] != 0) {
-					float textempx = ((float[])vertexsetstexs.get(tempfacestexs[w] - 1))[0];
-					float textempy = ((float[])vertexsetstexs.get(tempfacestexs[w] - 1))[1];
-					float textempz = ((float[])vertexsetstexs.get(tempfacestexs[w] - 1))[2];
-					GL11.glTexCoord3f(textempx,1f-textempy,textempz);
-				}
-				
-				float tempx = ((float[])vertexsets.get(tempfaces[w] - 1))[0];
-				float tempy = ((float[])vertexsets.get(tempfaces[w] - 1))[1];
-				float tempz = ((float[])vertexsets.get(tempfaces[w] - 1))[2];
-				GL11.glVertex3f(tempx,tempy,tempz);
-			}
-			
-			
-			//// Quad End Footer /////
 			GL11.glEnd();
-			///////////////////////////
-			
-			
 		}
 		GL11.glEndList();
 	}
