@@ -22,7 +22,8 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import jge3d.ObjParser;
+//import jge3d.ObjParser;
+import jge3d.LevelParser;
 
 public class Main {
 	static JFrame window;
@@ -51,15 +52,20 @@ public class Main {
 			//create the window and all that jazz
 			initWindow();
 			 
+			//Add Level parser
+			//Create a file chooser
+			final JFileChooser fc_level = new JFileChooser("lib/Levels/");
+			fc_level.showOpenDialog(window);
+			BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));	//use the line below if you don't want to have to click everytime
+			LevelParser level = new LevelParser(levelfile);
+
 			//Add Object parser
 			//Create a file chooser
-			final JFileChooser fc = new JFileChooser("lib/Models/");
-			//In response to a button click:
-			fc.showOpenDialog(window);
+			//final JFileChooser fc_model = new JFileChooser("lib/Models/");
+			//fc_model.showOpenDialog(window);
+			//BufferedReader objfile = new BufferedReader(new FileReader(fc_model.getSelectedFile()));
+			//ObjParser model = new ObjParser(objfile, true);
 			
-			BufferedReader objfile = new BufferedReader(new FileReader(fc.getSelectedFile()));	//use the line below if you don't want to have to click everytime
-			//BufferedReader objfile = new BufferedReader(new FileReader("lib/Models/teapot.obj"));
-			ObjParser model = new ObjParser(objfile, true);
 			
 			//setup the initial perspective
 			initGL();
@@ -67,7 +73,7 @@ public class Main {
 			//Setup Inputs
 			setupInputs();
 			
-			draw(model);
+			draw(level);
 			while (isRunning) {
 				
 				handleMouse();
@@ -77,7 +83,7 @@ public class Main {
 				//System.out.print(Display.isActive());
 				//if( !Display.isActive() )
 				//{
-					draw(model);
+					draw(level);
 				//}
 			
 		}
@@ -163,7 +169,7 @@ public class Main {
 		Keyboard.create();
 	}
 	
-	public static void draw(ObjParser model) throws LWJGLException
+	public static void draw(LevelParser level) throws LWJGLException
 	{
 		Display.makeCurrent();
 	    // perform game logic updates here
@@ -180,8 +186,8 @@ public class Main {
         GL11.glRotatef(Rotation[0], 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
         GL11.glRotatef(Rotation[1], 1.0f, 0.0f, 0.0f); // Rotate On The X Axis
 
-        model.opengldraw();
-        
+        //model.opengldraw();
+        level.opengldraw();
         /*
         GL11.glBegin(GL11.GL_QUADS);
 	        // Front Face
