@@ -22,10 +22,16 @@ public class LevelParser {
 	}
 	
 	private void loadobject(BufferedReader br) {
+		int linecounter = 0;
 		try {
-			int linecounter = 0;
+			
 			String type[] = new String [1];
 			String newline;
+			newline = br.readLine().trim();
+			row_length = Integer.parseInt(newline);
+			newline = br.readLine().trim();
+			col_length = Integer.parseInt(newline);
+			newline = br.readLine();
 			while (((newline = br.readLine()) != null)) {
 				newline = newline.trim();
 				type = newline.split("\\s+");
@@ -41,7 +47,7 @@ public class LevelParser {
 			System.out.println("Failed to read file: " + br.toString());
 			//System.exit(0);			
 		} catch (NumberFormatException e) {
-			System.out.println("Malformed OBJ (on line " + /*linecounter +*/ "): " + br.toString() + "\r \r" + e.getMessage());
+			System.out.println("Malformed level input (on line " + linecounter + "): " + br.toString() + "\r \r" + e.getMessage());
 			//System.exit(0);
 		}
 		
@@ -89,12 +95,12 @@ public class LevelParser {
 	        GL11.glVertex3f(x*cube_size,y*cube_size,z*cube_size);		// Top Right Of The Quad (Back)
 	        GL11.glVertex3f(x,y*cube_size,z*cube_size);					// Top Left Of The Quad (Back)
 	        GL11.glVertex3f(x,y,z*cube_size);							// Bottom Left Of The Quad (Back)
-	        GL11.glVertex3f(x*cube_size,y, z*cube_size);				// Bottom Right Of The Quad (Back)
+	        GL11.glVertex3f(x*cube_size,y,z*cube_size);					// Bottom Right Of The Quad (Back)
 
-	        GL11.glVertex3f(x,y*cube_size,z*cube_size);					// Top Right Of The Quad (Left)
-	        GL11.glVertex3f(x,y*cube_size,z);							// Top Left Of The Quad (Left)
-	        GL11.glVertex3f(x,y,z);										// Bottom Left Of The Quad (Left)
-	        GL11.glVertex3f(x,y,z*cube_size);							// Bottom Right Of The Quad (Left)
+	        GL11.glVertex3f(x,y*cube_size,z);							// Top Right Of The Quad (Left)
+	        GL11.glVertex3f(x,y*cube_size,z*cube_size);					// Top Left Of The Quad (Left)
+	        GL11.glVertex3f(x,y,z*cube_size);							// Bottom Left Of The Quad (Left)
+	        GL11.glVertex3f(x,y,z);							// Bottom Right Of The Quad (Left)
 
 	        GL11.glVertex3f(x*cube_size,y*cube_size,z*cube_size);		// Top Right Of The Quad (Right)
 	        GL11.glVertex3f(x*cube_size,y*cube_size,z);					// Top Left Of The Quad (Right)
