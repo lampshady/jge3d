@@ -34,7 +34,7 @@ public class Main {
 	static JPanel TextureView;
 	static JPanel TreeView;
 	static boolean isRunning = true;
-	static float[] CameraPosition = {0,0,40}; // x, y, z
+	static float[] CameraPosition = {7.5f,-5,21}; // x, y, z
 	static long prev_time=0;
 	static int frames=0;
 	static DisplayMode chosenMode = null;
@@ -51,14 +51,12 @@ public class Main {
 			BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));	//use the line below if you don't want to have to click everytime
 			LevelParser level = new LevelParser(levelfile);
 
-			
 			//Add Object parser
 			//Create a file chooser
 			//final JFileChooser fc_model = new JFileChooser("lib/Models/");
 			//fc_model.showOpenDialog(window);
 			//BufferedReader objfile = new BufferedReader(new FileReader(fc_model.getSelectedFile()));
 			//ObjParser model = new ObjParser(objfile, true);
-			
 			
 			//setup the initial perspective
 			initGL();
@@ -70,12 +68,11 @@ public class Main {
 			while (isRunning) {
 				
 				handleMouse();
-				//handleKeyboard();
+				handleKeyboard();
 				
 				draw(level);
-			
-		}
-		} catch(Exception e)	{
+			}
+		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
 			System.exit(-1);
 		}
@@ -107,7 +104,6 @@ public class Main {
 		    System.exit(0);
 		}
 		 
-		//
 		chosenMode = new DisplayMode(targetWidth, targetHeight);
 	
 		GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
@@ -163,13 +159,18 @@ public class Main {
 		// render using OpenGL 
 	    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
 		GL11.glLoadIdentity();
-		GLU.gluLookAt(CameraPosition[0],CameraPosition[1],CameraPosition[2],
-				CameraPosition[0],CameraPosition[1],CameraPosition[2]-20,
-				CameraPosition[0],CameraPosition[1]+10,CameraPosition[2]);
+		
+		GLU.gluLookAt(
+				CameraPosition[0],	 CameraPosition[1],		(CameraPosition[2]+1),
+				CameraPosition[0],	 CameraPosition[1],		 CameraPosition[2],
+				0				 ,	 1,						 0
+		);
 
+		GL11.glPushMatrix();
         //render level
         level.opengldraw();
 
+        GL11.glPopMatrix();
 		GL11.glFlush();
 		 
 		// now tell the screen to update
@@ -242,6 +243,26 @@ public class Main {
 			case 1://Right Button
 				break;
 			case 2://Middle Button
+				break;
+			}
+		}
+	}
+	
+	public static void handleKeyboard() throws LWJGLException
+	{
+		while(Keyboard.next())
+		{
+			Keyboard.poll();
+			System.out.print("!!!" + Keyboard.getEventKey() + "!!!");
+			switch(Keyboard.getEventCharacter())
+			{
+			case 'w':	
+				break;
+			case 'a':
+				break;
+			case 's':
+				break;
+			case 'd':
 				break;
 			}
 		}
