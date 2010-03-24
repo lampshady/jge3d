@@ -10,10 +10,11 @@ public class LevelParser {
 	int row_length=0;
 	int col_length=0;
 	int map[][];
+	private int objectlist;
 	
 	public LevelParser(BufferedReader ref) {
 		loadlevel(ref);
-		//opengldrawtolist();
+		opengldrawtolist();
 		cleanup();
 	}
 	
@@ -57,21 +58,26 @@ public class LevelParser {
 			System.out.println("Malformed level input (on line " + linecounter + "): " + br.toString() + "\r \r" + e.getMessage());
 			//System.exit(0);
 		}
-		
 	}
+	
 	
 	public void opengldrawtolist() {
 		
-		//this.objectlist = GL11.glGenLists(1);
+		this.objectlist = GL11.glGenLists(1);
 		
-		//GL11.glNewList(objectlist,GL11.GL_COMPILE);
+		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 		for (int i=0;i<col_length;i++) {
+			GL11.glPushMatrix();
 			for(int j=0;j<row_length;j++){
 				drawcube(map[i][j]);
+				GL11.glTranslatef(1, 0, 0);
 			}
+			GL11.glPopMatrix();
+			GL11.glTranslatef(0,-1,0);
 		}
-		//GL11.glEndList();
+		GL11.glEndList();
 	}
+	
 	
 	private void drawcube(int type) {
 		//GL11.glTranslatef(x*cube_size, y*cube_size, z*cube_size);
@@ -120,15 +126,7 @@ public class LevelParser {
 	}
 	
 	public void opengldraw() {
-		for (int i=0;i<col_length;i++) {
-			GL11.glPushMatrix();
-			for(int j=0;j<row_length;j++){
-				drawcube(map[i][j]);
-				GL11.glTranslatef(1, 0, 0);
-			}
-			GL11.glPopMatrix();
-			GL11.glTranslatef(0,-1,0);
-		}
+		GL11.glCallList(objectlist);
 	}
 	
 }

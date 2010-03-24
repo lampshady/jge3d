@@ -2,22 +2,27 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/jinput.jar" sourcepath="lib/lwjgl.zip">
+	<classpathentry kind="lib" path="lib/jinput.jar" sourcepath="lib/src/lwjgl.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.lwjgl.org/javadoc/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jge3d/lib/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/lwjgl_util.jar" sourcepath="lib/lwjgl.zip">
+	<classpathentry kind="lib" path="lib/lwjgl_util.jar" sourcepath="lib/src/lwjgl.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.lwjgl.org/javadoc/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jge3d/lib/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/lwjgl.jar" sourcepath="lib/lwjgl.zip">
+	<classpathentry kind="lib" path="lib/lwjgl.jar" sourcepath="lib/src/lwjgl.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.lwjgl.org/javadoc/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jge3d/lib/native"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jbullet.jar" sourcepath="lib/src/jbullet.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="http://jbullet.advel.cz/javadoc/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
