@@ -10,9 +10,10 @@ public class LevelParser {
 	int row_length=0;
 	int col_length=0;
 	int layer=0;
-	int layer_count=1;
+	int layer_count=0;
 	int map[][][];
 	private int objectlist;
+	public static String newline = System.getProperty("line.separator");
 	
 	public LevelParser(BufferedReader ref) {
 		loadlevel(ref);
@@ -25,20 +26,23 @@ public class LevelParser {
 	}
 	
 	private void loadlevel(BufferedReader br) {
-		String newline;
+		String nextline;
 		int linecounter = 0;
 		try {
 			String type[] = new String [1];
 			br.mark(8192);
 
-			while(((newline = br.readLine()) != null)) {
-				newline = newline.trim();
-				if(newline.charAt(0) == 'l') {
+			while(((nextline = br.readLine()) != null)) {
+				if(nextline == newline) {
+					System.out.print("\nmadeit " + col_length);
+				}
+				nextline = nextline.trim();
+				if(nextline.charAt(0) == 'l') {
 					++layer_count;	
 					--col_length;
 				}
-				if(newline.replaceAll("\t", "").length() > row_length) {
-					row_length=newline.replaceAll("\t", "").length();
+				if(nextline.replaceAll("\t", "").length() > row_length) {
+					row_length=nextline.replaceAll("\t", "").length();
 				}
 				++col_length;
 			}
@@ -46,12 +50,12 @@ public class LevelParser {
 			
 			map = new int[col_length][row_length][layer_count];
 			
-			while (((newline = br.readLine()) != null)) {
-				newline = newline.trim();
+			while (((nextline = br.readLine()) != null)) {
+				nextline = nextline.trim();
 				//if(newline.charAt(0) == 'l')
 				//	layer=newline.charAt(1);
-				type = newline.split("\\s+");
-				if (newline.length() > 0) {
+				type = nextline.split("\\s+");
+				if (nextline.length() > 0) {
 					for(int j=0;j<row_length;j++){
 						try {
 							map[linecounter][j][layer] = Integer.parseInt(type[j]);
