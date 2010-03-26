@@ -9,7 +9,9 @@ public class LevelParser {
 	float cube_size = 1.0f;
 	int row_length=0;
 	int col_length=0;
-	int map[][];
+	int layer=0;
+	int layer_count=1;
+	int map[][][];
 	private int objectlist;
 	
 	public LevelParser(BufferedReader ref) {
@@ -31,6 +33,10 @@ public class LevelParser {
 
 			while(((newline = br.readLine()) != null)) {
 				newline = newline.trim();
+				if(newline.charAt(0) == 'l') {
+					++layer_count;	
+					--col_length;
+				}
 				if(newline.replaceAll("\t", "").length() > row_length) {
 					row_length=newline.replaceAll("\t", "").length();
 				}
@@ -38,19 +44,25 @@ public class LevelParser {
 			}
 			br.reset();
 			
-			map = new int[col_length][row_length];
+			map = new int[col_length][row_length][layer_count];
 			
 			while (((newline = br.readLine()) != null)) {
 				newline = newline.trim();
+				//if(newline.charAt(0) == 'l')
+				//	layer=newline.charAt(1);
 				type = newline.split("\\s+");
 				if (newline.length() > 0) {
 					for(int j=0;j<row_length;j++){
-						map[linecounter][j] = Integer.parseInt(type[j]);
+						try {
+							map[linecounter][j][layer] = Integer.parseInt(type[j]);
+						} catch (Exception e) {
+							System.out.print(e);
+							//layer = type[j];
+						}
 					}
 				}
 				linecounter++;
 			}
-			
 		} catch (IOException e) {
 			System.out.println("Failed to read file: " + br.toString());
 			//System.exit(0);			
@@ -69,7 +81,7 @@ public class LevelParser {
 		for (int i=0;i<col_length;i++) {
 			GL11.glPushMatrix();
 			for(int j=0;j<row_length;j++){
-				drawcube(map[i][j]);
+				drawcube(map[i][j][0]);
 				GL11.glTranslatef(1, 0, 0);
 			}
 			GL11.glPopMatrix();
