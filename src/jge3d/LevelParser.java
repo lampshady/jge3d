@@ -95,7 +95,8 @@ public class LevelParser {
 			for (int i=0;i<max_col_length-1;i++) {
 				GL11.glPushMatrix();
 				for(int j=0;j<row_length;j++){
-					drawcube(map[i][j][0]);
+					if(map[i][j][k] != 9)
+						drawcube(map[i][j][k]);
 					GL11.glTranslatef(1, 0, 0);
 				}
 				GL11.glPopMatrix();
