@@ -20,6 +20,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector3f;
 
 //import jge3d.ObjParser;
 import jge3d.LevelParser;
@@ -34,10 +35,11 @@ public class Main {
 	static JPanel TextureView;
 	static JPanel TreeView;
 	static boolean isRunning = true;
-	static float[] CameraPosition = {7.5f,-5,21}; // x, y, z
+	//static float[] CameraPosition = {7.5f,-5,21}; // x, y, z
 	static long prev_time=0;
 	static int frames=0;
 	static DisplayMode chosenMode = null;
+	static Camera camera = new Camera();
 	
 	public static void main(String[] args) throws LWJGLException {
 		try{		
@@ -161,11 +163,11 @@ public class Main {
 		GL11.glLoadIdentity();
 		
 		GLU.gluLookAt(
-				CameraPosition[0],	 CameraPosition[1],		(CameraPosition[2]+1),
-				CameraPosition[0],	 CameraPosition[1],		 CameraPosition[2],
+				camera.getPositionX(), camera.getPositionY(), camera.getPositionZ(),
+				camera.getFocusX(), camera.getFocusY(), camera.getFocusZ(),
 				0				 ,	 1,						 0
 		);
-
+		
 		GL11.glPushMatrix();
         //render level
         level.opengldraw();
@@ -211,12 +213,14 @@ public class Main {
 						{
 							//Move on Y-Z axis
 							//Translation[0] += 0.01 * deltaX;
-							CameraPosition[2] += -0.1 * deltaY;
+							//CameraPosition[2] += -0.1 * deltaY;
+							camera.moveFocus( new Vector3f(0.0f, -0.1f*deltaY, 0.0f) );
 						//Pan Camera X-Y
 						}else{
 							//Move on  axis
-							CameraPosition[0] += 0.1 * deltaX;
-							CameraPosition[1] += 0.1 * deltaY;
+							//CameraPosition[0] += 0.1 * deltaX;
+							//CameraPosition[1] += 0.1f * deltaY;
+							camera.moveFocus( new Vector3f(0.1f*deltaX, 0.1f*deltaY, 0.0f) );
 						}
 					}
 					

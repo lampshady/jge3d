@@ -20,17 +20,28 @@ public class Camera {
 	Camera(){
 		//initial setup (float about 0,0,0 I guess?
 		for( int i = 0; i<3; i++ )
-			 position[i] = 0;
+			 focus[i] = 0;
 		
 		declination = 0;
 		rotation = 0;
 		distance = 1;
-		setUpVector( 0, 0, 0 );
+		setUpVector( 0, 1, 0 );
+		updatePosition();
 	}
 	
-	float[] getPosition()
+	float getPositionX()
 	{
-		return position;
+		return position[0];
+	}
+	
+	float getPositionY()
+	{
+		return position[1];
+	}
+	
+	float getPositionZ()
+	{
+		return position[2];
 	}
 	
 	Vector3f getUp()
@@ -38,9 +49,19 @@ public class Camera {
 		return up_vector;
 	}
 	
-	float[] getFocus()
+	float getFocusX()
 	{
-		return focus;
+		return focus[0];
+	}
+	
+	float getFocusY()
+	{
+		return focus[1];
+	}
+	
+	float getFocusZ()
+	{
+		return focus[2];
 	}
 	
 	public void changeFocus(float x, float y, float z)
@@ -72,6 +93,13 @@ public class Camera {
 	public void incrementRotation(float angle)
 	{
 		rotation += angle;
+	}
+	
+	public void moveFocus( Vector3f vector )
+	{
+		focus[0] += vector.getX();
+		focus[1] += vector.getY();
+		focus[2] += vector.getZ();
 	}
 	
 	private void updatePosition()
