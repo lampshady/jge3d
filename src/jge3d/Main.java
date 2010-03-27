@@ -39,7 +39,7 @@ public class Main {
 	static long prev_time=0;
 	static int frames=0;
 	static DisplayMode chosenMode = null;
-	static Camera camera = new Camera();
+	static Camera camera = new Camera(7.5f, -5.0f, 21.0f);
 	
 	public static void main(String[] args) throws LWJGLException {
 		try{		
@@ -212,15 +212,10 @@ public class Main {
 						if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) )
 						{
 							//Move on Y-Z axis
-							//Translation[0] += 0.01 * deltaX;
-							//CameraPosition[2] += -0.1 * deltaY;
-							camera.moveFocus( new Vector3f(0.0f, -0.1f*deltaY, 0.0f) );
-						//Pan Camera X-Y
+							camera.incrementDistance(-0.1f*deltaY);	
 						}else{
 							//Move on  axis
-							//CameraPosition[0] += 0.1 * deltaX;
-							//CameraPosition[1] += 0.1f * deltaY;
-							camera.moveFocus( new Vector3f(0.1f*deltaX, 0.1f*deltaY, 0.0f) );
+							camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
 						}
 					}
 					
