@@ -4,7 +4,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 //Parent class of Players, NPCs, Monsters, etc.
 public class Character extends Object{
-	float[] position = {0.0f,0.0f,0.0f};
+	float[] position;
+	Vector3f orientation;
 	//inventory; //Linked list of objects
 	//equipment; //Linked list of objects
 	

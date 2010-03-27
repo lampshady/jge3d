@@ -28,11 +28,32 @@ public class Camera {
 		setUpVector( 0, 0, 0 );
 	}
 	
+	float[] getPosition()
+	{
+		return position;
+	}
+	
+	Vector3f getUp()
+	{
+		return up_vector;
+	}
+	
+	float[] getFocus()
+	{
+		return focus;
+	}
+	
 	public void changeFocus(float x, float y, float z)
 	{
 		focus[0] = x;
 		focus[1] = y;
 		focus[2] = z;
+		updatePosition();
+	}
+	
+	public void incrementDistance( float change )
+	{
+		distance += change;
 		updatePosition();
 	}
 	
@@ -46,6 +67,11 @@ public class Camera {
 			declination = minimum_declination;
 		}
 		updatePosition();
+	}
+	
+	public void incrementRotation(float angle)
+	{
+		rotation += angle;
 	}
 	
 	private void updatePosition()
