@@ -1,15 +1,8 @@
 package jge3d;
 
-public class Player {
-	float x,y,z;
-	
+//The player(s)' class
+public class Player extends Character {
 	public Player() {
 		
 	}
-
-	public void move_player() {
-		
-	}
-	
-	
 }
