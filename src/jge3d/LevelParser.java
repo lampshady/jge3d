@@ -9,6 +9,7 @@ public class LevelParser {
 	float cube_size = 1.0f;
 	int row_length=0;
 	int col_length=0;
+	int max_col_length=0;
 	int layer=0;
 	int layer_count=0;
 	int map[][][];
@@ -33,22 +34,24 @@ public class LevelParser {
 			br.mark(8192);
 
 			while(((nextline = br.readLine()) != null)) {
-				if(nextline == newline) {
-					System.out.print("\nmadeit " + col_length);
-				}
 				nextline = nextline.trim();
-				if(nextline.charAt(0) == 'l') {
-					++layer_count;	
-					--col_length;
+				if(nextline.length() != 0) {
+					if(nextline.charAt(0) == 'l') {
+						++layer_count;
+						if(col_length > max_col_length) {
+							max_col_length = col_length;
+							col_length = 0;
+						}
+					}
+					if(nextline.replaceAll("\t", "").length() > row_length) {
+						row_length=nextline.replaceAll("\t", "").length();
+					}
+					++col_length;
 				}
-				if(nextline.replaceAll("\t", "").length() > row_length) {
-					row_length=nextline.replaceAll("\t", "").length();
-				}
-				++col_length;
 			}
 			br.reset();
 			
-			map = new int[col_length][row_length][layer_count];
+			map = new int[max_col_length][row_length][layer_count];
 			
 			while (((nextline = br.readLine()) != null)) {
 				nextline = nextline.trim();
@@ -56,12 +59,17 @@ public class LevelParser {
 				//	layer=newline.charAt(1);
 				type = nextline.split("\\s+");
 				if (nextline.length() > 0) {
+					if(nextline.charAt(0) == 'l') {
+						layer=Integer.parseInt(String.valueOf(nextline.charAt(1)));
+						nextline=br.readLine().trim();
+						type = nextline.split("\\s+");
+						linecounter=0;
+					}
 					for(int j=0;j<row_length;j++){
 						try {
 							map[linecounter][j][layer] = Integer.parseInt(type[j]);
 						} catch (Exception e) {
 							System.out.print(e);
-							//layer = type[j];
 						}
 					}
 				}
@@ -82,15 +90,21 @@ public class LevelParser {
 		this.objectlist = GL11.glGenLists(1);
 		
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-		for (int i=0;i<col_length;i++) {
+		for(int k=0;k<layer_count;k++) {
 			GL11.glPushMatrix();
-			for(int j=0;j<row_length;j++){
-				drawcube(map[i][j][0]);
-				GL11.glTranslatef(1, 0, 0);
+			for (int i=0;i<max_col_length-1;i++) {
+				GL11.glPushMatrix();
+				for(int j=0;j<row_length;j++){
+					drawcube(map[i][j][0]);
+					GL11.glTranslatef(1, 0, 0);
+				}
+				GL11.glPopMatrix();
+				GL11.glTranslatef(0,-1,0);
 			}
 			GL11.glPopMatrix();
-			GL11.glTranslatef(0,-1,0);
+			GL11.glTranslatef(0, 0, 1);
 		}
+		
 		GL11.glEndList();
 	}
 	
