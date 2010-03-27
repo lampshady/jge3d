@@ -142,7 +142,7 @@ public class Main {
 	{
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(45.0f, (float) GLView.getWidth() / (float) GLView.getHeight(), 1f, 20000.0f);
+		GLU.gluPerspective(45.0f, (float) GLView.getWidth() / (float) GLView.getHeight(), 0.01f, 20000.0f);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
@@ -211,10 +211,8 @@ public class Main {
 						//Pan camera Z
 						if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) )
 						{
-							//Move on Y-Z axis
 							camera.incrementDistance(-0.1f*deltaY);	
 						}else{
-							//Move on  axis
 							camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
 						}
 					}

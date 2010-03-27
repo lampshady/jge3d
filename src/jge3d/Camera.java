@@ -56,12 +56,12 @@ public class Camera {
 	
 	float getPositionY()
 	{
-		return position[1] + focus[0];
+		return position[1] + focus[1];
 	}
 	
 	float getPositionZ()
 	{
-		return position[2] + focus[0];
+		return position[2] + focus[2];
 	}
 	
 	Vector3f getUp()
