@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 
 public class LevelParser {
-	float cube_size = 1.0f;
+	float cube_size = 1f;
 	int row_length=0;
 	int col_length=0;
 	int max_col_length=0;
@@ -97,13 +97,13 @@ public class LevelParser {
 				for(int j=0;j<row_length;j++){
 					if(map[i][j][k] != 9)
 						drawcube(map[i][j][k]);
-					GL11.glTranslatef(1, 0, 0);
+					GL11.glTranslatef(2*cube_size, 0, 0);
 				}
 				GL11.glPopMatrix();
-				GL11.glTranslatef(0,-1,0);
+				GL11.glTranslatef(0,-2*cube_size,0);
 			}
 			GL11.glPopMatrix();
-			GL11.glTranslatef(0, 0, -1);
+			GL11.glTranslatef(0, 0, -2*cube_size);
 		}
 		
 		GL11.glEndList();
@@ -124,35 +124,35 @@ public class LevelParser {
 						 break;
 			}
 	        // Front Face
-	        GL11.glVertex3f(-0.5f, -0.5f, 0.5f); // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, -0.5f, 0.5f); // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, 0.5f, 0.5f); // Top Right Of The Texture and Quad
-	        GL11.glVertex3f(-0.5f, 0.5f, 0.5f); // Top Left Of The Texture and Qua        
+	        GL11.glVertex3f(-cube_size, -cube_size, cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, cube_size); // Top Left Of The Texture and Qua        
 	        // Back Face
-	        GL11.glVertex3f(-0.5f, -0.5f, -0.5f); // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f(-0.5f, 0.5f, -0.5f); // Top Right Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, 0.5f, -0.5f); // Top Left Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, -0.5f, -0.5f); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, -cube_size, -cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, -cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, -cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, -cube_size); // Bottom Left Of The Texture and Quad
 	        // Top Face
-	        GL11.glVertex3f(-0.5f, 0.5f, -0.5f); // Top Left Of The Texture and Quad
-	        GL11.glVertex3f(-0.5f, 0.5f, 0.5f); // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, 0.5f, 0.5f); // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, 0.5f, -0.5f); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, -cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, -cube_size); // Top Right Of The Texture and Quad
 	        // Bottom Face
-	        GL11.glVertex3f(-0.5f, -0.5f, -0.5f); // Top Right Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, -0.5f, -0.5f); // Top Left Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, -0.5f, 0.5f); // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f(-0.5f, -0.5f, 0.5f); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, -cube_size, -cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, -cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, -cube_size, cube_size); // Bottom Right Of The Texture and Quad
 	        // Right face
-	        GL11.glVertex3f(0.5f, -0.5f, -0.5f); // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, 0.5f, -0.5f); // Top Right Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, 0.5f, 0.5f); // Top Left Of The Texture and Quad
-	        GL11.glVertex3f(0.5f, -0.5f, 0.5f); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, -cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, -cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, cube_size); // Bottom Left Of The Texture and Quad
 	        // Left Face
-	        GL11.glVertex3f(-0.5f, -0.5f, -0.5f); // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f(-0.5f, -0.5f, 0.5f); // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f(-0.5f, 0.5f, 0.5f); // Top Right Of The Texture and Quad
-	        GL11.glVertex3f(-0.5f, 0.5f, -0.5f); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, -cube_size, -cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, -cube_size, cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, -cube_size); // Top Left Of The Texture and Quad
 		GL11.glEnd();
 	}
 	
