@@ -19,8 +19,28 @@ public class Camera {
 	
 	Camera(){
 		//initial setup (float about 0,0,0 I guess?
+		
+		position = new float[3];
+		focus = new float[3];
+		
 		for( int i = 0; i<3; i++ )
 			 focus[i] = 0;
+		
+		declination = 0;
+		rotation = 0;
+		distance = 1;
+		setUpVector( 0, 1, 0 );
+		updatePosition();
+	}
+	
+	Camera(float x, float y, float z)
+	{
+		position = new float[3];
+		focus = new float[3];
+		
+		focus[0] = x;
+		focus[1] = y;
+		focus[2] = z;
 		
 		declination = 0;
 		rotation = 0;
@@ -100,6 +120,7 @@ public class Camera {
 		focus[0] += vector.getX();
 		focus[1] += vector.getY();
 		focus[2] += vector.getZ();
+		updatePosition();
 	}
 	
 	private void updatePosition()
