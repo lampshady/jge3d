@@ -1,7 +1,6 @@
 package jge3d;
 
-import org.lwjgl.util.vector.Vector3f;
-
+import javax.vecmath.Vector3f;
 
 //Maybe we'll use it, maybe we won't?
 public class Camera {
@@ -115,11 +114,11 @@ public class Camera {
 		rotation += angle;
 	}
 	
-	public void moveFocus( Vector3f vector )
+	public void moveFocus( Vector3f vector3f )
 	{
-		focus[0] += vector.getX();
-		focus[1] += vector.getY();
-		focus[2] += vector.getZ();
+		focus[0] += vector3f.x;
+		focus[1] += vector3f.y;
+		focus[2] += vector3f.z;
 		updatePosition();
 	}
 	

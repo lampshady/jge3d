@@ -25,5 +25,6 @@
 			<attribute name="javadoc_location" value="http://jbullet.advel.cz/javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/vecmath.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
