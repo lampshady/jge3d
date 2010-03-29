@@ -50,17 +50,17 @@ public class Camera {
 	
 	float getPositionX()
 	{
-		return position[0];
+		return position[0] + focus[0];
 	}
 	
 	float getPositionY()
 	{
-		return position[1];
+		return position[1] + focus[1];
 	}
 	
 	float getPositionZ()
 	{
-		return position[2];
+		return position[2] + focus[2];
 	}
 	
 	Vector3f getUp()
@@ -132,9 +132,11 @@ public class Camera {
 		 position[0] = (float) (a*Math.sin(rotation));
 		 position[2] = (float) (a*Math.cos(rotation));
 		 
+		 /*
 		 //Adjust relative to focus
 		 for( int i = 0; i<3; i++ )
 			 position[i] += focus[i];
+		 */
 		 
 		 //System.out.print(position[0]+ ","+position[1]+","+position[2]+"\n");
 	}
