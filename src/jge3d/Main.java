@@ -1,27 +1,46 @@
 package jge3d;
 
-import java.awt.Canvas;
-
+//Required for file reading
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+//AWT GUI components
+import java.awt.Canvas;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+//Swing GUI components
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+
+//JBullet only uses VecMath Vectors
+import javax.vecmath.Vector3f;
+
+//LWJGL input
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.Sys;
+
+//LWJGL 3d
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.lwjgl.util.vector.Vector3f;
 
+
+//JBullet Physics requirements
+import com.bulletphysics.collision.broadphase.*;
+import com.bulletphysics.collision.dispatch.CollisionDispatcher;
+import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
+import com.bulletphysics.dynamics.*;
+import com.bulletphysics.dynamics.constraintsolver.ConstraintSolver;
+import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
+
+
+//Things provided by this project
 //import jge3d.ObjParser;
 import jge3d.LevelParser;
 
@@ -45,19 +64,25 @@ public class Main {
 			//create the window and all that jazz
 			initWindow();
 			 
-			//Add Level parser
-			//Create a file chooser
+			//Prompt for level and instantiate a level parser 
 			final JFileChooser fc_level = new JFileChooser("lib/Levels/");
 			fc_level.showOpenDialog(window);
 			BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));	//use the line below if you don't want to have to click everytime
 			LevelParser level = new LevelParser(levelfile);
 
-			//Add Object parser
-			//Create a file chooser
-			//final JFileChooser fc_model = new JFileChooser("lib/Models/");
-			//fc_model.showOpenDialog(window);
-			//BufferedReader objfile = new BufferedReader(new FileReader(fc_model.getSelectedFile()));
-			//ObjParser model = new ObjParser(objfile, true);
+			
+
+			//Physics is here
+			DefaultCollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
+			CollisionDispatcher dispatcher = new CollisionDispatcher(collisionConfiguration);
+			Vector3f worldAabbMin = new Vector3f(-10000,-10000,-10000);
+			Vector3f worldAabbMax = new Vector3f(10000,10000,10000);
+			BroadphaseInterface overlappingPairCache = new AxisSweep3(worldAabbMin, worldAabbMax);
+			ConstraintSolver solver = new SequentialImpulseConstraintSolver();
+			DynamicsWorld dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+			dynamicsWorld.setGravity(new Vector3f(0,-10,0));
+			dynamicsWorld.getDispatchInfo().allowedCcdPenetration = 0f;
+
 			
 			//setup the initial perspective
 			initGL();
@@ -72,7 +97,6 @@ public class Main {
 			
 			draw(level, camera);
 			while (isRunning) {
-				
 				handleMouse(camera);
 				handleKeyboard();
 				

@@ -2,8 +2,15 @@ package jge3d;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.vecmath.Vector3f;
 
 import org.lwjgl.opengl.GL11;
+
+import com.bulletphysics.collision.shapes.CollisionShape;
+import com.bulletphysics.collision.shapes.StaticPlaneShape;
 
 public class LevelParser {
 	float cube_size = 1f;
@@ -15,7 +22,8 @@ public class LevelParser {
 	int map[][][];
 	private int objectlist;
 	public static String newline = System.getProperty("line.separator");
-	
+	List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
+
 	public LevelParser(BufferedReader ref) {
 		loadlevel(ref);
 		opengldrawtolist();
@@ -95,8 +103,10 @@ public class LevelParser {
 			for (int i=0;i<max_col_length-1;i++) {
 				GL11.glPushMatrix();
 				for(int j=0;j<row_length;j++){
-					if(map[i][j][k] != 9)
+					if(map[i][j][k] != 9) {
 						drawcube(map[i][j][k]);
+						collisionShapes.add(new StaticPlaneShape(new Vector3f(0, 1, 0), 50));
+					}
 					GL11.glTranslatef(2*cube_size, 0, 0);
 				}
 				GL11.glPopMatrix();

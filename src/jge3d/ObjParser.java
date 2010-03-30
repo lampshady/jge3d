@@ -6,6 +6,14 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+
+//Add Object parser
+//final JFileChooser fc_model = new JFileChooser("lib/Models/");
+//fc_model.showOpenDialog(window);
+//BufferedReader objfile = new BufferedReader(new FileReader(fc_model.getSelectedFile()));
+//ObjParser model = new ObjParser(objfile, true);
+
+
 public class ObjParser {
 	private ArrayList<float[]> vertexsets = new ArrayList<float[]>(); // Vertex Coordinates
 	private ArrayList<float[]> vertexsetsnorms = new ArrayList<float[]>(); // Vertex Coordinates Normals
