@@ -163,8 +163,8 @@ public class Camera {
 	public void debug() {
 		//Debug the camera
 		//System.out.print("Height:		" + height 	+ "	Width:	" + width + "\n");
-		System.out.print("Camera = X:	" + position[0] + "		Y:	" + position[1] + "		Z:	" + position[2] + "\n");
-		System.out.print("Focus  = X:	" + focus[0] 	+ "		Y:	" + focus[1] 	+ "		Z:	" + focus[2] 	+ "\n");
-		System.out.print("Up     = X:	" + up_vector.x + "		Y:	" + up_vector.y + "		Z:	" + up_vector.z + "\n\n");	
+		System.out.print("Camera = X:	" + position[0] + "	Y:	" + position[1] + "	Z:	" + position[2] + "\n");
+		System.out.print("Focus  = X:	" + focus[0] 	+ "	Y:	" + focus[1] 	+ "	Z:	" + focus[2] 	+ "\n");
+		System.out.print("Up     = X:	" + up_vector.x + "	Y:	" + up_vector.y + "	Z:	" + up_vector.z + "\n\n");	
 	}
 }

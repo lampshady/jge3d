@@ -2,17 +2,11 @@ package jge3d;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.vecmath.Vector3f;
 
 import org.lwjgl.opengl.GL11;
 
-import com.bulletphysics.collision.shapes.CollisionShape;
-import com.bulletphysics.collision.shapes.StaticPlaneShape;
 
-public class LevelParser {
+public class LevelParser extends Main {
 	float cube_size = 1f;
 	int row_length=0;
 	int col_length=0;
@@ -22,18 +16,17 @@ public class LevelParser {
 	int map[][][];
 	private int objectlist;
 	public static String newline = System.getProperty("line.separator");
-	List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
-
-	public LevelParser(BufferedReader ref) {
+	
+	public LevelParser(BufferedReader ref, Physics physics) {
 		loadlevel(ref);
-		opengldrawtolist();
+		opengldrawtolist(physics);
 		cleanup();
 	}
 	
 	private void cleanup() {
 
 	}
-	
+
 	private void loadlevel(BufferedReader br) {
 		String nextline;
 		int linecounter = 0;
@@ -93,7 +86,7 @@ public class LevelParser {
 	}
 	
 	
-	public void opengldrawtolist() {
+	public void opengldrawtolist(Physics physics) {
 		
 		this.objectlist = GL11.glGenLists(1);
 		
@@ -105,7 +98,7 @@ public class LevelParser {
 				for(int j=0;j<row_length;j++){
 					if(map[i][j][k] != 9) {
 						drawcube(map[i][j][k]);
-						collisionShapes.add(new StaticPlaneShape(new Vector3f(0, 1, 0), 50));
+						physics.addLevelBlock(i,j,k,cube_size);
 					}
 					GL11.glTranslatef(2*cube_size, 0, 0);
 				}
