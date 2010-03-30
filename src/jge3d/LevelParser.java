@@ -40,7 +40,7 @@ public class LevelParser {
 						++layer_count;
 						if(col_length > max_col_length) {
 							max_col_length = col_length;
-							col_length = 0;
+							col_length = -1;
 						}
 					}
 					if(nextline.replaceAll("\t", "").length() > row_length) {
@@ -160,4 +160,11 @@ public class LevelParser {
 		GL11.glCallList(objectlist);
 	}
 	
+	public int getHeight() {
+		return max_col_length;
+	}
+	
+	public int getWidth() {
+		return row_length;
+	}
 }

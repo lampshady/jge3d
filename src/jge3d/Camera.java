@@ -152,7 +152,17 @@ public class Camera {
 		up_vector = newUp;
 	}
 	
-	
+	public void goToStart(float height, float width) {
+		double angle=45;
+		
+		focus[0] = 0;
+		focus[1] = height/2;
+		focus[2] = 0;
+		
+		position[0] = 0;
+		position[2] = (float) ((height/2) / Math.tan(Math.toDegrees(angle/2)));
+		position[1] = focus[1];
+	}
 	//System.out.print("Cam = X:" + CameraPosition[0] + "Y:" + CameraPosition[1] + "Z:" + CameraPosition[2] + "\n");
 	//System.out.print("Look= X:" + CameraPosition[0] + "Y:" + CameraPosition[1] + "Z:" + CameraPosition[2] + "\n");
 	//System.out.print("Up  = X:" + CameraPosition[0] + "Y:" + CameraPosition[1] + "Z:" + CameraPosition[2] + "\n");

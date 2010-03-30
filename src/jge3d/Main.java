@@ -39,7 +39,6 @@ public class Main {
 	static long prev_time=0;
 	static int frames=0;
 	static DisplayMode chosenMode = null;
-	static Camera camera = new Camera(7.5f, -5.0f, 21.0f);
 	
 	public static void main(String[] args) throws LWJGLException {
 		try{		
@@ -65,14 +64,19 @@ public class Main {
 			
 			//Setup Inputs
 			setupInputs();
+
+			//Setup Camera
+			//Camera camera = new Camera(7.5f, -5.0f, 21.0f);
+			Camera camera = new Camera(level.getHeight()*1.3333f,-level.getHeight(),0);
+			camera.goToStart(level.getHeight(), level.getWidth());
 			
-			draw(level);
+			draw(level, camera);
 			while (isRunning) {
 				
-				handleMouse();
+				handleMouse(camera);
 				handleKeyboard();
 				
-				draw(level);
+				draw(level, camera);
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
@@ -153,7 +157,7 @@ public class Main {
 		Keyboard.create();
 	}
 	
-	public static void draw(LevelParser level) throws LWJGLException
+	public static void draw(LevelParser level, Camera camera) throws LWJGLException
 	{
 		Display.makeCurrent();
 	    // perform game logic updates here
@@ -187,7 +191,7 @@ public class Main {
 		}
 	}
 	
-	public static void handleMouse() throws LWJGLException
+	public static void handleMouse(Camera camera) throws LWJGLException
 	{
 		int deltaX, deltaY; //Changes in X and Y directions
 		
@@ -200,47 +204,52 @@ public class Main {
 			//update the changes in position
 			deltaX = Mouse.getEventDX();
 			deltaY = Mouse.getEventDY();
-			
+
 			switch(Mouse.getEventButton())
 			{
-			case -1://Mouse Movement
-				if(Mouse.isInsideWindow())
-				{
-					if(Mouse.isButtonDown(0))
+				case -1://Mouse Movement
+					if(Mouse.isInsideWindow())
 					{
-						//Pan camera Z
-						if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) )
+						if(Mouse.isButtonDown(0))
 						{
-							camera.incrementDistance(-0.1f*deltaY);	
-						}else{
-							camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
+							//Pan camera Z
+							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) )
+							{
+								camera.incrementDistance(-0.1f*deltaY);	
+							}else{
+								camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
+							}
+						}
+						
+						if(Mouse.isButtonDown(1))
+						{
+							//Change angle of camera
+	
+						}
+						
+						if(Mouse.isButtonDown(2))
+						{
+							//Change Perspective
+	
 						}
 					}
-					
-					if(Mouse.isButtonDown(1))
+					break;
+				case 0://Left Button
+					if( Mouse.isButtonDown(0) )
 					{
-						//Change angle of camera
-
-					}
-					
-					if(Mouse.isButtonDown(2))
+					}else
 					{
-						//Change Perspective
-
 					}
-				}
-				break;
-			case 0://Left Button
-				if( Mouse.isButtonDown(0) )
-				{
-				}else
-				{
-				}
-				break;
-			case 1://Right Button
-				break;
-			case 2://Middle Button
-				break;
+					break;
+				case 1://Right Button
+					break;
+				case 2://Middle Button
+					break;
+			}
+
+			switch(Mouse.getDWheel()) {
+				case -120: camera.incrementDistance(1.0f); break;
+				case  120: camera.incrementDistance(-1.0f); break;
 			}
 		}
 	}
