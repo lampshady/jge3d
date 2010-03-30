@@ -23,6 +23,9 @@ public class Camera {
 		focus = new float[3];
 		
 		for( int i = 0; i<3; i++ )
+			 position[i] = 0;
+		
+		for( int i = 0; i<3; i++ )
 			 focus[i] = 0;
 		
 		declination = 0;
@@ -131,14 +134,7 @@ public class Camera {
 		 a = (float) ((distance * Math.cos(declination)));
 		 position[0] = (float) (a*Math.sin(rotation));
 		 position[2] = (float) (a*Math.cos(rotation));
-		 
-		 /*
-		 //Adjust relative to focus
-		 for( int i = 0; i<3; i++ )
-			 position[i] += focus[i];
-		 */
-		 
-		 //System.out.print(position[0]+ ","+position[1]+","+position[2]+"\n");
+		 debug();
 	}
 	
 	private void setUpVector(float x, float y, float z)
@@ -152,17 +148,23 @@ public class Camera {
 	}
 	
 	public void goToStart(float height, float width) {
-		double angle=45;
-		
-		focus[0] = 0;
-		focus[1] = height/2;
+		focus[0] = 24;
+		focus[1] = -11;
 		focus[2] = 0;
 		
-		position[0] = 0;
-		position[2] = (float) ((height/2) / Math.tan(Math.toDegrees(angle/2)));
-		position[1] = focus[1];
+		position[0] = 0.0f;
+		position[1] = 0.0f;
+		position[2] = 63.0f;
+		
+		setUpVector(0,1,0);
+		debug();
 	}
-	//System.out.print("Cam = X:" + CameraPosition[0] + "Y:" + CameraPosition[1] + "Z:" + CameraPosition[2] + "\n");
-	//System.out.print("Look= X:" + CameraPosition[0] + "Y:" + CameraPosition[1] + "Z:" + CameraPosition[2] + "\n");
-	//System.out.print("Up  = X:" + CameraPosition[0] + "Y:" + CameraPosition[1] + "Z:" + CameraPosition[2] + "\n");
+	
+	public void debug() {
+		//Debug the camera
+		//System.out.print("Height:		" + height 	+ "	Width:	" + width + "\n");
+		System.out.print("Camera = X:	" + position[0] + "		Y:	" + position[1] + "		Z:	" + position[2] + "\n");
+		System.out.print("Focus  = X:	" + focus[0] 	+ "		Y:	" + focus[1] 	+ "		Z:	" + focus[2] 	+ "\n");
+		System.out.print("Up     = X:	" + up_vector.x + "		Y:	" + up_vector.y + "		Z:	" + up_vector.z + "\n\n");	
+	}
 }

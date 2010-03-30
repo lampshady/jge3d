@@ -92,7 +92,7 @@ public class Main {
 
 			//Setup Camera
 			//Camera camera = new Camera(7.5f, -5.0f, 21.0f);
-			Camera camera = new Camera(level.getHeight()*1.3333f,-level.getHeight(),0);
+			Camera camera = new Camera(0,0,0);
 			camera.goToStart(level.getHeight(), level.getWidth());
 			
 			draw(level, camera);
@@ -111,8 +111,8 @@ public class Main {
 	protected static void initWindow()
 	{
 		// we're aiming for an 800x600 display.
-		int targetWidth = 800;
-		int targetHeight = 600;
+		int targetWidth = 1024;
+		int targetHeight = 768;
 		
 		window = new JFrame();
 		GLView = new Canvas();
@@ -170,7 +170,7 @@ public class Main {
 	{
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(45.0f, (float) GLView.getWidth() / (float) GLView.getHeight(), 0.01f, 20000.0f);
+		GLU.gluPerspective(45.0f, (float) GLView.getWidth() / (float) GLView.getHeight(), 0.1f, 20000.0f);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
@@ -191,9 +191,9 @@ public class Main {
 		GL11.glLoadIdentity();
 		
 		GLU.gluLookAt(
-				camera.getPositionX(), camera.getPositionY(), camera.getPositionZ(),
-				camera.getFocusX(), camera.getFocusY(), camera.getFocusZ(),
-				0				 ,	 1,						 0
+				camera.getPositionX()	, camera.getPositionY()	,	camera.getPositionZ(),
+				camera.getFocusX()		, camera.getFocusY()	,	camera.getFocusZ(),
+				camera.up_vector.x		, camera.up_vector.y	,	camera.up_vector.z
 		);
 		
 		GL11.glPushMatrix();
