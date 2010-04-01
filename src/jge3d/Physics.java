@@ -3,7 +3,6 @@ package jge3d;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
 import com.bulletphysics.collision.broadphase.AxisSweep3;
@@ -32,7 +31,7 @@ public class Physics {
 	private ConstraintSolver solver;
 	private DynamicsWorld dynamicsWorld;
 	private List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
-	
+
 	//For holding the previous time in microseconds to calculate deltaT
 	private long prev_time;
 	
@@ -117,14 +116,14 @@ public class Physics {
 		}
 	}
 	
-	public void dropBox(){
+	public RigidBody dropBox(){
 		//Give this thing some mass
 		float mass = 10f;
 		
 		//Transform relative to initial position
 		Transform startTransform = new Transform();
 		startTransform.setIdentity();
-		Vector3f initial_pos = new Vector3f(0.0f,0.0f,0.0f);
+		Vector3f initial_pos = new Vector3f(10.0f,10.0f,0.0f);
 		startTransform.origin.set(initial_pos);
 
 		//Create a shape for the object
@@ -132,21 +131,29 @@ public class Physics {
 	
 		//Create a rigid body to represent the object
 		RigidBody body = createRigidBody(mass, startTransform, boxShape);
-	
-		//Setup an initial velocity
-		Vector3f initial_velocity = new Vector3f(0.0f,0.0f,0.0f);	//Initial direction
-		initial_velocity.normalize();	//transform to this position		
-		initial_velocity.scale(0.0f);	//Initial speed
-	
-		//Transform relative to world
-		Transform worldTrans = body.getWorldTransform(new Transform());
-		Vector3f world_pos = new Vector3f(10.0f,10.0f,0.0f);
-		worldTrans.origin.set(world_pos);
-		worldTrans.setRotation(new Quat4f(0f, 0f, 0f, 1f));
-		body.setWorldTransform(worldTrans);
 		
-		body.setLinearVelocity(initial_velocity);
-		body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+		//Setup objects properties [ a lot of this is probably redundant]
+		body.setFriction(0.5f);
+		body.setDamping(0.2f, 0.1f);
+		body.setGravity(new Vector3f(0,0,0));
+		body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
+		body.setCollisionFlags(0);
+		
+		//Find inital velocity
+		//Vector3f initial_velocity = new Vector3f(0.0f,0.0f,0.0f);	//Initial direction
+		//initial_velocity.normalize();	//transform to this position		
+		//initial_velocity.scale(0.0f);	//Initial speed
+		
+		//Transform relative to world
+		//Transform worldTrans = body.getWorldTransform(new Transform());
+		//Vector3f world_pos = new Vector3f(10.0f,10.0f,0.0f);
+		//worldTrans.origin.set(world_pos);
+		///worldTrans.setRotation(new Quat4f(0f, 0f, 0f, 1f));
+		//body.setWorldTransform(worldTrans);
+		//body.setLinearVelocity(initial_velocity);
+		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+		
+		return body;
 	}
 	
 	public RigidBody createRigidBody(float mass, Transform startTransform, CollisionShape shape) {

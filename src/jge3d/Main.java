@@ -3,6 +3,9 @@ package jge3d;
 //Required for file reading
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 //AWT GUI components
 import java.awt.Canvas;
@@ -29,6 +32,10 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+
+import com.bulletphysics.dynamics.RigidBody;
+import com.bulletphysics.linearmath.DefaultMotionState;
+import com.bulletphysics.linearmath.Transform;
 
 public class Main {
 	static JFrame window;
@@ -70,16 +77,30 @@ public class Main {
 			Camera camera = new Camera(0,0,0);
 			camera.goToStart(level.getHeight(), level.getWidth());
 			
-			physics.dropBox();
-
+			//Physics box shitfuck
+			RigidBody box = physics.dropBox();
+			Transform box_trans = new Transform();
+			DefaultMotionState box_motion = new DefaultMotionState();
+			FloatBuffer buf = ByteBuffer.allocateDirect(16*4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+			float[] box_matrix = new float[16];	//hold matrix of box
+			
 			while (isRunning) {
 				handleMouse(camera);
 				handleKeyboard();
 				
 				physics.clientUpdate();
-				draw(level, camera);
 				
-				//GLShapeDrawer.drawOpenGL(m, colObj.getCollisionShape());
+				//Physics shit
+				box_motion = (DefaultMotionState)box.getMotionState();	//get box motion state
+				box_trans.set(box_motion.graphicsWorldTrans);
+				box_trans.getOpenGLMatrix(box_matrix);
+				buf = FloatBuffer.wrap(box_matrix);
+				buf.flip();
+				
+				
+				draw(level, camera, buf);
+				
+
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
@@ -160,7 +181,7 @@ public class Main {
 		Keyboard.create();
 	}
 	
-	public static void draw(LevelParser level, Camera camera) throws LWJGLException
+	public static void draw(LevelParser level, Camera camera, FloatBuffer buf) throws LWJGLException
 	{
 		Display.makeCurrent();
 	    // perform game logic updates here
@@ -178,6 +199,8 @@ public class Main {
 		GL11.glPushMatrix();
         //render level
         level.opengldraw();
+        
+        //GL11.glLoadMatrix(buf);
 
         GL11.glPopMatrix();
 		GL11.glFlush();
