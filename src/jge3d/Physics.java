@@ -42,9 +42,11 @@ public class Physics {
 		//Creates a dispatcher thread for sending processing physics calculations
 		dispatcher = new CollisionDispatcher(collisionConfiguration);
 		
-		//Min and Max collision boundaries for world
+		//Min and Max collision boundaries for world (needs changing)
 		worldAabbMin = new Vector3f(-10000,-10000,-10000);
 		worldAabbMax = new Vector3f(10000,10000,10000);
+		
+		//algorithm for finding collision proximity (there are better ones)
 		overlappingPairCache = new AxisSweep3(worldAabbMin, worldAabbMax);
 		
 		//Type of solver to be used for solving physics (look into threading for parallel)

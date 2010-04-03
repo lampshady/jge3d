@@ -134,7 +134,6 @@ public class Camera {
 		 a = (float) ((distance * Math.cos(declination)));
 		 position[0] = (float) (a*Math.sin(rotation));
 		 position[2] = (float) (a*Math.cos(rotation));
-		 debug();
 	}
 	
 	private void setUpVector(float x, float y, float z)

@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 
 
-public class LevelParser extends Main {
+public class Level extends Main {
 	float cube_size = 1f;
 	int row_length=0;
 	int col_length=0;
@@ -17,7 +17,7 @@ public class LevelParser extends Main {
 	private int objectlist;
 	public static String newline = System.getProperty("line.separator");
 	
-	public LevelParser(BufferedReader ref, Physics physics) {
+	public Level(BufferedReader ref, Physics physics) {
 		loadlevel(ref);
 		opengldrawtolist(physics);
 		cleanup();
@@ -157,6 +157,12 @@ public class LevelParser extends Main {
 	        GL11.glVertex3f(-cube_size, cube_size, cube_size); // Top Right Of The Texture and Quad
 	        GL11.glVertex3f(-cube_size, cube_size, -cube_size); // Top Left Of The Texture and Quad
 		GL11.glEnd();
+	}
+	
+	public void chooseALevel() {
+		//final JFileChooser fc_level = new JFileChooser("lib/Levels/");
+		//fc_level.showOpenDialog(window);
+		//BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
 	}
 	
 	public void opengldraw() {
