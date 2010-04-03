@@ -3,9 +3,6 @@ package jge3d;
 //Required for file reading
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 //AWT GUI components
 import java.awt.Canvas;
@@ -33,10 +30,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import com.bulletphysics.dynamics.RigidBody;
-import com.bulletphysics.linearmath.DefaultMotionState;
-import com.bulletphysics.linearmath.Transform;
-
 public class Main {
 	static JFrame window;
 	static JSplitPane mainSplit;
@@ -50,6 +43,7 @@ public class Main {
 	static long prev_time=0;
 	static int frames=0;
 	static DisplayMode chosenMode = null;
+	Entity box;
 	
 	public static void main(String[] args) throws LWJGLException {
 		try{		
@@ -77,28 +71,15 @@ public class Main {
 			Camera camera = new Camera(0,0,0);
 			camera.goToStart(level.getHeight(), level.getWidth());
 			
-			//Physics box shitfuck
-			RigidBody box = physics.dropBox();
-			Transform box_trans = new Transform();
-			DefaultMotionState box_motion = new DefaultMotionState();
-			FloatBuffer buf = ByteBuffer.allocateDirect(16*4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-			float[] box_matrix = new float[16];	//hold matrix of box
-			
+			Entity box = new Entity(physics.dropBox());
+
 			while (isRunning) {
 				handleMouse(camera);
 				handleKeyboard();
 				
-				physics.clientUpdate();
+				physics.clientUpdate();			
 				
-				//Physics shit
-				box_motion = (DefaultMotionState)box.getMotionState();	//get box motion state
-				box_trans.set(box_motion.graphicsWorldTrans);
-				box_trans.getOpenGLMatrix(box_matrix);
-				buf = FloatBuffer.wrap(box_matrix);
-				buf.flip();
-				
-				
-				draw(level, camera, buf);
+				draw(level, camera, box);
 				
 
 			}
@@ -181,7 +162,7 @@ public class Main {
 		Keyboard.create();
 	}
 	
-	public static void draw(LevelParser level, Camera camera, FloatBuffer buf) throws LWJGLException
+	public static void draw(LevelParser level, Camera camera, Entity body) throws LWJGLException
 	{
 		Display.makeCurrent();
 	    // perform game logic updates here
@@ -196,13 +177,14 @@ public class Main {
 				camera.up_vector.x		, camera.up_vector.y	,	camera.up_vector.z
 		);
 		
-		GL11.glPushMatrix();
         //render level
+		GL11.glPushMatrix();
         level.opengldraw();
-        
-        //GL11.glLoadMatrix(buf);
-
         GL11.glPopMatrix();
+        
+        //do some physics
+        body.update_physics();
+        
 		GL11.glFlush();
 		 
 		// now tell the screen to update

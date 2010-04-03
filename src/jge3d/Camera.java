@@ -157,7 +157,8 @@ public class Camera {
 		position[2] = 63.0f;
 		
 		setUpVector(0,1,0);
-		debug();
+		
+		distance = position[2];
 	}
 	
 	public void debug() {
