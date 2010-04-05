@@ -9,6 +9,10 @@ class Renderer {
 	
 	public void drawcube(int type, float cube_size) {
 		//GL11.glTranslatef(x*cube_size, y*cube_size, z*cube_size);
+		
+		//Allow a colored cube to be drawn
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		
 		GL11.glBegin(GL11.GL_QUADS);
 			switch(type) {
 				case 0: GL11.glColor3f(0.0f,0.0f,0.0f);break;

@@ -98,7 +98,7 @@ public class Level extends Main {
 				for(int j=0;j<row_length;j++){
 					if(map[i][j][k] != 9) {
 						drawcube(map[i][j][k]);
-						physics.addLevelBlock(i,j,k,cube_size);
+						//physics.addLevelBlock(j,-i,-k,cube_size);
 					}
 					GL11.glTranslatef(2*cube_size, 0, 0);
 				}
@@ -166,7 +166,9 @@ public class Level extends Main {
 	}
 	
 	public void opengldraw() {
+		GL11.glPushMatrix();
 		GL11.glCallList(objectlist);
+		GL11.glPopMatrix();
 	}
 	
 	public int getHeight() {

@@ -30,7 +30,7 @@ public class Camera {
 		
 		declination = 0;
 		rotation = 0;
-		distance = 63.0f;
+		distance = -63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
 	}
@@ -46,7 +46,7 @@ public class Camera {
 		
 		declination = 0;
 		rotation = 0;
-		distance = 1;
+		distance = 63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
 	}
@@ -147,9 +147,13 @@ public class Camera {
 	}
 	
 	public void goToStart(float height, float width) {
-		focus[0] = 24;
-		focus[1] = -11;
-		focus[2] = 0;
+		focus[0] = 24.0f;
+		focus[1] = -11.0f;
+		focus[2] = 0.0f;
+		
+		//focus[0] = (float)(distance * Math.tan(Math.toDegrees(-45)))/2;
+		//focus[1] = -(float)(distance * Math.tan(Math.toDegrees(-45)))/2;
+		//focus[2] = 0;
 		
 		position[0] = 0.0f;
 		position[1] = 0.0f;
@@ -157,7 +161,7 @@ public class Camera {
 		
 		setUpVector(0,1,0);
 		
-		distance = position[2];
+		//debug();
 	}
 	
 	public void debug() {

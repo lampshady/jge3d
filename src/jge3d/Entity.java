@@ -76,10 +76,15 @@ public class Entity {
 		//More testing code
 		vectorsPool.release(halfExtent);
 		
-		for(int i=0; i<16;++i) 
-			System.out.print(buf.get()+"\n");
-		System.out.print("\n");
+		//debug();
+
 		//Clear the buffer before update_physics runs
 		buf.clear();
+	}
+	
+	private void debug() {
+		for(int i=0; i<16;++i) 
+			System.out.print(buf.get()+"\n");
+		System.out.print("\n");		
 	}
 }

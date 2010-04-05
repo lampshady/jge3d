@@ -39,9 +39,9 @@ public class Main {
 			camera.goToStart(level.getHeight(), level.getWidth());
 			
 			//Create a box that has physics (for testing)
-			Entity box = new Entity(physics.dropBox());
-			Entity ground = new Entity(physics.makeAPlane());
-				
+			//Entity box = new Entity(physics.dropBox());
+			//Entity ground = new Entity(physics.makeAPlane());
+			physics.dropBox();
 			while (isRunning) {
 				//read keyboard and mouse
 				input.handleMouse(camera);
@@ -51,10 +51,10 @@ public class Main {
 				physics.clientUpdate();
 				
 				//Update the box's physics with respect to world
-				box.update_physics();
+				//box.update_physics();
 
 				//Draw level (and box)
-				draw(level, camera, box);
+				draw(level, camera, physics);
 				
 				//Print FPS to title bar
 				window.updateFPS();
@@ -86,7 +86,7 @@ public class Main {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
-	public static void draw(Level level, Camera camera, Entity body) throws LWJGLException
+	public static void draw(Level level, Camera camera, Physics physics) throws LWJGLException
 	{
 		//Make sure that the screen is active
 		Display.makeCurrent();
@@ -103,14 +103,10 @@ public class Main {
 		);
 		
         //render level
-		GL11.glPushMatrix();
         level.opengldraw();
-        GL11.glPopMatrix();
         
         //render physics
-        GL11.glPushMatrix();
-        body.render();
-        GL11.glPopMatrix();
+        physics.render();
         
 		//Flush the GL buffer
         GL11.glFlush();
