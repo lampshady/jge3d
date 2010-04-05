@@ -2,12 +2,16 @@ package jge3d;
 
 import java.nio.FloatBuffer;
 
+import javax.vecmath.Vector3f;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
+import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
+import com.bulletphysics.util.ObjectPool;
 
 public class Entity {
 	private RigidBody body; 
@@ -58,9 +62,23 @@ public class Entity {
 		GL11.glColor3f(1.0f, 0.0f, 0.0f);
 		
 		//Take the matrix in the float buffer and load it into a matrix
-		GL11.glLoadMatrix(buf);
+		GL11.glMultMatrix(buf);
+		
+		//Testing code
+		ObjectPool<Vector3f> vectorsPool = ObjectPool.get(Vector3f.class);
+		BoxShape boxShape = (BoxShape) body.getCollisionShape();
+		Vector3f halfExtent = boxShape.getHalfExtentsWithMargin(vectorsPool.get());
+		GL11.glScalef(2f * halfExtent.x, 2f * halfExtent.y, 2f * halfExtent.z);
+				
+		//Draw cube at matrix
 		render.drawcube(1, 1);
 		
+		//More testing code
+		vectorsPool.release(halfExtent);
+		
+		for(int i=0; i<16;++i) 
+			System.out.print(buf.get()+"\n");
+		System.out.print("\n");
 		//Clear the buffer before update_physics runs
 		buf.clear();
 	}

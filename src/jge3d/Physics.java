@@ -3,6 +3,7 @@ package jge3d;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
 import com.bulletphysics.collision.broadphase.AxisSweep3;
@@ -11,7 +12,7 @@ import com.bulletphysics.collision.dispatch.CollisionDispatcher;
 import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
 import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
-import com.bulletphysics.collision.shapes.SphereShape;
+import com.bulletphysics.collision.shapes.StaticPlaneShape;
 import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
 import com.bulletphysics.dynamics.DynamicsWorld;
 import com.bulletphysics.dynamics.RigidBody;
@@ -71,31 +72,10 @@ public class Physics {
 		int mass=0;
 		Vector3f localInertia = new Vector3f(0, 0, 0);
 		
-		// Create level transformation and defaults position
-		Transform startTransform = new Transform();
-		startTransform.setIdentity();
-		startTransform.origin.set(cube_size*x, cube_size*y, cube_size*z);
-
-		//provides interpolation capabilities and only synchronizes 'active' objects
-		DefaultMotionState motion_state = new DefaultMotionState(startTransform);
-		RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, motion_state, colShape, localInertia);
-		RigidBody body = new RigidBody(rbInfo);
-	
-		dynamicsWorld.addRigidBody(body);
-	}
-	
-	public void makeASphere(int x, int y,int z, float radius, float mass){
-		//Collision shape is a box since a level is just a bunch of boxes
-		CollisionShape colShape = new SphereShape(radius);
-		collisionShapes.add(colShape);
-	
-		//start it not moving to see how gravity looks
-		Vector3f localInertia = new Vector3f(0, 0, 0);
-		
 		// Create level transformation and default position
 		Transform startTransform = new Transform();
 		startTransform.setIdentity();
-		startTransform.origin.set(x, y, z);
+		startTransform.origin.set(cube_size*x, cube_size*y, cube_size*z);
 
 		//provides interpolation capabilities and only synchronizes 'active' objects
 		DefaultMotionState motion_state = new DefaultMotionState(startTransform);
@@ -114,7 +94,7 @@ public class Physics {
 		if (dynamicsWorld != null) {
 			dynamicsWorld.stepSimulation(deltaT / 1000000000f);
 			// optional but useful: debug drawing
-			dynamicsWorld.debugDrawWorld();
+			//dynamicsWorld.debugDrawWorld();
 		}
 	}
 	
@@ -147,13 +127,38 @@ public class Physics {
 		//initial_velocity.scale(0.0f);	//Initial speed
 		
 		//Transform relative to world
-		//Transform worldTrans = body.getWorldTransform(new Transform());
-		//Vector3f world_pos = new Vector3f(10.0f,10.0f,0.0f);
-		//worldTrans.origin.set(world_pos);
-		///worldTrans.setRotation(new Quat4f(0f, 0f, 0f, 1f));
-		//body.setWorldTransform(worldTrans);
+		Transform worldTrans = body.getWorldTransform(new Transform());
+		Vector3f world_pos = new Vector3f(10.0f,10.0f,0.0f);
+		worldTrans.origin.set(world_pos);
+		worldTrans.setRotation(new Quat4f(0f, 0f, 0f, 1f));
+		body.setWorldTransform(worldTrans);
+		
 		//body.setLinearVelocity(initial_velocity);
 		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+		
+		return body;
+	}
+	
+	public RigidBody makeAPlane(){
+		float mass = 0f;
+		CollisionShape groundShape = new StaticPlaneShape(new Vector3f(0,1,0), 50); 
+		Transform groundTransform = new Transform();
+
+		// rigidbody is dynamic if and only if mass is non zero, otherwise static
+		boolean isDynamic = (mass != 0f);
+
+		Vector3f localInertia = new Vector3f(0, 0, 0);
+		if (isDynamic) {
+			groundShape.calculateLocalInertia(mass, localInertia);
+		}
+
+		// using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+		DefaultMotionState myMotionState = new DefaultMotionState(groundTransform);
+		RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, myMotionState, groundShape, localInertia);
+		RigidBody body = new RigidBody(rbInfo);
+
+		// add the body to the dynamics world
+		dynamicsWorld.addRigidBody(body);
 		
 		return body;
 	}

@@ -40,7 +40,8 @@ public class Main {
 			
 			//Create a box that has physics (for testing)
 			Entity box = new Entity(physics.dropBox());
-
+			Entity ground = new Entity(physics.makeAPlane());
+				
 			while (isRunning) {
 				//read keyboard and mouse
 				input.handleMouse(camera);
@@ -51,7 +52,7 @@ public class Main {
 				
 				//Update the box's physics with respect to world
 				box.update_physics();
-				
+
 				//Draw level (and box)
 				draw(level, camera, box);
 				

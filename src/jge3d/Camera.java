@@ -30,7 +30,7 @@ public class Camera {
 		
 		declination = 0;
 		rotation = 0;
-		distance = 1;
+		distance = 63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
 	}
