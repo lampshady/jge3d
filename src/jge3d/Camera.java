@@ -172,12 +172,15 @@ public class Camera extends Main {
 		float fov = 2f * (float) Math.atan(tanFov);
 
 		Vector3f rayFrom = new Vector3f(position[0],position[1],position[2]);
+		Vector3f rayTarget = new Vector3f(focus[0],focus[1],focus[2]);
 		Vector3f rayForward = new Vector3f();
 		
 		//Vector subtract (To) - (From)
-		rayForward.sub(new Vector3f(focus[0],focus[1],focus[2]), new Vector3f(position[0],position[1],position[2]));
+		debug();
+		System.out.print("\n");
+		rayForward.sub(rayTarget, rayFrom);
 		rayForward.normalize();
-		float farPlane = -63.0f;
+		float farPlane = 66.0f;
 		rayForward.scale(farPlane);
 
 		//Vector3f rightOffset = new Vector3f();
@@ -208,9 +211,9 @@ public class Camera extends Main {
 		Vector3f rayToCenter = new Vector3f();
 		rayToCenter.add(rayFrom, rayForward);
 		Vector3f dHor = new Vector3f(hor);
-		dHor.scale(1f / (float) window.getGLWidth());
+		dHor.scale(1.0f / (float) window.getGLWidth());
 		Vector3f dVert = new Vector3f(vertical);
-		dVert.scale(1.f / (float) window.getGLHeight());
+		dVert.scale(1.0f / (float) window.getGLHeight());
 
 		Vector3f tmp1 = new Vector3f();
 		Vector3f tmp2 = new Vector3f();
@@ -226,6 +229,7 @@ public class Camera extends Main {
 
 		rayTo.add(tmp1);
 		rayTo.sub(tmp2);
+		
 		return rayTo;
 	}
 	
