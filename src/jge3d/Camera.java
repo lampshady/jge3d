@@ -15,8 +15,17 @@ public class Camera extends Main {
 	float maximum_declination = 89.9f;
 	float minimum_declination = 0.1f;
 	
+	//field of view
+	double fovy;
+	double fovx;
+	double x;
+	double y;
 	
-	Camera(){
+	float screen_height;
+	float screen_width;
+	
+	
+	Camera(float height, float width){
 		//initial setup (float about 0,0,0 I guess?
 		
 		position = new float[3];
@@ -33,9 +42,15 @@ public class Camera extends Main {
 		distance = -63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
+		
+		//FOV calculations
+		screen_height = height;
+		screen_width = width;
+		fovx = (float)Math.PI / 4;
+		fovy = (height/width) * fovx;
 	}
 	
-	Camera(float x, float y, float z)
+	Camera(float x, float y, float z, float height, float width)
 	{
 		position = new float[3];
 		focus = new float[3];
@@ -49,6 +64,12 @@ public class Camera extends Main {
 		distance = 63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
+		
+		//FOV calculations
+		screen_height = height;
+		screen_width = width;
+		fovx = (float)Math.PI / 4;
+		fovy = (height/width) * fovx;
 	}
 	
 	float getPositionX()
@@ -147,6 +168,7 @@ public class Camera extends Main {
 	}
 	
 	public void goToStart(float height, float width) {
+		//
 		focus[0] = 24.0f;
 		focus[1] = -11.0f;
 		focus[2] = 0.0f;
@@ -164,7 +186,8 @@ public class Camera extends Main {
 		//debug();
 	}
 	
-	public Vector3f getRayTo(int x, int y, Window window) {
+	public Vector3f getRayTo(float mouseX, float mouseY, Window window) {
+		/*
 		float top = 1f;
 		float bottom = -1f;
 		float nearPlane = 1f;
@@ -180,7 +203,7 @@ public class Camera extends Main {
 		System.out.print("\n");
 		rayForward.sub(rayTarget, rayFrom);
 		rayForward.normalize();
-		float farPlane = 66.0f;
+		float farPlane = 68.0f;
 		rayForward.scale(farPlane);
 
 		//Vector3f rightOffset = new Vector3f();
@@ -231,6 +254,11 @@ public class Camera extends Main {
 		rayTo.sub(tmp2);
 		
 		return rayTo;
+		*/
+		x=(float)((2*mouseX - screen_width)/screen_width) * Math.tan(fovx);
+		y=(float)((2*mouseY - screen_height)/screen_height) * Math.tan(fovy);
+		
+		return new Vector3f((float)x*2,(float)y,0.0f);
 	}
 	
 	public void debug() {

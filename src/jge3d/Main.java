@@ -35,7 +35,7 @@ public class Main {
 			initGL(window);
 			
 			//Setup Camera
-			Camera camera = new Camera(0,0,0);
+			Camera camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
 			camera.goToStart(level.getHeight(), level.getWidth());
 
 			physics.dropBox(17,15,0,1.0f);
