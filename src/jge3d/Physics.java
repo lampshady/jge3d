@@ -96,7 +96,7 @@ public class Physics {
 		dynamicsWorld.addRigidBody(body);
 	}
 	
-	public RigidBody dropBox(float cube_size){
+	public RigidBody dropBox(float x, float y, float z, float cube_size){
 		//Give this thing some mass
 		float mass = 10f;
 		
@@ -107,7 +107,7 @@ public class Physics {
 		//Transform relative to initial position
 		Transform startTransform = new Transform();
 		startTransform.setIdentity();
-		startTransform.origin.set(new Vector3f(17.0f,15.0f,0.0f));
+		startTransform.origin.set(new Vector3f(x,y,z));
 
 		//Create a rigid body to represent the object
 		RigidBody body = createRigidBody(mass, startTransform, boxShape);
@@ -146,10 +146,10 @@ public class Physics {
 
 		Vector3f localInertia = new Vector3f(0f, 0f, 0f);
 		if (isDynamic) {
-			//shape.calculateLocalInertia(mass, localInertia);
+			shape.calculateLocalInertia(mass, localInertia);
 		}
 
-		//set motion state
+		//set motion state (keeps track of objects motion, durr)
 		DefaultMotionState myMotionState = new DefaultMotionState(startTransform);
 		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(mass, myMotionState, shape, localInertia);
 		RigidBody body = new RigidBody(cInfo);
@@ -196,8 +196,6 @@ public class Physics {
 					
 					//More testing code
 					//vectorsPool.release(halfExtent);
-					if(body.getInvMass() != 0)
-						System.out.print(body.getInvMass());
 						
 					GL11.glPopMatrix();
 				}

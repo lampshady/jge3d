@@ -16,7 +16,7 @@ class Input extends Main {
 		Keyboard.create();
 	}
 
-	public void handleMouse(Camera camera) throws LWJGLException
+	public void handleMouse(Camera camera, Window window, Physics physics) throws LWJGLException
 	{
 		//Handle Mouse Events here
 		while(Mouse.next())
@@ -65,6 +65,9 @@ class Input extends Main {
 					}
 					break;
 				case 1://Right Button
+					Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY(), window);
+					System.out.print(ray.x + " " +ray.y + " " + ray.z + "\n");
+					physics.dropBox(ray.x,ray.y,ray.z,1);
 					break;
 				case 2://Middle Button
 					break;

@@ -3,7 +3,7 @@ package jge3d;
 import javax.vecmath.Vector3f;
 
 //Maybe we'll use it, maybe we won't?
-public class Camera {
+public class Camera extends Main {
 	float[] position;					//x, y, z
 	float declination;					//Angle up and down
 	float rotation;						//Angle left and right
@@ -164,6 +164,71 @@ public class Camera {
 		//debug();
 	}
 	
+	public Vector3f getRayTo(int x, int y, Window window) {
+		float top = 1f;
+		float bottom = -1f;
+		float nearPlane = 1f;
+		float tanFov = (top - bottom) * 0.5f / nearPlane;
+		float fov = 2f * (float) Math.atan(tanFov);
+
+		Vector3f rayFrom = new Vector3f(position[0],position[1],position[2]);
+		Vector3f rayForward = new Vector3f();
+		
+		//Vector subtract (To) - (From)
+		rayForward.sub(new Vector3f(focus[0],focus[1],focus[2]), new Vector3f(position[0],position[1],position[2]));
+		rayForward.normalize();
+		float farPlane = -63.0f;
+		rayForward.scale(farPlane);
+
+		//Vector3f rightOffset = new Vector3f();
+		Vector3f vertical = new Vector3f(up_vector);
+
+		Vector3f hor = new Vector3f();
+		// TODO: check: hor = rayForward.cross(vertical);
+		hor.cross(rayForward, vertical);
+		hor.normalize();
+		// TODO: check: vertical = hor.cross(rayForward);
+		vertical.cross(hor, rayForward);
+		vertical.normalize();
+
+		float tanfov = (float) Math.tan(0.5f * fov);
+		
+		float aspect = window.getGLHeight() / (float)window.getGLWidth();
+		
+		hor.scale(2f * farPlane * tanfov);
+		vertical.scale(2f * farPlane * tanfov);
+		
+		if (aspect < 1f) {
+			hor.scale(1f / aspect);
+		}
+		else {
+			vertical.scale(aspect);
+		}
+		
+		Vector3f rayToCenter = new Vector3f();
+		rayToCenter.add(rayFrom, rayForward);
+		Vector3f dHor = new Vector3f(hor);
+		dHor.scale(1f / (float) window.getGLWidth());
+		Vector3f dVert = new Vector3f(vertical);
+		dVert.scale(1.f / (float) window.getGLHeight());
+
+		Vector3f tmp1 = new Vector3f();
+		Vector3f tmp2 = new Vector3f();
+		tmp1.scale(0.5f, hor);
+		tmp2.scale(0.5f, vertical);
+
+		Vector3f rayTo = new Vector3f();
+		rayTo.sub(rayToCenter, tmp1);
+		rayTo.add(tmp2);
+
+		tmp1.scale(x, dHor);
+		tmp2.scale(y, dVert);
+
+		rayTo.add(tmp1);
+		rayTo.sub(tmp2);
+		return rayTo;
+	}
+	
 	public void debug() {
 		//Debug the camera
 		//System.out.print("Height:		" + height 	+ "	Width:	" + width + "\n");
@@ -171,4 +236,5 @@ public class Camera {
 		System.out.print("Focus  = X:	" + focus[0] 	+ "	Y:	" + focus[1] 	+ "	Z:	" + focus[2] 	+ "\n");
 		System.out.print("Up     = X:	" + up_vector.x + "	Y:	" + up_vector.y + "	Z:	" + up_vector.z + "\n\n");	
 	}
+	
 }

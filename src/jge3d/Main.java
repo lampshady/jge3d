@@ -38,10 +38,10 @@ public class Main {
 			Camera camera = new Camera(0,0,0);
 			camera.goToStart(level.getHeight(), level.getWidth());
 
-			physics.dropBox(1.0f);
+			physics.dropBox(17,15,0,1.0f);
 			while (isRunning) {
 				//read keyboard and mouse
-				input.handleMouse(camera);
+				input.handleMouse(camera, window, physics);
 				input.handleKeyboard();
 				
 				//Update the world's physical layout
