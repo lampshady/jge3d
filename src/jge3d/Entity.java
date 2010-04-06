@@ -76,7 +76,7 @@ public class Entity {
 		//More testing code
 		vectorsPool.release(halfExtent);
 		
-		//debug();
+		debug();
 
 		//Clear the buffer before update_physics runs
 		buf.clear();

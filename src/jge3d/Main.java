@@ -37,11 +37,8 @@ public class Main {
 			//Setup Camera
 			Camera camera = new Camera(0,0,0);
 			camera.goToStart(level.getHeight(), level.getWidth());
-			
-			//Create a box that has physics (for testing)
-			//Entity box = new Entity(physics.dropBox());
-			//Entity ground = new Entity(physics.makeAPlane());
-			physics.dropBox();
+
+			physics.dropBox(1.0f);
 			while (isRunning) {
 				//read keyboard and mouse
 				input.handleMouse(camera);
@@ -49,11 +46,8 @@ public class Main {
 				
 				//Update the world's physical layout
 				physics.clientUpdate();
-				
-				//Update the box's physics with respect to world
-				//box.update_physics();
 
-				//Draw level (and box)
+				//Draw world
 				draw(level, camera, physics);
 				
 				//Print FPS to title bar

@@ -12,7 +12,7 @@ public class Camera {
 	Vector3f up_vector;					//vector pointing up
 	
 	//Don't flip over, its confusing. lulz
-	float maximum_declination = 89.0f;
+	float maximum_declination = 89.9f;
 	float minimum_declination = 0.1f;
 	
 	
