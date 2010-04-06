@@ -68,7 +68,7 @@ public class Physics {
 		
 		//Create the dynamics world and set default options
 		dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-		dynamicsWorld.setGravity(new Vector3f(0,0,0));
+		dynamicsWorld.setGravity(new Vector3f(0,-10,0));
 		dynamicsWorld.getDispatchInfo().allowedCcdPenetration = 0f;
 		
 		//Preset the previous time so deltaT isn't enormous on first run
@@ -107,7 +107,6 @@ public class Physics {
 		
 		// step the simulation
 		if (dynamicsWorld != null) {
-			//dynamicsWorld.stepSimulation(deltaT / 1000000000f);
 			dynamicsWorld.stepSimulation(deltaT / 1000000000f);
 			// optional but useful: debug drawing
 			//dynamicsWorld.debugDrawWorld();

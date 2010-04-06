@@ -52,7 +52,7 @@ public class Level extends Main {
 			}
 			br.reset();
 			
-			map = new int[max_col_length][row_length][layer_count];
+			map = new int[row_length][max_col_length][layer_count];
 			
 			while (((nextline = br.readLine()) != null)) {
 				nextline = nextline.trim();
@@ -68,7 +68,7 @@ public class Level extends Main {
 					}
 					for(int j=0;j<row_length;j++){
 						try {
-							map[linecounter][j][layer] = Integer.parseInt(type[j]);
+							map[j][linecounter][layer] = Integer.parseInt(type[j]);
 						} catch (Exception e) {
 							System.out.print(e);
 						}
@@ -93,12 +93,12 @@ public class Level extends Main {
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 		for(int k=0;k<layer_count;k++) {
 			GL11.glPushMatrix();
-			for (int i=0;i<max_col_length-1;i++) {
+			for (int j=0;j<max_col_length-1;j++) {
 				GL11.glPushMatrix();
-				for(int j=0;j<row_length;j++){
+				for(int i=0;i<row_length;i++){
 					if(map[i][j][k] != 9) {
 						drawcube(map[i][j][k]);
-						//physics.addLevelBlock(j,-i,-k,cube_size);
+						physics.addLevelBlock(i,-j,-k,cube_size);
 					}
 					GL11.glTranslatef(2*cube_size, 0, 0);
 				}
