@@ -65,7 +65,7 @@ class Input extends Main {
 					}
 					break;
 				case 1://Right Button
-					Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY(), window);
+					Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY());
 					System.out.print(ray.x + " " +ray.y + " " + ray.z + "\n");
 					physics.dropBox(ray.x,ray.y,ray.z,1);
 					break;
