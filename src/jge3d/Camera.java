@@ -13,7 +13,7 @@ import org.lwjgl.LWJGLException;
 
 
 //Maybe we'll use it, maybe we won't?
-public class Camera extends Main {
+public class Camera {
 	float[] position;					//x, y, z
 	float declination;					//Angle up and down
 	float rotation;						//Angle left and right

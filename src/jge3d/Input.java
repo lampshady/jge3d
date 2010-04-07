@@ -6,8 +6,9 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-class Input extends Main {
+class Input {
 	int deltaX, deltaY;
+	int mouseX, mouseY;
 	
 	public Input() throws LWJGLException
 	{
@@ -16,7 +17,7 @@ class Input extends Main {
 		Keyboard.create();
 	}
 
-	public void handleMouse(Camera camera, Window window, Physics physics) throws LWJGLException
+	public void handleMouse(Camera camera, Window window, Physics physics) throws LWJGLException 
 	{
 		//Handle Mouse Events here
 		while(Mouse.next())
@@ -28,6 +29,11 @@ class Input extends Main {
 			deltaX = Mouse.getEventDX();
 			deltaY = Mouse.getEventDY();
 
+			mouseX = Mouse.getX();
+			mouseY = Mouse.getY();
+			
+			//editor.setCurrentBlock(mouseX, mouseY, camera);
+			
 			switch(Mouse.getEventButton())
 			{
 				case -1://Mouse Movement
@@ -66,7 +72,6 @@ class Input extends Main {
 					break;
 				case 1://Right Button
 					Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY());
-					System.out.print(ray.x + " " +ray.y + " " + ray.z + "\n");
 					physics.dropBox(ray.x,ray.y,ray.z,1);
 					break;
 				case 2://Middle Button

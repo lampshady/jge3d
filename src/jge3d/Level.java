@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 
 
-public class Level extends Main {
+public class Level {
 	float cube_size = 1f;
 	int row_length=0;
 	int col_length=0;
