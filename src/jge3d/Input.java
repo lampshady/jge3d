@@ -17,7 +17,7 @@ class Input {
 		Keyboard.create();
 	}
 
-	public void handleMouse(Camera camera, Window window, Physics physics) throws LWJGLException 
+	public void handleMouse(Camera camera, Window window, Physics physics, Editor editor) throws LWJGLException 
 	{
 		//Handle Mouse Events here
 		while(Mouse.next())
@@ -29,16 +29,17 @@ class Input {
 			deltaX = Mouse.getEventDX();
 			deltaY = Mouse.getEventDY();
 
-			mouseX = Mouse.getX();
-			mouseY = Mouse.getY();
+			//mouseX = Mouse.getX();
+			//mouseY = Mouse.getY();
 			
-			//editor.setCurrentBlock(mouseX, mouseY, camera);
+			
 			
 			switch(Mouse.getEventButton())
 			{
 				case -1://Mouse Movement
 					if(Mouse.isInsideWindow())
 					{
+						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), camera);
 						if(Mouse.isButtonDown(0))
 						{
 							//Pan camera Z

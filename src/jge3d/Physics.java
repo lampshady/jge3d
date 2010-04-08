@@ -176,27 +176,27 @@ public class Physics {
 					}
 	
 					GL11.glPushMatrix();
-					m.getOpenGLMatrix(body_matrix);
-					
-					//Put all this matrix shit in a float buffer
-					buf.put(body_matrix);
-					buf.flip();
-					
-					GL11.glMultMatrix(buf);
-					buf.clear();
-	
-					//Testing code
-					//ObjectPool<Vector3f> vectorsPool = ObjectPool.get(Vector3f.class);
-					//BoxShape boxShape = (BoxShape) body.getCollisionShape();
-					//Vector3f halfExtent = boxShape.getHalfExtentsWithMargin(vectorsPool.get());
-					//GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
-					
-					//Draw cube at matrix
-					render.drawcube(1, 1);
-					
-					//More testing code
-					//vectorsPool.release(halfExtent);
+						m.getOpenGLMatrix(body_matrix);
 						
+						//Put all this matrix shit in a float buffer
+						buf.put(body_matrix);
+						buf.flip();
+						
+						GL11.glMultMatrix(buf);
+						buf.clear();
+		
+						//Testing code
+						//ObjectPool<Vector3f> vectorsPool = ObjectPool.get(Vector3f.class);
+						//BoxShape boxShape = (BoxShape) body.getCollisionShape();
+						//Vector3f halfExtent = boxShape.getHalfExtentsWithMargin(vectorsPool.get());
+						//GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
+						
+						//Draw cube at matrix
+						render.drawcube(1, 1);
+						
+						//More testing code
+						//vectorsPool.release(halfExtent);
+							
 					GL11.glPopMatrix();
 				}
 			}

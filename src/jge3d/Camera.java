@@ -218,6 +218,7 @@ public class Camera {
 
 		//get the position in 3d space by casting a ray from the mouse
 		//coords to the first contacted point in space
+		//GLU.gluUnProject(mouseX, mouseY, winZ.get(), modelview, projection, viewport, position);
 		GLU.gluUnProject(mouseX, mouseY, winZ.get(), modelview, projection, viewport, position);
 		
 		//Make a vector out of the silly float buffer LWJGL forces us to use
