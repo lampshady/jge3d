@@ -6,27 +6,25 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GL11;
 
 public class Editor {
-	Vector3f editor_origin;
+	Vector3f current_position_vector;
 	Renderer render;
 	public Editor() {
-		editor_origin = new Vector3f();
+		current_position_vector = new Vector3f();
 		render = new Renderer();
 	}
 	
-	public void setCurrentBlock(int x, int y, Camera camera) throws LWJGLException {
-		editor_origin = camera.getRayTo(x, y);
+	public void setCurrentBlock(int mouseX, int mouseY, float zPlane, Camera camera) throws LWJGLException {
+		 current_position_vector = camera.getRayToPlane(mouseX, mouseY, 0); 
 	}
 	
 	public void renderCurrentBlock() {
 		GL11.glPushMatrix();
-			editor_origin.x = (float)Math.floor(editor_origin.x);
-			editor_origin.y = (float)Math.floor(editor_origin.y);
+			current_position_vector.x = (float)Math.floor(current_position_vector.x);
+			current_position_vector.y = (float)Math.floor(current_position_vector.y);
 			
 			//Z needs to be replaced with -layer * cube_size
-			editor_origin.z = (float)Math.floor(editor_origin.z);
-			
-			GL11.glTranslatef(editor_origin.x, editor_origin.y, 0);
-			//System.out.print(editor_origin.x + " " + editor_origin.y + " " + 0 + "\n");
+			current_position_vector.z = (float)Math.floor(current_position_vector.z);
+			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, 0);
 			render.drawcube(5, 1.0f);
 		GL11.glPopMatrix();
 	}

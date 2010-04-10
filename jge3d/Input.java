@@ -39,13 +39,13 @@ class Input {
 				case -1://Mouse Movement
 					if(Mouse.isInsideWindow())
 					{
-						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), camera);
+						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), 0, camera);
 						if(Mouse.isButtonDown(0))
 						{
 							//Pan camera Z
 							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) )
 							{
-								camera.incrementDistance(-0.1f*deltaY);	
+								camera.incrementDistance(-1.0f*deltaY);	
 							}else{
 								camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
 							}
@@ -72,17 +72,19 @@ class Input {
 					}
 					break;
 				case 1://Right Button
-					//Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY());
-					Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY());
-					physics.dropBox(ray.x,ray.y,ray.z,1);
+					if( !(Mouse.isButtonDown(1)) ) 
+					{
+						Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
+						physics.dropBox(ray.x,ray.y,ray.z,1);
+					}
 					break;
 				case 2://Middle Button
 					break;
 			}
 
 			switch(Mouse.getDWheel()) {
-				case -120: camera.incrementDistance(1.0f); break;
-				case  120: camera.incrementDistance(-1.0f); break;
+				case -120: camera.incrementDistance(1000.0f); break;
+				case  120: camera.incrementDistance(-1000.0f); break;
 			}
 		}
 	}
