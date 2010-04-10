@@ -21,7 +21,7 @@ public class Camera {
 	float distance;						//distance from focus
 	Vector3f up_vector;					//vector pointing up
 	
-	//Don't flip over, its confusing. lulz
+	//Don't flip over, its confusing.
 	float maximum_declination = 89.9f;
 	float minimum_declination = 0.1f;
 	
@@ -53,7 +53,7 @@ public class Camera {
 		setUpVector( 0, 1, 0 );
 		updatePosition();
 		
-		//FOV calculations
+		//Feild of View calculations
 		screen_height = height;
 		screen_width = width;
 		fovx = (float)Math.PI / 4;
@@ -177,15 +177,12 @@ public class Camera {
 		up_vector = newUp;
 	}
 	
+	//hard coded, ugh!  Magic numbers~
 	public void goToStart(float height, float width) {
 		//
 		focus[0] = 24.0f;
 		focus[1] = -11.0f;
 		focus[2] = 0.0f;
-		
-		//focus[0] = (float)(distance * Math.tan(Math.toDegrees(-45)))/2;
-		//focus[1] = -(float)(distance * Math.tan(Math.toDegrees(-45)))/2;
-		//focus[2] = 0;
 		
 		position[0] = 0.0f;
 		position[1] = 0.0f;
@@ -228,6 +225,46 @@ public class Camera {
 		Display.releaseContext();
 
 		return pos;
+	}
+	
+	public Vector3f getRayToPlane(int mouseX, int mouseY, float zPlane) throws LWJGLException {
+		//We need exclusive access to the window
+		Display.makeCurrent();
+		
+		//Create stupid floatbuffers for LWJGL
+		IntBuffer viewport = BufferUtils.createIntBuffer(16);
+		FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
+		FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+		FloatBuffer winZ = BufferUtils.createFloatBuffer(1);
+		FloatBuffer position = BufferUtils.createFloatBuffer(3);
+		Vector3f ray = new Vector3f();
+		
+		//Get some information about the viewport, modelview, and projection matrix
+		GL11.glGetFloat( GL11.GL_MODELVIEW_MATRIX, modelview );
+		GL11.glGetFloat( GL11.GL_PROJECTION_MATRIX, projection );
+		GL11.glGetInteger( GL11.GL_VIEWPORT, viewport );
+
+		//Find the depth, otherwise you just spawn from the origin (camera)
+		//GL11.glReadPixels(mouseX, mouseY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, winZ);
+
+		//get the position in 3d space by casting a ray from the mouse
+		//coords to the first contacted point in space
+		//GLU.gluUnProject(mouseX, mouseY, winZ.get(), modelview, projection, viewport, position);
+		GLU.gluUnProject(mouseX, mouseY, 1, modelview, projection, viewport, position);
+		
+		//Make a vector out of the silly float buffer LWJGL forces us to use
+		ray.set(position.get(0), position.get(1), position.get(2));
+		
+		//Don't want to hold on to the context as the renderer will need it
+		Display.releaseContext();
+
+		float t = (zPlane - this.getPositionZ())/ray.z;
+		 
+		 ray = new Vector3f(this.getPositionX() + t * ray.x,
+				 								this.getPositionY() + t * ray.y,
+				 								this.getPositionZ() + t * ray.z); 
+		
+		return ray;
 	}
 	
 	public void debug() {
