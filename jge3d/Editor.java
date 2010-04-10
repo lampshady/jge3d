@@ -26,7 +26,7 @@ public class Editor {
 			editor_origin.z = (float)Math.floor(editor_origin.z);
 			
 			GL11.glTranslatef(editor_origin.x, editor_origin.y, 0);
-			System.out.print(editor_origin.x + " " + editor_origin.y + " " + 0 + "\n");
+			//System.out.print(editor_origin.x + " " + editor_origin.y + " " + 0 + "\n");
 			render.drawcube(5, 1.0f);
 		GL11.glPopMatrix();
 	}

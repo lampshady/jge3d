@@ -213,14 +213,14 @@ public class Camera {
 		GL11.glGetFloat( GL11.GL_PROJECTION_MATRIX, projection );
 		GL11.glGetInteger( GL11.GL_VIEWPORT, viewport );
 
-		//Find the depth, otherwise you just spawn from the origin (camera)
+		//Find the depth to 
 		GL11.glReadPixels(mouseX, mouseY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, winZ);
 
 		//get the position in 3d space by casting a ray from the mouse
 		//coords to the first contacted point in space
 		//GLU.gluUnProject(mouseX, mouseY, winZ.get(), modelview, projection, viewport, position);
 		GLU.gluUnProject(mouseX, mouseY, winZ.get(), modelview, projection, viewport, position);
-		
+
 		//Make a vector out of the silly float buffer LWJGL forces us to use
 		pos.set(position.get(0), position.get(1), position.get(2));
 		

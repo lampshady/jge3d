@@ -2,6 +2,10 @@ package jge3d;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.vecmath.Vector3f;
 
 import org.lwjgl.opengl.GL11;
 
@@ -13,11 +17,16 @@ public class Level {
 	int max_col_length=0;
 	int layer=0;
 	int layer_count=0;
+	int linecounter = 0;
 	int map[][][];
 	private int objectlist;
+	String nextline;
+	char type;
+	List<Entity> level_ents;
 	public static String newline = System.getProperty("line.separator");
 	
-	public Level(BufferedReader ref, Physics physics) {
+	public Level(BufferedReader ref, Physics physics) throws IOException {
+		level_ents = new ArrayList<Entity>();
 		loadlevel(ref);
 		opengldrawtolist(physics);
 		cleanup();
@@ -27,65 +36,58 @@ public class Level {
 
 	}
 
-	private void loadlevel(BufferedReader br) {
-		String nextline;
-		int linecounter = 0;
-		try {
-			String type[] = new String [1];
-			br.mark(8192);
+	private void loadlevel(BufferedReader br) throws IOException {
+		while (((nextline = br.readLine()) != null)) {
+			if(nextline == "header") 
+				parseHeader(br);
+			else if (nextline == "level")
+				parseLevel(br);
+		}
+		map = new int[row_length][col_length][layer_count];
+	}
+	
+	private void parseHeader(BufferedReader br) throws IOException {
+		while ((nextline = br.readLine()) != "/header") {
 
-			while(((nextline = br.readLine()) != null)) {
-				nextline = nextline.trim();
-				if(nextline.length() != 0) {
-					if(nextline.charAt(0) == 'l') {
-						++layer_count;
-						if(col_length > max_col_length) {
-							max_col_length = col_length;
-							col_length = -1;
-						}
-					}
-					if(nextline.replaceAll("\t", "").length() > row_length) {
-						row_length=nextline.replaceAll("\t", "").length();
-					}
-					++col_length;
-				}
-			}
-			br.reset();
-			
-			map = new int[row_length][max_col_length][layer_count];
-			
-			while (((nextline = br.readLine()) != null)) {
-				nextline = nextline.trim();
-				//if(newline.charAt(0) == 'l')
-				//	layer=newline.charAt(1);
-				type = nextline.split("\\s+");
-				if (nextline.length() > 0) {
-					if(nextline.charAt(0) == 'l') {
-						layer=Integer.parseInt(String.valueOf(nextline.charAt(1)));
-						nextline=br.readLine().trim();
-						type = nextline.split("\\s+");
-						linecounter=0;
-					}
-					for(int j=0;j<row_length;j++){
-						try {
-							map[j][linecounter][layer] = Integer.parseInt(type[j]);
-						} catch (Exception e) {
-							System.out.print(e);
-						}
-					}
-				}
-				linecounter++;
-			}
-		} catch (IOException e) {
-			System.out.println("Failed to read file: " + br.toString());
-			//System.exit(0);			
-		} catch (NumberFormatException e) {
-			System.out.println("Malformed level input (on line " + linecounter + "): " + br.toString() + "\r \r" + e.getMessage());
-			//System.exit(0);
 		}
 	}
 	
+	private void parseLevel(BufferedReader br) throws NumberFormatException, IOException {
+		String nextline;
+		String[] splitString;
+		String texture;
+		String[] split_position = new String[3];
+		
+		while (((nextline = br.readLine()) != null)) {
+			if(nextline.length() > 0) {
+				nextline = nextline.trim();
+				//if(newline.charAt(0) == 'l')
+				//	layer=newline.charAt(1);
+				type = (nextline.charAt(0));
+				splitString = nextline.split(";");
+				
+				for(int i=0; i<splitString.length;++i) {
+					
+					switch(type) {
+						case 'L':
+							split_position = splitString[i].split(",");
+							texture = splitString[2];
+							Vector3f position = new Vector3f(
+									Integer.parseInt(split_position[0]),
+									Integer.parseInt(split_position[1]),
+									Integer.parseInt(split_position[2])
+							);
+							level_ents.add(new Entity(type,position,texture));break;
+						default: System.out.print("FUCKSHIT level parsing error");break;
+					}
+					
+				}
+			}
+			linecounter++;
+		}
+	}
 	
+
 	public void opengldrawtolist(Physics physics) {
 		
 		this.objectlist = GL11.glGenLists(1);

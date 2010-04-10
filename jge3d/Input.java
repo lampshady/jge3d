@@ -72,6 +72,7 @@ class Input {
 					}
 					break;
 				case 1://Right Button
+					//Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY());
 					Vector3f ray = camera.getRayTo(Mouse.getX(), Mouse.getY());
 					physics.dropBox(ray.x,ray.y,ray.z,1);
 					break;
