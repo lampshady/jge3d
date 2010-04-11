@@ -12,6 +12,5 @@ public class Entity {
 		position=_pos;
 		texture=_texture;
 	}
-
 	
 }
