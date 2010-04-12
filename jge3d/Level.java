@@ -87,24 +87,25 @@ public class Level {
 		Display.makeCurrent();
 		
 		Vector3f position;
+		GL11.glDeleteLists(objectlist, 1);
 		objectlist = GL11.glGenLists(1);
 
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 			for(int i=0;i<level_ents.size();i++) {
 				GL11.glPushMatrix();
 				position=level_ents.get(i).getPosition();
-				render.drawcube(type, cube_size);
 
 				if(level_ents.get(i).getCollidable() == true) {
-					physics.addLevelBlock(position.x,position.y,-position.z,cube_size);
+					physics.addLevelBlock(position.x,position.y,position.z,cube_size);
 				}
 				
-				GL11.glTranslatef(position.x,position.y,-position.z);
-				render.drawcube(type, cube_size);
+				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,position.z*cube_size);
+				render.drawcube(level_ents.get(i).getTexture(), cube_size);
 				GL11.glPopMatrix();
 			
 			}
 		GL11.glEndList();
+		
 		Display.releaseContext();
 	}
 	
@@ -130,5 +131,9 @@ public class Level {
 	
 	public void addEntity(Entity ent) {
 		level_ents.add(ent);
+	}
+	
+	public void save() {
+			
 	}
 }

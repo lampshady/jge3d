@@ -86,7 +86,7 @@ public class Physics {
 		// Create level transformation and default position
 		Transform startTransform = new Transform();
 		startTransform.setIdentity();
-		startTransform.origin.set(cube_size*x*2, cube_size*y*2, cube_size*z*2);
+		startTransform.origin.set(cube_size*x, cube_size*y, cube_size*z);
 
 		//provides interpolation capabilities and only synchronizes 'active' objects
 		DefaultMotionState motion_state = new DefaultMotionState(startTransform);

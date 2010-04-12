@@ -1,13 +1,13 @@
 header
-
+	T;tex1;texture/grass.png
 /header
 
 level
-	L;0,0,0;textures/grass.png
-	L;1,1,1;textures/grass.png
-	L;2,2,2;textures/grass.png
-	L;2,3,3;textures/grass.png
-	L;4,4,4;textures/grass.png
-	L;5,5,5;textures/grass.png
-	L;6,6,6;textures/grass.png
+	L;0,0,0;tex1
+	L;1,1,1;tex1
+	L;2,2,2;tex1
+	L;3,3,3;tex1
+	L;4,4,4;tex1
+	L;5,5,5;tex1
+	L;6,6,6;tex1
 /level

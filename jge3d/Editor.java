@@ -25,7 +25,7 @@ public class Editor {
 			//Z needs to be replaced with -layer * cube_size
 			current_position_vector.z = (float)Math.floor(current_position_vector.z);
 			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, 0);
-			render.drawcube(5, 1.0f);
+			render.drawcube(1, 1.0f);
 		GL11.glPopMatrix();
 	}
 	

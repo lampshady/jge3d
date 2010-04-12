@@ -47,7 +47,7 @@ class Input {
 							{
 								camera.incrementDistance(-1.0f*deltaY);	
 							}else{
-								camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
+								camera.moveFocus( new Vector3f(0.1f*deltaX, -0.1f*deltaY, 0.0f) );
 							}
 						}
 						
@@ -79,14 +79,17 @@ class Input {
 					}
 					break;
 				case 2://Middle Button
-					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
-					physics.dropBox(ray.x,ray.y,ray.z,1);
+					if( !(Mouse.isButtonDown(1)) ) 
+					{
+						Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
+						physics.dropBox(ray.x,ray.y,ray.z,1);
+					}
 					break;
 			}
 
 			switch(Mouse.getDWheel()) {
-				case -120: camera.incrementDistance(1000.0f); break;
-				case  120: camera.incrementDistance(-1000.0f); break;
+				case -120: camera.incrementDistance(5.0f); break;
+				case  120: camera.incrementDistance(-5.0f); break;
 			}
 		}
 	}
