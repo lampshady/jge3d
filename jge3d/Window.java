@@ -96,5 +96,12 @@ public class Window {
 	}
 	public int getGLHeight() {
 		return GLView.getHeight();
+	} 
+	
+	public void setupTextureView()
+	{
+		TextureView.removeAll();
+		
+		
 	}
 }

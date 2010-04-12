@@ -64,22 +64,19 @@ public class Level {
 				type = (nextline.charAt(0));
 				splitString = nextline.split(";");
 				
-				for(int i=0; i<splitString.length;++i) {
-					
-					switch(type) {
-						case 'L':
-							split_position = splitString[i].split(",");
-							texture = splitString[2];
-							Vector3f position = new Vector3f(
-									Integer.parseInt(split_position[0]),
-									Integer.parseInt(split_position[1]),
-									Integer.parseInt(split_position[2])
-							);
-							level_ents.add(new Entity(type,position,texture, true));break;
-						default: System.out.print("FUCKSHIT level parsing error");break;
-					}
-					
+				switch(type) {
+					case 'L':
+						split_position = splitString[1].split(",");
+						texture = splitString[2];
+						Vector3f position = new Vector3f(
+								Integer.parseInt(split_position[0]),
+								Integer.parseInt(split_position[1]),
+								Integer.parseInt(split_position[2])
+						);
+						level_ents.add(new Entity(type,position,texture, true));break;
+					default: System.out.print("FUCKSHIT level parsing error");break;
 				}
+				
 			}
 			linecounter++;
 		}
