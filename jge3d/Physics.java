@@ -73,7 +73,7 @@ public class Physics {
 		buf = BufferUtils.createFloatBuffer(16);
 	}
 		
-	public void addLevelBlock(int x, int y, int z, float cube_size) {
+	public void addLevelBlock(float x, float y, float z, float cube_size) {
 		//Levels are static since we don't want them moving due to interactions with
 		//other physics objects; Static objects must have a mass of 0 and no inertia
 		int mass=0;

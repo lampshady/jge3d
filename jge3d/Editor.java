@@ -28,4 +28,10 @@ public class Editor {
 			render.drawcube(5, 1.0f);
 		GL11.glPopMatrix();
 	}
+	
+	public Entity getCurrentBlock() {
+		String texture="";
+		char type=1;
+		return new Entity(type, current_position_vector, texture,true);
+	}
 }

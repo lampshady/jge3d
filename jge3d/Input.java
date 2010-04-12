@@ -17,7 +17,7 @@ class Input {
 		Keyboard.create();
 	}
 
-	public void handleMouse(Camera camera, Window window, Physics physics, Editor editor) throws LWJGLException 
+	public void handleMouse(Camera camera, Window window, Physics physics, Editor editor, Level level) throws LWJGLException 
 	{
 		//Handle Mouse Events here
 		while(Mouse.next())
@@ -74,11 +74,13 @@ class Input {
 				case 1://Right Button
 					if( !(Mouse.isButtonDown(1)) ) 
 					{
-						Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
-						physics.dropBox(ray.x,ray.y,ray.z,1);
+						level.addEntity(editor.getCurrentBlock());
+						level.opengldrawtolist(physics);
 					}
 					break;
 				case 2://Middle Button
+					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
+					physics.dropBox(ray.x,ray.y,ray.z,1);
 					break;
 			}
 

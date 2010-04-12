@@ -36,7 +36,7 @@ public class Main {
 			
 			//Read in a level 
 			BufferedReader levelfile;
-			levelfile = new BufferedReader(new FileReader("lib/Levels/new.map"));
+			levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
 			level = new Level(levelfile, physics);
 			
 			//Camera
@@ -54,7 +54,7 @@ public class Main {
 			
 			while (isRunning) {
 				//read keyboard and mouse
-				input.handleMouse(camera, window, physics, editor);
+				input.handleMouse(camera, window, physics, editor, level);
 				input.handleKeyboard();
 				
 				//Update the world's physical layout
