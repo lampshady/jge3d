@@ -6,7 +6,6 @@ public class Entity {
 	char type;
 	Vector3f position = new Vector3f();
 	String texture_name;
-	Texture texture;
 	boolean collidable;
 	Renderer render = new Renderer();
 	
@@ -25,7 +24,7 @@ public class Entity {
 		return collidable;
 	}
 	
-	public Texture getTexture() {
-		return texture;
+	public String getTextureName() {
+		return texture_name;
 	}
 }

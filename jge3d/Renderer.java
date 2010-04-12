@@ -4,15 +4,14 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.newdawn.slick.opengl.Texture;
 
 class Renderer {
 	public Renderer() {
 		
 	}
 	
-	public void drawcube(Texture texture, float cube_size) {
-		//GL11.glTranslatef(x*cube_size, y*cube_size, z*cube_size);
-		
+	public void drawcube(Texture texture, float cube_size) {		
 		//Allow a colored cube to be drawn
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glColor3f(0.0f,1.0f,0.0f);

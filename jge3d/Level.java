@@ -100,7 +100,7 @@ public class Level {
 				}
 				
 				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,position.z*cube_size);
-				render.drawcube(level_ents.get(i).getTexture(), cube_size);
+				render.drawcube(level_ents.get(i).getTextureName(), cube_size);
 				GL11.glPopMatrix();
 			
 			}
