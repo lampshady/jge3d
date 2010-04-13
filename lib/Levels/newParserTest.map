@@ -1,7 +1,7 @@
 header
-	T;ground;grass;lib/Textures/grass1.png
-	T;ground;dirt;lib/Textures/dirt1.png
-	T;ground;cube;lib/Textures/cube1.png
+	T;ground;grass1;lib/Textures/grass1.png
+	T;ground;dirt1;lib/Textures/dirt1.png
+	T;ground;cube1;lib/Textures/cube1.png
 /header
 
 level

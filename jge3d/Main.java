@@ -32,12 +32,12 @@ public class Main {
 			render.initGL(window);
 
 			//Make some physics
-			physics = new Physics();
+			physics = new Physics(render);
 			
 			//Read in a level 
 			BufferedReader levelfile;
 			levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
-			level = new Level(levelfile, physics);
+			level = new Level(levelfile, physics, render);
 			
 			//Camera
 			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
@@ -47,7 +47,7 @@ public class Main {
 			input = new Input();
 			
 			//Make an editor
-			editor = new Editor();
+			editor = new Editor(render);
 
 			//Just to show off the physics
 			physics.dropBox(17,15,0,1.0f);

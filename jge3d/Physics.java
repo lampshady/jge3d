@@ -41,13 +41,15 @@ public class Physics {
 	//Test stuff
 	float[] body_matrix = new float[16];	//hold matrix of box
 	FloatBuffer buf;
-	Renderer render = new Renderer();
+	Renderer render;
 	private final Transform m = new Transform();	//wtf is this for
 
 	//For holding the previous time in microseconds to calculate deltaT
 	private long prev_time;
 	
-	public Physics() {
+	public Physics(Renderer _render) {
+		render=_render;
+		
 		//Default collision constructor
 		collisionConfiguration = new DefaultCollisionConfiguration();
 		
@@ -194,7 +196,7 @@ public class Physics {
 						//GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
 						
 						//Draw cube at matrix
-						render.drawcube("1", 1);
+						render.drawcube("cube1", 1);
 						
 						//More testing code
 						//vectorsPool.release(halfExtent);

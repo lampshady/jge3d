@@ -1,10 +1,17 @@
 package jge3d;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -21,9 +28,15 @@ public class Window {
 	static JPanel LeftPane;
 	static Canvas GLView;
 	static JPanel RightPane;
-	static JPanel TextureView;
+	static JPanel textureView;
 	static JPanel TreeView;
 	static DisplayMode chosenMode = null;
+	
+	//TextureView controls
+	static JButton textureAddButton;
+	static JButton textureDelButton;
+	static JList textureListBox;
+	static Canvas texturePreview;
 	
 	//frame rate calculations
 	static long prev_time=0;
@@ -39,6 +52,13 @@ public class Window {
 		window = new JFrame();
 		GLView = new Canvas();
 		RightPane = new JPanel();
+		
+		//TextureView
+		textureView = new JPanel();
+		textureAddButton = new JButton("Add");
+		textureDelButton = new JButton("Remove");
+		textureListBox = new JList();
+		texturePreview = new Canvas();
 		
 		//Make it so closing the window closes the program
 		window.addWindowListener(new WindowAdapter(){
@@ -60,16 +80,21 @@ public class Window {
 		chosenMode = new DisplayMode(targetWidth, targetHeight);
 	
 		GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
-		RightPane.setSize((int)(chosenMode.getWidth()*(.225)), chosenMode.getHeight());
+		RightPane.setSize((int)(chosenMode.getWidth()*(.275)), chosenMode.getHeight());
 		
-		window.setLayout(null);
+		window.setLayout(new FlowLayout());
+		RightPane.setLayout(new BorderLayout());
+		RightPane.setBackground(new Color(0,0,0));
+		RightPane.add(textureView, BorderLayout.PAGE_START);
 		
 		//layout the window
 		window.add(GLView);
 		window.add(RightPane);
 		window.setSize( chosenMode.getWidth(), chosenMode.getHeight());
 		window.setVisible(true);
-		//window.setResizable(false);
+		
+		//layout the texture panel
+		setupTextureView();
 		
 		try {
 		    Display.create();
@@ -100,8 +125,19 @@ public class Window {
 	
 	public void setupTextureView()
 	{
-		TextureView.removeAll();
+		//textureView.removeAll();
+		//layout TextureView
 		
+		textureView.setLayout(new BoxLayout(textureView, BoxLayout.PAGE_AXIS));
 		
+		textureView.add(new JLabel("Texture Viewer"));
+		textureView.add(texturePreview);
+		textureView.add(textureListBox);
+		textureView.add(textureAddButton);
+		textureView.add(textureDelButton);
+		
+		RightPane.setLayout(new FlowLayout());
+		texturePreview.setSize(128, 128);
+		textureView.setVisible(true);
 	}
 }

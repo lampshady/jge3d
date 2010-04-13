@@ -11,9 +11,10 @@ import org.lwjgl.opengl.GL11;
 public class Editor {
 	Vector3f current_position_vector;
 	Renderer render;
-	public Editor() {
+	
+	public Editor(Renderer _render) {
 		current_position_vector = new Vector3f();
-		render = new Renderer();
+		render = _render;
 	}
 	
 	public void setCurrentBlock(int mouseX, int mouseY, float zPlane, Camera camera) throws LWJGLException {
@@ -28,12 +29,12 @@ public class Editor {
 			//Z needs to be replaced with -layer * cube_size
 			current_position_vector.z = (float)Math.floor(current_position_vector.z);
 			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, 0);
-			render.drawcube("textures/cube1.png", 1.0f);
+			render.drawcube("cube1", 1.0f);
 		GL11.glPopMatrix();
 	}
 	
 	public Entity getCurrentBlock() {
-		String texture="";
+		String texture="dirt1";
 		char type=1;
 		return new Entity(type, current_position_vector, texture,true);
 	}

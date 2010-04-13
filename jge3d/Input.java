@@ -50,7 +50,7 @@ class Input {
 							{
 								camera.incrementDistance(-1.0f*deltaY);	
 							}else{
-								camera.moveFocus( new Vector3f(0.1f*deltaX, -0.1f*deltaY, 0.0f) );
+								camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
 							}
 						}
 						

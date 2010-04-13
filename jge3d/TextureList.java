@@ -21,7 +21,7 @@ public class TextureList {
 		path = _path;
 	}
 	
-	public Texture getTexture(String name) {
+	public Texture getTexture() {
 		return texture;
 	}
 	

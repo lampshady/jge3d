@@ -20,13 +20,13 @@ public class Level {
 	String nextline;
 	char type;
 	List<Entity> level_ents;
-	List<TextureList> textures;
-	public static String newline = System.getProperty("line.separator");
-	Renderer render = new Renderer();
 	
-	public Level(BufferedReader ref, Physics physics) throws IOException, LWJGLException {
+	public static String newline = System.getProperty("line.separator");
+	Renderer render;
+	
+	public Level(BufferedReader ref, Physics physics,Renderer _render) throws IOException, LWJGLException {
+		render = _render;
 		level_ents = new ArrayList<Entity>();
-		textures =new ArrayList<TextureList>();
 		loadlevel(ref);
 		opengldrawtolist(physics);
 		cleanup();
@@ -56,7 +56,8 @@ public class Level {
 				
 				switch(type) {
 					case 'T':
-						textures.add(new TextureList(splitString[1],splitString[2],splitString[3]));break;
+						render.setTexture(splitString[1], splitString[2], splitString[3]);
+						break;
 					default: System.out.print("FUCKSHIT level parsing error");break;
 				}
 			}
@@ -86,7 +87,7 @@ public class Level {
 								Integer.parseInt(split_position[1]),
 								Integer.parseInt(split_position[2])
 						);
-						level_ents.add(new Entity(type,position,texture, true));break;
+						level_ents.add(new Entity(type,position,texture,true));break;
 					default: System.out.print("FUCKSHIT level parsing error");break;
 				}
 			}
@@ -98,9 +99,9 @@ public class Level {
 		Display.makeCurrent();
 		
 		Vector3f position;
+		System.out.print(objectlist);
 		GL11.glDeleteLists(objectlist, 1);
 		objectlist = GL11.glGenLists(1);
-
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 			for(int i=0;i<level_ents.size();i++) {
 				GL11.glPushMatrix();
@@ -110,8 +111,8 @@ public class Level {
 					physics.addLevelBlock(position.x,position.y,position.z,cube_size);
 				}
 				
-				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,position.z*cube_size);
-				render.drawcube(level_ents.get(i).getTexture(), cube_size);
+				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,-position.z*cube_size);
+				render.drawcube(level_ents.get(i).getTextureName(), cube_size);
 				GL11.glPopMatrix();
 			
 			}
@@ -147,4 +148,5 @@ public class Level {
 	public void save() {
 			
 	}
+
 }

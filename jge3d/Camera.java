@@ -49,7 +49,7 @@ public class Camera {
 		
 		declination = 0;
 		rotation = 0;
-		distance = -63.0f;
+		distance = 63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
 		
@@ -71,7 +71,7 @@ public class Camera {
 		
 		declination = 0;
 		rotation = 0;
-		distance = -63.0f;
+		distance = 63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
 		
@@ -186,7 +186,7 @@ public class Camera {
 		
 		position[0] = 0.0f;
 		position[1] = 0.0f;
-		position[2] = -63.0f;
+		position[2] = 63.0f;
 		
 		setUpVector(0,1,0);
 		
