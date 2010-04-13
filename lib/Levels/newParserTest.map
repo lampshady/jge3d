@@ -1,13 +1,15 @@
 header
-	T;tex1;texture/grass.png
+	T;ground;grass;lib/Textures/grass1.png
+	T;ground;dirt;lib/Textures/dirt1.png
+	T;ground;cube;lib/Textures/cube1.png
 /header
 
 level
-	L;0,0,0;tex1
-	L;1,1,1;tex1
-	L;2,2,2;tex1
-	L;3,3,3;tex1
-	L;4,4,4;tex1
-	L;5,5,5;tex1
-	L;6,6,6;tex1
+	L;0,0,0;dirt1
+	L;1,1,1;grass1
+	L;2,2,2;dirt1
+	L;3,3,3;grass1
+	L;4,4,4;dirt1
+	L;5,5,5;grass1
+	L;6,6,6;dirt1
 /level

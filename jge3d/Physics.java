@@ -1,5 +1,7 @@
 package jge3d;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +161,7 @@ public class Physics {
 		return body;
 	}
 
-	public void render() {
+	public void render() throws FileNotFoundException, IOException {
 		if (dynamicsWorld != null) {
 			int numObjects = dynamicsWorld.getNumCollisionObjects();
 			for (int i = 0; i < numObjects; i++) {
@@ -192,7 +194,7 @@ public class Physics {
 						//GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
 						
 						//Draw cube at matrix
-						render.drawcube(1, 1);
+						render.drawcube("1", 1);
 						
 						//More testing code
 						//vectorsPool.release(halfExtent);

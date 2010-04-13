@@ -1,6 +1,7 @@
 package jge3d;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,22 +13,20 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public class Level {
-	float cube_size = 1f;
+	float cube_size = 1.0f;
 	int row_length=0;
 	int col_length=0;
-	int max_col_length=0;
-	int layer=0;
-	int layer_count=0;
-	int linecounter = 0;
 	private int objectlist;
 	String nextline;
 	char type;
 	List<Entity> level_ents;
+	List<TextureList> textures;
 	public static String newline = System.getProperty("line.separator");
 	Renderer render = new Renderer();
 	
 	public Level(BufferedReader ref, Physics physics) throws IOException, LWJGLException {
 		level_ents = new ArrayList<Entity>();
+		textures =new ArrayList<TextureList>();
 		loadlevel(ref);
 		opengldrawtolist(physics);
 		cleanup();
@@ -47,8 +46,20 @@ public class Level {
 	}
 	
 	private void parseHeader(BufferedReader br) throws IOException {
+		String nextline;
+		String[] splitString;
 		while ((nextline = br.readLine()).compareToIgnoreCase("/header") != 0) {
-
+			if(nextline.length() > 0) {
+				nextline = nextline.trim();
+				type = (nextline.charAt(0));
+				splitString = nextline.split(";");
+				
+				switch(type) {
+					case 'T':
+						textures.add(new TextureList(splitString[1],splitString[2],splitString[3]));break;
+					default: System.out.print("FUCKSHIT level parsing error");break;
+				}
+			}
 		}
 	}
 	
@@ -67,7 +78,9 @@ public class Level {
 				switch(type) {
 					case 'L':
 						split_position = splitString[1].split(",");
+						
 						texture = splitString[2];
+												
 						Vector3f position = new Vector3f(
 								Integer.parseInt(split_position[0]),
 								Integer.parseInt(split_position[1]),
@@ -76,14 +89,12 @@ public class Level {
 						level_ents.add(new Entity(type,position,texture, true));break;
 					default: System.out.print("FUCKSHIT level parsing error");break;
 				}
-				
 			}
-			linecounter++;
 		}
 	}
 	
 
-	public void opengldrawtolist(Physics physics) throws LWJGLException {
+	public void opengldrawtolist(Physics physics) throws LWJGLException, FileNotFoundException, IOException {
 		Display.makeCurrent();
 		
 		Vector3f position;
@@ -100,7 +111,7 @@ public class Level {
 				}
 				
 				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,position.z*cube_size);
-				render.drawcube(level_ents.get(i).getTextureName(), cube_size);
+				render.drawcube(level_ents.get(i).getTexture(), cube_size);
 				GL11.glPopMatrix();
 			
 			}
@@ -122,7 +133,7 @@ public class Level {
 	}
 	
 	public int getHeight() {
-		return max_col_length;
+		return col_length;
 	}
 	
 	public int getWidth() {

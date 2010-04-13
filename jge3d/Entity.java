@@ -8,6 +8,7 @@ public class Entity {
 	String texture_name;
 	boolean collidable;
 	Renderer render = new Renderer();
+	Texture texture;
 	
 	public Entity(char _type, Vector3f _pos, String _texture_name, boolean _collidable) {
 		type=_type;

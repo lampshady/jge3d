@@ -1,5 +1,8 @@
 package jge3d;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.vecmath.Vector3f;
 
 import org.lwjgl.LWJGLException;
@@ -17,7 +20,7 @@ class Input {
 		Keyboard.create();
 	}
 
-	public void handleMouse(Camera camera, Window window, Physics physics, Editor editor, Level level) throws LWJGLException 
+	public void handleMouse(Camera camera, Window window, Physics physics, Editor editor, Level level) throws LWJGLException, FileNotFoundException, IOException 
 	{
 		//Handle Mouse Events here
 		while(Mouse.next())

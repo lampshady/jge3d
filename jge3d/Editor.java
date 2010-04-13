@@ -1,5 +1,8 @@
 package jge3d;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.vecmath.Vector3f;
 
 import org.lwjgl.LWJGLException;
@@ -17,7 +20,7 @@ public class Editor {
 		 current_position_vector = camera.getRayToPlane(mouseX, mouseY, 0); 
 	}
 	
-	public void renderCurrentBlock() {
+	public void renderCurrentBlock() throws FileNotFoundException, IOException {
 		GL11.glPushMatrix();
 			current_position_vector.x = (float)Math.floor(current_position_vector.x);
 			current_position_vector.y = (float)Math.floor(current_position_vector.y);
@@ -25,7 +28,7 @@ public class Editor {
 			//Z needs to be replaced with -layer * cube_size
 			current_position_vector.z = (float)Math.floor(current_position_vector.z);
 			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, 0);
-			render.drawcube(1, 1.0f);
+			render.drawcube("textures/cube1.png", 1.0f);
 		GL11.glPopMatrix();
 	}
 	

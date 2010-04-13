@@ -1,22 +1,30 @@
 package jge3d;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 class Renderer {
 	public Renderer() {
 		
 	}
 	
-	public void drawcube(Texture texture, float cube_size) {		
+	public void drawcube(String path, float cube_size) throws FileNotFoundException, IOException {		
 		//Allow a colored cube to be drawn
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glColor3f(0.0f,1.0f,0.0f);
-		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
-		//GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(path));
+		texture.bind();
+		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, name);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glBegin(GL11.GL_QUADS);
 	        // Front Face
@@ -52,7 +60,51 @@ class Renderer {
 		GL11.glEnd();
 	}
 	
-	public void draw(Level level, Editor editor, Physics physics, Camera camera) throws LWJGLException
+	public void drawcube(Texture texture, float cube_size) throws FileNotFoundException, IOException {		
+		//Allow a colored cube to be drawn
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glColor3f(0.0f,1.0f,0.0f);
+		
+		//Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(path));
+		texture.bind();
+		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, name);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		GL11.glBegin(GL11.GL_QUADS);
+	        // Front Face
+	        GL11.glVertex3f(-cube_size, -cube_size, cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, cube_size); // Top Left Of The Texture and Qua        
+	        // Back Face
+	        GL11.glVertex3f(-cube_size, -cube_size, -cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, -cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, -cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, -cube_size); // Bottom Left Of The Texture and Quad
+	        // Top Face
+	        GL11.glVertex3f(-cube_size, cube_size, -cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, -cube_size); // Top Right Of The Texture and Quad
+	        // Bottom Face
+	        GL11.glVertex3f(-cube_size, -cube_size, -cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, -cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, -cube_size, cube_size); // Bottom Right Of The Texture and Quad
+	        // Right face
+	        GL11.glVertex3f(cube_size, -cube_size, -cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, -cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, cube_size, cube_size); // Top Left Of The Texture and Quad
+	        GL11.glVertex3f(cube_size, -cube_size, cube_size); // Bottom Left Of The Texture and Quad
+	        // Left Face
+	        GL11.glVertex3f(-cube_size, -cube_size, -cube_size); // Bottom Left Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, -cube_size, cube_size); // Bottom Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, cube_size); // Top Right Of The Texture and Quad
+	        GL11.glVertex3f(-cube_size, cube_size, -cube_size); // Top Left Of The Texture and Quad
+		GL11.glEnd();
+	}
+	
+	public void draw(Level level, Editor editor, Physics physics, Camera camera) throws LWJGLException, FileNotFoundException, IOException
 	{
 		//Make sure that the screen is active
 		Display.makeCurrent();
