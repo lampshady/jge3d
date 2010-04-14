@@ -121,7 +121,6 @@ public class Level {
 		Display.makeCurrent();
 		
 		Vector3f position;
-		System.out.print(objectlist);
 		GL11.glDeleteLists(objectlist, 1);
 		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);

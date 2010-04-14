@@ -5,6 +5,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -13,6 +15,7 @@ import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -41,7 +44,7 @@ public class Window {
 	static JButton textureAddButton;
 	static JButton textureDelButton;
 	static JList textureListBox;
-	static Canvas texturePreview;
+	static JPanel texturePreview;
 	
 	//Level controls
 	static JPanel levelView;
@@ -72,7 +75,7 @@ public class Window {
 		textureAddButton = new JButton("Add");
 		textureDelButton = new JButton("Remove");
 		textureListBox = new JList();
-		texturePreview = new Canvas();
+		texturePreview = new JPanel();
 		
 		//LevelView
 		levelView = new JPanel();
@@ -163,7 +166,36 @@ public class Window {
 		
 
 		texturePreview.setSize(128, 128);
-		textureView.setVisible(true);
+		texturePreview.setVisible(true);
+		
+		textureAddButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e)
+            {
+                final JFileChooser fc_level = new JFileChooser("lib/Textures/");
+				fc_level.showOpenDialog(window);
+				Image image = Toolkit.getDefaultToolkit().getImage(fc_level.getSelectedFile().getPath());
+                System.out.println("You loaded the texture:" +fc_level.getSelectedFile().getPath() + "\n");
+                
+                // Use the image width & height to find the starting point
+                int imgX = 128/2 - 128;//image.getWidth(IO);
+                int imgY = 128/2 - 128;//image.getHeight(IO);
+
+                //Draw image centered in the middle of the panel    
+                texturePreview.getGraphics().drawImage (image, imgX, imgY, texturePreview);
+            }
+        });  
+        
+        textureDelButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e)
+            {
+            	
+                System.out.println("You deleted the texture\n");
+            }
+        });  
+		
+		
 	}
 	
 	public void setupLevelView() {
