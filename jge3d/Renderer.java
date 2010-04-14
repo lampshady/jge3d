@@ -144,4 +144,12 @@ class Renderer {
 	public void setTexture(String group, String name, String path) throws FileNotFoundException, IOException {
 		textures.put(name, new TextureList(group,name,path));
 	}
+	
+	public int length() {
+		return textures.size();
+	}
+	
+	public HashMap<String, TextureList> getHash() {
+		return textures;
+	}
 }

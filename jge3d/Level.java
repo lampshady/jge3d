@@ -1,11 +1,15 @@
 package jge3d;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.vecmath.Vector3f;
 
 import org.lwjgl.LWJGLException;
@@ -20,15 +24,33 @@ public class Level {
 	String nextline;
 	char type;
 	List<Entity> level_ents;
+	Physics physics;
+	Window window;
 	
 	public static String newline = System.getProperty("line.separator");
 	Renderer render;
 	
-	public Level(BufferedReader ref, Physics physics,Renderer _render) throws IOException, LWJGLException {
+	public Level() {
+		
+	}
+	
+	public Level(BufferedReader ref, Physics _physics, Renderer _render, Window _window) throws IOException, LWJGLException {
+		physics = _physics;
 		render = _render;
+		window = _window;
 		level_ents = new ArrayList<Entity>();
 		loadlevel(ref);
-		opengldrawtolist(physics);
+		opengldrawtolist();
+		cleanup();
+	}
+	
+	public void setLevel(BufferedReader ref, Physics _physics, Renderer _render, Window _window) throws IOException, LWJGLException {
+		render = _render;
+		window = _window;
+		physics = _physics;
+		level_ents = new ArrayList<Entity>();
+		loadlevel(ref);
+		opengldrawtolist();
 		cleanup();
 	}
 	
@@ -95,7 +117,7 @@ public class Level {
 	}
 	
 
-	public void opengldrawtolist(Physics physics) throws LWJGLException, FileNotFoundException, IOException {
+	public void opengldrawtolist() throws LWJGLException, FileNotFoundException, IOException {
 		Display.makeCurrent();
 		
 		Vector3f position;
@@ -121,11 +143,7 @@ public class Level {
 		Display.releaseContext();
 	}
 	
-	public void chooseALevel() {
-		//final JFileChooser fc_level = new JFileChooser("lib/Levels/");
-		//fc_level.showOpenDialog(window);
-		//BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
-	}
+
 	
 	public void opengldraw() {
 		GL11.glPushMatrix();
@@ -145,8 +163,37 @@ public class Level {
 		level_ents.add(ent);
 	}
 	
-	public void save() {
-			
+	public void load() throws IOException, LWJGLException {
+		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
+		fc_level.showOpenDialog(window.getWindow());
+		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
+		loadlevel(levelfile);
+		opengldrawtolist();
+		cleanup();
+	}
+	
+	public void save() throws IOException {
+		//Open a file
+		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
+		fc_level.showOpenDialog(window.getWindow());
+		BufferedWriter bw = new BufferedWriter(new FileWriter(fc_level.getSelectedFile()));
+		
+		//Create header consisting of textures and stuff
+		bw.write("header\n");
+		for(String key: render.getHash().keySet())
+			bw.write("\t" + render.getHash().get(key) + "\n");
+		bw.write("/header\n");
+		bw.newLine();
+		
+		//Create level body defining block positions
+		bw.write(("level\n"));
+		for(int i=0; i<level_ents.size();i++)
+			bw.write("\t" + level_ents.get(i).toString() + "\n");
+		bw.write(("/level\n"));
+		
+		//Close buffers
+		bw.flush();
+		bw.close();
 	}
 
 }

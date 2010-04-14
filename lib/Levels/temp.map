@@ -1,0 +1,24 @@
+header
+	T;ground;dirt1;lib/Textures/dirt1.png
+	T;ground;grass1;lib/Textures/grass1.png
+	T;ground;cube1;lib/Textures/cube1.png
+/header
+
+level
+	L;0.0,0.0,0.0;dirt1
+	L;1.0,1.0,1.0;grass1
+	L;2.0,2.0,2.0;dirt1
+	L;3.0,3.0,3.0;grass1
+	L;4.0,4.0,4.0;dirt1
+	L;5.0,5.0,5.0;grass1
+	L;6.0,6.0,6.0;dirt1
+	L;17.0,0.0,0.0;dirt1
+	L;21.0,-3.0,0.0;dirt1
+	L;23.0,-12.0,0.0;dirt1
+	L;31.0,-15.0,0.0;dirt1
+	L;38.0,-2.0,0.0;dirt1
+	L;29.0,7.0,0.0;dirt1
+	L;7.0,-19.0,0.0;dirt1
+	L;39.0,-26.0,0.0;dirt1
+	L;22.0,-32.0,0.0;dirt1
+/level

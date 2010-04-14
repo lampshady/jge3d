@@ -3,9 +3,13 @@ package jge3d;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -33,17 +37,26 @@ public class Window {
 	static DisplayMode chosenMode = null;
 	
 	//TextureView controls
+	static JLabel textureLabel;
 	static JButton textureAddButton;
 	static JButton textureDelButton;
 	static JList textureListBox;
 	static Canvas texturePreview;
 	
+	//Level controls
+	static JPanel levelView;
+	static JLabel levelLabel;
+	static JButton levelLoadButton;
+	static JButton levelSaveButton;
+	
 	//frame rate calculations
 	static long prev_time=0;
 	static int frames=0;
 	
-	public Window()
-	{
+	Level level;
+	
+	public Window(Level _level) {
+		level = _level;
 		// Set the target size of the window.
 		int targetWidth = 1024;
 		int targetHeight = 768;
@@ -55,10 +68,17 @@ public class Window {
 		
 		//TextureView
 		textureView = new JPanel();
+		textureLabel = new JLabel("Texture Viewer");
 		textureAddButton = new JButton("Add");
 		textureDelButton = new JButton("Remove");
 		textureListBox = new JList();
 		texturePreview = new Canvas();
+		
+		//LevelView
+		levelView = new JPanel();
+		levelLabel = new JLabel("Level Options");
+		levelLoadButton = new JButton("Load");
+		levelSaveButton = new JButton("Save");
 		
 		//Make it so closing the window closes the program
 		window.addWindowListener(new WindowAdapter(){
@@ -83,9 +103,11 @@ public class Window {
 		RightPane.setSize((int)(chosenMode.getWidth()*(.275)), chosenMode.getHeight());
 		
 		window.setLayout(new FlowLayout());
+		
 		RightPane.setLayout(new BorderLayout());
 		RightPane.setBackground(new Color(0,0,0));
 		RightPane.add(textureView, BorderLayout.PAGE_START);
+		RightPane.add(levelView);
 		
 		//layout the window
 		window.add(GLView);
@@ -95,6 +117,9 @@ public class Window {
 		
 		//layout the texture panel
 		setupTextureView();
+		
+		//layout the Level panel
+		setupLevelView();
 		
 		try {
 		    Display.create();
@@ -129,15 +154,57 @@ public class Window {
 		//layout TextureView
 		
 		textureView.setLayout(new BoxLayout(textureView, BoxLayout.PAGE_AXIS));
-		
-		textureView.add(new JLabel("Texture Viewer"));
+		textureView.setAlignmentX(BoxLayout.Y_AXIS);
+		textureView.add(textureLabel);
 		textureView.add(texturePreview);
 		textureView.add(textureListBox);
 		textureView.add(textureAddButton);
 		textureView.add(textureDelButton);
 		
-		RightPane.setLayout(new FlowLayout());
+
 		texturePreview.setSize(128, 128);
 		textureView.setVisible(true);
+	}
+	
+	public void setupLevelView() {
+		levelView.setLayout(new FlowLayout());
+		levelView.setAlignmentX(Component.LEFT_ALIGNMENT);
+		levelView.add(levelLabel);
+		levelView.add(levelLoadButton);
+		levelView.add(levelSaveButton);
+		
+        levelSaveButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+            	try {
+					level.save();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+                System.out.println("You saved the level\n");
+            }
+        });  
+        
+        levelLoadButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+            	try {
+					level.load();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (LWJGLException e1) {
+					e1.printStackTrace();
+				}
+                System.out.println("You loaded the level\n");
+            }
+        });  
+	}
+	
+	public JFrame getWindow() {
+		return window;
 	}
 }

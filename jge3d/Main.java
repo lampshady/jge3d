@@ -22,8 +22,10 @@ public class Main {
 			Level level;
 			Renderer render;
 			
+			level = new Level();
+			
 			//create the window and all that jazz
- 			window = new Window();
+ 			window = new Window(level);
 			
 			//Renderer for drawing stuff
 			render = new Renderer();
@@ -37,7 +39,7 @@ public class Main {
 			//Read in a level 
 			BufferedReader levelfile;
 			levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
-			level = new Level(levelfile, physics, render);
+			level.setLevel(levelfile, physics, render, window);
 			
 			//Camera
 			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
@@ -55,7 +57,7 @@ public class Main {
 			while (isRunning) {
 				//read keyboard and mouse
 				input.handleMouse(camera, window, physics, editor, level);
-				input.handleKeyboard();
+				input.handleKeyboard(level);
 				
 				//Update the world's physical layout
 				physics.clientUpdate();

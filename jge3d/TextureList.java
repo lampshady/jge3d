@@ -36,4 +36,8 @@ public class TextureList {
 	public String getPath() {
 		return path;
 	}
+	
+	public String toString() {
+		return "T;" + group + ";" + name + ";" + path;
+	}
 }

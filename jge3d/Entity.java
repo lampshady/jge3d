@@ -27,4 +27,8 @@ public class Entity {
 	public String getTextureName() {
 		return texture_name;
 	}
+	
+	public String toString() {
+		return type + ";" + position.x + "," + position.y + "," + position.z + ";" + texture_name;
+	}
 }

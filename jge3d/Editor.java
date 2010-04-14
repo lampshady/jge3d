@@ -35,7 +35,7 @@ public class Editor {
 	
 	public Entity getCurrentBlock() {
 		String texture="dirt1";
-		char type=1;
+		char type='L';
 		return new Entity(type, current_position_vector, texture,true);
 	}
 }

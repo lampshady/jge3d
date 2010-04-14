@@ -78,7 +78,7 @@ class Input {
 					if( !(Mouse.isButtonDown(1)) ) 
 					{
 						level.addEntity(editor.getCurrentBlock());
-						level.opengldrawtolist(physics);
+						level.opengldrawtolist();
 					}
 					break;
 				case 2://Middle Button
@@ -97,12 +97,12 @@ class Input {
 		}
 	}
 	
-	public void handleKeyboard() throws LWJGLException
+	public void handleKeyboard(Level level) throws LWJGLException, IOException
 	{
 		while(Keyboard.next())
 		{
 			Keyboard.poll();
-			System.out.print("!!!" + Keyboard.getEventKey() + "!!!");
+			
 			switch(Keyboard.getEventCharacter())
 			{
 			case 'w':	
@@ -110,8 +110,10 @@ class Input {
 			case 'a':
 				break;
 			case 's':
+				level.save();
 				break;
 			case 'd':
+				level.load();
 				break;
 			}
 		}
