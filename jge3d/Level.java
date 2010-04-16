@@ -46,7 +46,7 @@ public class Level {
 	}
 	
 	public void setLevel(BufferedReader ref, Physics _physics, Renderer _render, Window _window) throws IOException, LWJGLException {
-		objectlist = GL11.glGenLists(2);
+		objectlist = GL11.glGenLists(1);
 		render = _render;
 		window = _window;
 		physics = _physics;

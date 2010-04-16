@@ -13,6 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -82,6 +83,41 @@ public class Window {
 		levelLabel = new JLabel("Level Options");
 		levelLoadButton = new JButton("Load");
 		levelSaveButton = new JButton("Save");
+
+		//layout the window
+		chosenMode = new DisplayMode(targetWidth, targetHeight);
+		window.setLayout(null);
+		window.setSize( chosenMode.getWidth(), chosenMode.getHeight());
+		window.add(GLView);
+		window.add(RightPane);
+		window.setVisible(true);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
+		RightPane.setSize((int)(chosenMode.getWidth()*(.275)), chosenMode.getHeight());
+		GLView.setBounds(0,0,((int)(chosenMode.getWidth()*(.725))),chosenMode.getHeight());
+		RightPane.setBounds(((int)(chosenMode.getWidth()*(.725))),0,((int)(chosenMode.getWidth()*(.275))),chosenMode.getHeight());
+		
+		//Layout right pane
+		RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.PAGE_AXIS));
+		RightPane.setBackground(new Color(0,0,0));
+		RightPane.add(textureView, BorderLayout.PAGE_START);
+		RightPane.add(levelView, BorderLayout.SOUTH);
+		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
+		
+		//layout the texture panel
+		setupTextureView();
+		
+		//layout the Level panel
+		setupLevelView();
+
+		//create a display instance in GLView
+		try {
+			Display.setParent(GLView);
+			Display.create();
+		} catch (LWJGLException e) {
+		    Sys.alert("Unable to create display.", e.toString());
+		    System.exit(0);
+		}
 		
 		//Make it so closing the window closes the program
 		window.addWindowListener(new WindowAdapter(){
@@ -91,45 +127,6 @@ public class Window {
 			}
 		});
 		
-		//Embed display into left pane
-		try{
-			Display.setParent(GLView);
-		}catch(LWJGLException e)
-		{
-			Sys.alert("Unable to set parent.", e.toString());
-		    System.exit(0);
-		}
-		 
-		chosenMode = new DisplayMode(targetWidth, targetHeight);
-	
-		GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
-		RightPane.setSize((int)(chosenMode.getWidth()*(.275)), chosenMode.getHeight());
-		
-		window.setLayout(new FlowLayout());
-		
-		RightPane.setLayout(new BorderLayout());
-		RightPane.setBackground(new Color(0,0,0));
-		RightPane.add(textureView, BorderLayout.PAGE_START);
-		RightPane.add(levelView);
-		
-		//layout the window
-		window.add(GLView);
-		window.add(RightPane);
-		window.setSize( chosenMode.getWidth(), chosenMode.getHeight());
-		window.setVisible(true);
-		
-		//layout the texture panel
-		setupTextureView();
-		
-		//layout the Level panel
-		setupLevelView();
-		
-		try {
-		    Display.create();
-		} catch (LWJGLException e) {
-		    Sys.alert("Unable to create display.", e.toString());
-		    System.exit(0);
-		}
 	}
 	
 	public void updateFPS() {
