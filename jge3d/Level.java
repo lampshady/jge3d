@@ -148,7 +148,6 @@ public class Level {
 		
 		Vector3f position;
 		objectlist = GL11.glGenLists(1);
-		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 		GL11.glPushMatrix();
 		position=newEnt.getPosition();
 
