@@ -42,10 +42,7 @@ public class Window {
 	static DisplayMode chosenMode = null;
 	
 	//Level controls
-	static JPanel levelView;
-	static JLabel levelLabel;
-	static JButton levelLoadButton;
-	static JButton levelSaveButton;
+
 	
 	//frame rate calculations
 	static long prev_time=0;
@@ -139,41 +136,7 @@ public class Window {
 	} 
 	
 	public void setupLevelView() {
-		levelView.setLayout(new FlowLayout());
-		levelView.setAlignmentX(Component.LEFT_ALIGNMENT);
-		levelView.add(levelLabel);
-		levelView.add(levelLoadButton);
-		levelView.add(levelSaveButton);
 		
-        levelSaveButton.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent e)
-            {
-                //Execute when button is pressed
-            	try {
-					level.save();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-                System.out.println("You saved the level\n");
-            }
-        });  
-        
-        levelLoadButton.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent e)
-            {
-                //Execute when button is pressed
-            	try {
-					level.load();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (LWJGLException e1) {
-					e1.printStackTrace();
-				}
-                System.out.println("You loaded the level\n");
-            }
-        });  
 	}
 	
 	public JFrame getWindow() {
