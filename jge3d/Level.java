@@ -35,6 +35,7 @@ public class Level {
 	}
 	
 	public Level(BufferedReader ref, Physics _physics, Renderer _render, Window _window) throws IOException, LWJGLException {
+		objectlist = GL11.glGenLists(1);
 		physics = _physics;
 		render = _render;
 		window = _window;
@@ -45,6 +46,7 @@ public class Level {
 	}
 	
 	public void setLevel(BufferedReader ref, Physics _physics, Renderer _render, Window _window) throws IOException, LWJGLException {
+		objectlist = GL11.glGenLists(2);
 		render = _render;
 		window = _window;
 		physics = _physics;
@@ -121,9 +123,7 @@ public class Level {
 		Display.makeCurrent();
 		
 		Vector3f position;
-		GL11.glDeleteLists(objectlist, 1);
-		
-		objectlist = GL11.glGenLists(1);
+
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 			for(int i=0;i<level_ents.size();i++) {
 				GL11.glPushMatrix();
@@ -146,27 +146,33 @@ public class Level {
 	public void opengladdtolist(Entity newEnt) throws LWJGLException, FileNotFoundException, IOException {
 		Display.makeCurrent();
 		
-		Vector3f position;
-		objectlist = GL11.glGenLists(1);
-		GL11.glPushMatrix();
-		position=newEnt.getPosition();
+		//Variable to hold position of new level piece
+		Vector3f position=newEnt.getPosition();
 
+		//Replace old display list with new one containing new level object
+		GL11.glPushMatrix();
+		GL11.glNewList(objectlist,GL11.GL_COMPILE);
+			for(int i=0;i<level_ents.size();i++) {
+				GL11.glPushMatrix();
+				position=level_ents.get(i).getPosition();
+				
+				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,-position.z*cube_size);
+				render.drawcube(level_ents.get(i).getTextureName(), cube_size);
+				GL11.glPopMatrix();
+			}
+		GL11.glEndList();
+		GL11.glPopMatrix();
+		
+		//Add physics just for the new object
 		if(newEnt.getCollidable() == true) {
 			physics.addLevelBlock(position.x,position.y,position.z,cube_size);
 		}
-		
-		GL11.glTranslatef(position.x*cube_size,position.y*cube_size,-position.z*cube_size);
-		render.drawcube(newEnt.getTextureName(), cube_size);
-		GL11.glPopMatrix();
-			
-		GL11.glEndList();
-		
 		Display.releaseContext();
 	}
 	
 	public void opengldraw() {
 		GL11.glPushMatrix();
-		GL11.glCallList(objectlist);
+			GL11.glCallList(objectlist);
 		GL11.glPopMatrix();
 	}
 	
