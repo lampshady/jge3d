@@ -1,6 +1,7 @@
 package jge3d;
 
 import java.awt.BorderLayout;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
@@ -27,6 +28,7 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+
 public class Window {
 	//window components
 	static JFrame window;
@@ -35,16 +37,9 @@ public class Window {
 	static JPanel LeftPane;
 	static Canvas GLView;
 	static JPanel RightPane;
-	static JPanel textureView;
+	static TextureView textureView;
 	static JPanel TreeView;
 	static DisplayMode chosenMode = null;
-	
-	//TextureView controls
-	static JLabel textureLabel;
-	static JButton textureAddButton;
-	static JButton textureDelButton;
-	static JList textureListBox;
-	static JPanel texturePreview;
 	
 	//Level controls
 	static JPanel levelView;
@@ -70,12 +65,7 @@ public class Window {
 		RightPane = new JPanel();
 		
 		//TextureView
-		textureView = new JPanel();
-		textureLabel = new JLabel("Texture Viewer");
-		textureAddButton = new JButton("Add");
-		textureDelButton = new JButton("Remove");
-		textureListBox = new JList();
-		texturePreview = new JPanel();
+		textureView = new TextureView(window);
 		
 		//LevelView
 		levelView = new JPanel();
@@ -118,9 +108,6 @@ public class Window {
 		window.setSize( chosenMode.getWidth(), chosenMode.getHeight());
 		window.setVisible(true);
 		
-		//layout the texture panel
-		setupTextureView();
-		
 		//layout the Level panel
 		setupLevelView();
 		
@@ -150,53 +137,6 @@ public class Window {
 	public int getGLHeight() {
 		return GLView.getHeight();
 	} 
-	
-	public void setupTextureView()
-	{
-		//textureView.removeAll();
-		//layout TextureView
-		
-		textureView.setLayout(new BoxLayout(textureView, BoxLayout.PAGE_AXIS));
-		textureView.setAlignmentX(BoxLayout.Y_AXIS);
-		textureView.add(textureLabel);
-		textureView.add(texturePreview);
-		textureView.add(textureListBox);
-		textureView.add(textureAddButton);
-		textureView.add(textureDelButton);
-		
-
-		texturePreview.setSize(128, 128);
-		texturePreview.setVisible(true);
-		
-		textureAddButton.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent e)
-            {
-                final JFileChooser fc_level = new JFileChooser("lib/Textures/");
-				fc_level.showOpenDialog(window);
-				Image image = Toolkit.getDefaultToolkit().getImage(fc_level.getSelectedFile().getPath());
-                System.out.println("You loaded the texture:" +fc_level.getSelectedFile().getPath() + "\n");
-                
-                // Use the image width & height to find the starting point
-                int imgX = 128/2 - 128;//image.getWidth(IO);
-                int imgY = 128/2 - 128;//image.getHeight(IO);
-
-                //Draw image centered in the middle of the panel    
-                texturePreview.getGraphics().drawImage (image, imgX, imgY, texturePreview);
-            }
-        });  
-        
-        textureDelButton.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent e)
-            {
-            	
-                System.out.println("You deleted the texture\n");
-            }
-        });  
-		
-		
-	}
 	
 	public void setupLevelView() {
 		levelView.setLayout(new FlowLayout());
