@@ -44,7 +44,7 @@ public class Window {
 	static JButton textureAddButton;
 	static JButton textureDelButton;
 	static JList textureListBox;
-	static JPanel texturePreview;
+	static JLabel texturePreview;
 	
 	//Level controls
 	static JPanel levelView;
@@ -75,7 +75,7 @@ public class Window {
 		textureAddButton = new JButton("Add");
 		textureDelButton = new JButton("Remove");
 		textureListBox = new JList();
-		texturePreview = new JPanel();
+		texturePreview = new JLabel();
 		
 		//LevelView
 		levelView = new JPanel();

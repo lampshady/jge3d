@@ -122,6 +122,7 @@ public class Level {
 		
 		Vector3f position;
 		GL11.glDeleteLists(objectlist, 1);
+		
 		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 			for(int i=0;i<level_ents.size();i++) {
@@ -142,7 +143,27 @@ public class Level {
 		Display.releaseContext();
 	}
 	
+	public void opengladdtolist(Entity newEnt) throws LWJGLException, FileNotFoundException, IOException {
+		Display.makeCurrent();
+		
+		Vector3f position;
+		objectlist = GL11.glGenLists(1);
+		GL11.glNewList(objectlist,GL11.GL_COMPILE);
+		GL11.glPushMatrix();
+		position=newEnt.getPosition();
 
+		if(newEnt.getCollidable() == true) {
+			physics.addLevelBlock(position.x,position.y,position.z,cube_size);
+		}
+		
+		GL11.glTranslatef(position.x*cube_size,position.y*cube_size,-position.z*cube_size);
+		render.drawcube(newEnt.getTextureName(), cube_size);
+		GL11.glPopMatrix();
+			
+		GL11.glEndList();
+		
+		Display.releaseContext();
+	}
 	
 	public void opengldraw() {
 		GL11.glPushMatrix();
@@ -158,8 +179,9 @@ public class Level {
 		return row_length;
 	}
 	
-	public void addEntity(Entity ent) {
+	public Entity addEntity(Entity ent) {
 		level_ents.add(ent);
+		return ent;
 	}
 	
 	public void load() throws IOException, LWJGLException {
