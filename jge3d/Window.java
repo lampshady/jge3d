@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -92,16 +93,19 @@ public class Window {
 		window.add(RightPane);
 		window.setVisible(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
-		RightPane.setSize((int)(chosenMode.getWidth()*(.275)), chosenMode.getHeight());
+		//GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
+		//RightPane.setSize((int)(chosenMode.getWidth()*(.275)), chosenMode.getHeight());
 		GLView.setBounds(0,0,((int)(chosenMode.getWidth()*(.725))),chosenMode.getHeight());
-		RightPane.setBounds(((int)(chosenMode.getWidth()*(.725))),0,((int)(chosenMode.getWidth()*(.275))),chosenMode.getHeight());
+		RightPane.setBounds(((int)(chosenMode.getWidth()*(.725))),0,((int)(chosenMode.getWidth()*(.275)))-1,chosenMode.getHeight()-30);
+		
+		//System.out.print(window.);
 		
 		//Layout right pane
-		RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.PAGE_AXIS));
+		//RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.Y_AXIS));
 		RightPane.setBackground(new Color(0,0,0));
-		RightPane.add(textureView, BorderLayout.PAGE_START);
-		RightPane.add(levelView, BorderLayout.SOUTH);
+		//RightPane.add();
+		RightPane.add(textureView);
+		RightPane.add(levelView);
 		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
 		
 		//layout the texture panel
@@ -109,7 +113,7 @@ public class Window {
 		
 		//layout the Level panel
 		setupLevelView();
-
+		
 		//create a display instance in GLView
 		try {
 			Display.setParent(GLView);
@@ -126,6 +130,8 @@ public class Window {
 				System.exit(0);
 			}
 		});
+		
+		//window.pack();
 		
 	}
 	
