@@ -15,7 +15,7 @@ public class TextureList {
 	private String path;
 	
 	public TextureList(String _group, String _name, String _path) throws FileNotFoundException, IOException {
-		texture = TextureLoader.getTexture("PNG", new FileInputStream(_path));
+		texture = TextureLoader.getTexture("png", new FileInputStream(_path));
 		name = _name;
 		group = _group;
 		path = _path;

@@ -24,12 +24,12 @@ public class Main {
 			
 			level = new Level();
 			
-			//create the window and all that jazz
- 			window = new Window(level);
-			
 			//Renderer for drawing stuff
 			render = new Renderer();
 			
+			//create the window and all that jazz
+ 			window = new Window(level, render);
+
 			//setup the initial perspective
 			render.initGL(window);
 
@@ -45,25 +45,27 @@ public class Main {
 			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
 			camera.goToStart(level.getHeight(), level.getWidth());
 			
-			//Create inputs
-			input = new Input();
-			
 			//Make an editor
-			editor = new Editor(render);
+			editor = new Editor(render, window);
+			
+			//Create inputs
+			input = new Input(camera, window, physics, editor, level);
 
 			//Just to show off the physics
 			physics.dropBox(17,15,0,1.0f);
 			
+			render.reconstruct(level, editor, physics, camera);
+			
 			while (isRunning) {
 				//read keyboard and mouse
-				input.handleMouse(camera, window, physics, editor, level);
-				input.handleKeyboard(level);
+				input.handleMouse();
+				input.handleKeyboard();
 				
 				//Update the world's physical layout
 				physics.clientUpdate();
 
 				//Draw world
-				render.draw(level, editor, physics, camera);
+				render.draw();
 
 				//Print FPS to title bar
 				window.updateFPS();

@@ -1,14 +1,14 @@
 package jge3d;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -16,13 +16,19 @@ import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -31,37 +37,46 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class Window {
 	//window components
-	static JFrame window;
-	static JSplitPane mainSplit;
-	static JPanel TopPane;
-	static JPanel LeftPane;
-	static Canvas GLView;
-	static JPanel RightPane;
-	static JPanel textureView;
-	static JPanel TreeView;
-	static DisplayMode chosenMode = null;
+	private JFrame window;
+	private Canvas GLView;
+	private JPanel RightPane;
+	private JPanel textureView;
+	private DisplayMode chosenMode = null;
 	
 	//TextureView controls
-	static JLabel textureLabel;
-	static JButton textureAddButton;
-	static JButton textureDelButton;
-	static JList textureListBox;
-	static JLabel texturePreview;
+	private JLabel textureLabel;
+	private JButton textureAddButton;
+	private JButton textureDelButton;
+	private JTree textureTree;
+	private JLabel texturePreview;
+	//Tree controls
+	private DefaultMutableTreeNode textureRootNode;
+	private DefaultTreeModel textureTreeModel;
 	
 	//Level controls
-	static JPanel levelView;
-	static JLabel levelLabel;
-	static JButton levelLoadButton;
-	static JButton levelSaveButton;
+	private JPanel levelView;
+	private JLabel levelLabel;
+	private JButton levelLoadButton;
+	private JButton levelSaveButton;
+	
+	//EditorView
+	private JPanel editorView;
+	private JButton editorLayerNext;
+	private JButton editorLayerPrev;
+	private JTextField editorLayerField;
+	private JLabel editorLabel;
+	private int current_layer=0;
 	
 	//frame rate calculations
-	static long prev_time=0;
-	static int frames=0;
+	private long prev_time=0;
+	private int frames=0;
 	
-	Level level;
+	private Level level;
+	private Renderer render;
 	
-	public Window(Level _level) {
+	public Window(Level _level, Renderer _render) {
 		level = _level;
+		render = _render;
 		// Set the target size of the window.
 		int targetWidth = 1024;
 		int targetHeight = 768;
@@ -76,36 +91,61 @@ public class Window {
 		textureLabel = new JLabel("Texture Viewer");
 		textureAddButton = new JButton("Add");
 		textureDelButton = new JButton("Remove");
-		textureListBox = new JList();
 		texturePreview = new JLabel();
+		initTree();
 		
 		//LevelView
 		levelView = new JPanel();
 		levelLabel = new JLabel("Level Options");
 		levelLoadButton = new JButton("Load");
 		levelSaveButton = new JButton("Save");
-
+		
+		//EditorView
+		editorView = new JPanel();
+		editorLayerNext = new JButton("=>");
+		editorLayerPrev = new JButton("<=");
+		editorLayerField = new JTextField(String.valueOf(current_layer));
+		editorLabel = new JLabel("Editor");		
+		
 		//layout the window
 		chosenMode = new DisplayMode(targetWidth, targetHeight);
-		window.setLayout(null);
+		window.setLayout(new FlowLayout());
 		window.setSize( chosenMode.getWidth(), chosenMode.getHeight());
 		window.add(GLView);
 		window.add(RightPane);
-		window.setVisible(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//GLView.setSize((int)(chosenMode.getWidth()*(.725)), chosenMode.getHeight());
-		//RightPane.setSize((int)(chosenMode.getWidth()*(.275)), chosenMode.getHeight());
-		GLView.setBounds(0,0,((int)(chosenMode.getWidth()*(.725))),chosenMode.getHeight());
-		RightPane.setBounds(((int)(chosenMode.getWidth()*(.725))),0,((int)(chosenMode.getWidth()*(.275)))-1,chosenMode.getHeight()-30);
 		
-		//System.out.print(window.);
-		
+		GLView.setPreferredSize(
+			new Dimension( 
+				((int)(chosenMode.getWidth()*(.725))),
+				chosenMode.getHeight()
+			)
+		);
+		RightPane.setPreferredSize(
+				new Dimension( 
+					((int)(chosenMode.getWidth()*(.275))),
+					chosenMode.getHeight()
+				)
+		);
+		GLView.setBounds(
+			0,
+			0,
+			((int)(chosenMode.getWidth()*(.725))),
+			chosenMode.getHeight()
+		);
+		RightPane.setBounds(
+			((int)(chosenMode.getWidth()*(.725))),
+			0,
+			((int)(chosenMode.getWidth()*(.275))),
+			chosenMode.getHeight()
+		);
+
 		//Layout right pane
 		//RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.Y_AXIS));
 		RightPane.setBackground(new Color(0,0,0));
-		//RightPane.add();
 		RightPane.add(textureView);
 		RightPane.add(levelView);
+		RightPane.add(editorView);
 		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
 		
 		//layout the texture panel
@@ -113,6 +153,13 @@ public class Window {
 		
 		//layout the Level panel
 		setupLevelView();
+		
+		//layout the editor panel
+		setupEditorView();
+		
+		window.validate();
+		window.pack();
+		window.setVisible(true);
 		
 		//create a display instance in GLView
 		try {
@@ -130,9 +177,18 @@ public class Window {
 				System.exit(0);
 			}
 		});
-		
-		//window.pack();
-		
+		//Force minimum size of window
+		window.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent event) {
+				final int initialWidth = (int) window.getSize().getWidth();
+				final int initialHeight = (int) window.getSize().getHeight();
+				System.out.print(window.getSize().getWidth() + " " + window.getSize().getHeight());
+				window.setSize(
+					Math.max(initialWidth, window.getWidth()),
+					Math.max(initialHeight, window.getHeight())
+				);
+			}
+			});
 	}
 	
 	public void updateFPS() {
@@ -156,54 +212,42 @@ public class Window {
 	
 	public void setupTextureView()
 	{
-		//textureView.removeAll();
-		//layout TextureView
-		
-		textureView.setLayout(new BoxLayout(textureView, BoxLayout.PAGE_AXIS));
-		textureView.setAlignmentX(BoxLayout.Y_AXIS);
+		textureView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 400));
+		textureView.setLayout(new BoxLayout(textureView, BoxLayout.Y_AXIS));
 		textureView.add(textureLabel);
 		textureView.add(texturePreview);
-		textureView.add(textureListBox);
+		textureView.add(textureTree);
 		textureView.add(textureAddButton);
 		textureView.add(textureDelButton);
-		
+		texturePreview.setPreferredSize(new Dimension(128, 128));
+		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
-		texturePreview.setSize(128, 128);
-		texturePreview.setVisible(true);
-		
 		textureAddButton.addActionListener(new ActionListener() {
-            
             public void actionPerformed(ActionEvent e)
             {
-                final JFileChooser fc_level = new JFileChooser("lib/Textures/");
-				fc_level.showOpenDialog(window);
-				Image image = Toolkit.getDefaultToolkit().getImage(fc_level.getSelectedFile().getPath());
-                System.out.println("You loaded the texture:" +fc_level.getSelectedFile().getPath() + "\n");
-                
-                // Use the image width & height to find the starting point
-                int imgX = 128/2 - 128;//image.getWidth(IO);
-                int imgY = 128/2 - 128;//image.getHeight(IO);
+                final JFileChooser fc_texture = new JFileChooser("lib/Textures/");
+				fc_texture.showOpenDialog(window);
+                System.out.println("You loaded the texture:" +fc_texture.getSelectedFile().getPath() + "\n");
 
                 //Draw image centered in the middle of the panel    
-                texturePreview.getGraphics().drawImage (image, imgX, imgY, texturePreview);
+                texturePreview.setIcon(new ImageIcon(fc_texture.getSelectedFile().getPath()));
+                //updateTree();
             }
         });  
         
         textureDelButton.addActionListener(new ActionListener() {
-            
             public void actionPerformed(ActionEvent e)
             {
-            	
                 System.out.println("You deleted the texture\n");
             }
         });  
-		
-		
 	}
 	
+	//Contains editor commands pertaining to the level (currently saving and loading)
 	public void setupLevelView() {
-		levelView.setLayout(new FlowLayout());
-		levelView.setAlignmentX(Component.LEFT_ALIGNMENT);
+		//levelView.setLayout(new FlowLayout());
+		//levelView.setAlignmentX(Component.LEFT_ALIGNMENT);
+		levelView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 200));
 		levelView.add(levelLabel);
 		levelView.add(levelLoadButton);
 		levelView.add(levelSaveButton);
@@ -239,7 +283,93 @@ public class Window {
         });  
 	}
 	
+	//Contains all current editor commands (currently layer)
+	private void setupEditorView()
+	{
+		editorView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 25));
+		editorView.setLayout(new BoxLayout(editorView, BoxLayout.X_AXIS));
+		editorView.add(editorLabel);
+		editorView.add(Box.createHorizontalGlue());
+		editorView.add(editorLayerPrev);
+		editorView.add(editorLayerField);
+		editorView.add(editorLayerNext);
+
+		editorLayerPrev.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+                current_layer--;
+                editorLayerField.setText(String.valueOf(current_layer));
+            }
+        });  
+        
+		editorLayerNext.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+            	current_layer++;
+            	editorLayerField.setText(String.valueOf(current_layer));
+            }
+        });  
+	}
+	
 	public JFrame getWindow() {
 		return window;
+	}
+	
+	public int getLayer() {
+		return current_layer;
+	}
+	
+	//Create the texture tree
+	private void initTree() {
+		textureRootNode = new DefaultMutableTreeNode("Textures");
+		textureTreeModel = new DefaultTreeModel(textureRootNode);
+		textureTreeModel.addTreeModelListener(new textureTreeListener());
+
+		textureTree = new JTree(textureTreeModel);
+		textureTree.setEditable(true);
+		textureTree.getSelectionModel().setSelectionMode
+		        (TreeSelectionModel.SINGLE_TREE_SELECTION);
+		textureTree.setShowsRootHandles(true);
+		textureTree.setPreferredSize(new Dimension(RightPane.getWidth(), 100));
+	}
+	
+	//Called when adding new textures
+	private void updateTree() {
+		textureTreeModel.removeNodeFromParent(textureRootNode);
+		textureTreeModel = new DefaultTreeModel(textureRootNode);
+		int index = 0;
+		for(String key: render.getHash().keySet()) {
+			textureTreeModel.insertNodeInto(new DefaultMutableTreeNode(render.getHash().get(key).getGroup()), textureRootNode, index);
+			index++;
+			render.getHash().get(key).getName();
+		}
+	}
+	
+	//Defines the actions taken when something happens to the tree
+	private class textureTreeListener implements TreeModelListener {
+	    public void treeNodesChanged(TreeModelEvent e) {
+	        DefaultMutableTreeNode node;
+	        node = (DefaultMutableTreeNode)
+	                 (e.getTreePath().getLastPathComponent());
+	        /*
+	         * If the event lists children, then the changed
+	         * node is the child of the node we have already
+	         * gotten.  Otherwise, the changed node and the
+	         * specified node are the same.
+	         */
+	        try {
+	            int index = e.getChildIndices()[0];
+	            node = (DefaultMutableTreeNode)
+	                   (node.getChildAt(index));
+	        } catch (NullPointerException exc) {}
+
+	        System.out.println("New value: " + node.getUserObject());
+	    }
+	    public void treeNodesInserted(TreeModelEvent e) {
+	    }
+	    public void treeNodesRemoved(TreeModelEvent e) {
+	    }
+	    public void treeStructureChanged(TreeModelEvent e) {
+	    }
 	}
 }

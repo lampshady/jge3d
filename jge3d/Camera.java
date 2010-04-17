@@ -11,31 +11,19 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 
-
-//Maybe we'll use it, maybe we won't?
 public class Camera {
-	float[] position;					//x, y, z
-	float declination;					//Angle up and down
-	float rotation;						//Angle left and right
-	float[] focus;						//x, y, z of target
-	float distance;						//distance from focus
-	Vector3f up_vector;					//vector pointing up
+	private float[] position;					//x, y, z
+	private float declination;					//Angle up and down
+	private float rotation;						//Angle left and right
+	private float[] focus;						//x, y, z of target
+	private float distance;						//distance from focus
+	private Vector3f up_vector;					//vector pointing up
 	
 	//Don't flip over, its confusing.
-	float maximum_declination = 89.9f;
-	float minimum_declination = 0.1f;
+	private float maximum_declination = 89.9f;
+	private float minimum_declination = 0.1f;
 	
-	//field of view
-	double fovy;
-	double fovx;
-	double x;
-	double y;
-	
-	float screen_height;
-	float screen_width;
-	
-	
-	Camera(float height, float width){
+	public Camera(float height, float width){
 		//initial setup (float about 0,0,0 I guess?
 		
 		position = new float[3];
@@ -52,15 +40,9 @@ public class Camera {
 		distance = 63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
-		
-		//Feild of View calculations
-		screen_height = height;
-		screen_width = width;
-		fovx = (float)Math.PI / 4;
-		fovy = (height/width) * fovx;
 	}
 	
-	Camera(float x, float y, float z, float height, float width)
+	public Camera(float x, float y, float z, float height, float width)
 	{
 		position = new float[3];
 		focus = new float[3];
@@ -74,12 +56,6 @@ public class Camera {
 		distance = 63.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
-		
-		//FOV calculations
-		screen_height = height;
-		screen_width = width;
-		fovx = (float)Math.PI / 4;
-		fovy = (height/width) * fovx;
 	}
 	
 	float getPositionX()
@@ -100,6 +76,21 @@ public class Camera {
 	Vector3f getUp()
 	{
 		return up_vector;
+	}
+	
+	float getUpVectorX()
+	{
+		return up_vector.x;
+	}
+	
+	float getUpVectorY()
+	{
+		return up_vector.y;
+	}
+	
+	float getUpVectorZ()
+	{
+		return up_vector.z;
 	}
 	
 	float getFocusX()

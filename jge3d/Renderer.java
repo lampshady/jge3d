@@ -11,15 +11,26 @@ import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.Texture;
 
 class Renderer {
-	HashMap<String, TextureList> textures;
+	private HashMap<String, TextureList> textures;
+	private Level level;
+	private Editor editor;
+	private Physics physics;
+	private Camera camera;
 	
 	public Renderer() {
 		textures = new HashMap<String, TextureList>();
 	}
 	
+	public void reconstruct(Level _level, Editor _editor, Physics _physics, Camera _camera) {
+		level=_level;
+		editor=_editor;
+		physics=_physics;
+		camera=_camera;
+	}
+	
 	public void drawcube(String texture_name, float cube_size) throws FileNotFoundException, IOException {		
 		//bind a texture for drawing
-		getTexture(texture_name).bind();
+		getTextureByName(texture_name).bind();
 
         GL11.glBegin(GL11.GL_QUADS);
 	        // Front Face
@@ -84,7 +95,7 @@ class Renderer {
         GL11.glEnd();
 	}
 	
-	public void draw(Level level, Editor editor, Physics physics, Camera camera) throws LWJGLException, FileNotFoundException, IOException
+	public void draw() throws LWJGLException, FileNotFoundException, IOException
 	{
 		//Make sure that the screen is active
 		Display.makeCurrent();
@@ -97,7 +108,7 @@ class Renderer {
 		GLU.gluLookAt(
 				camera.getPositionX()	, camera.getPositionY()	,	camera.getPositionZ(),
 				camera.getFocusX()		, camera.getFocusY()	,	camera.getFocusZ(),
-				camera.up_vector.x		, camera.up_vector.y	,	camera.up_vector.z
+				camera.getUpVectorX()	, camera.getUpVectorY()	,	camera.getUpVectorZ()
 		);
 		
         //render level
@@ -137,7 +148,7 @@ class Renderer {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
-	public Texture getTexture(String key) {
+	public Texture getTextureByName(String key) {
 		return textures.get(key).getTexture();
 	}
 	
@@ -151,5 +162,9 @@ class Renderer {
 	
 	public HashMap<String, TextureList> getHash() {
 		return textures;
+	}
+	
+	public void clearTextureList() {
+		textures.clear();
 	}
 }

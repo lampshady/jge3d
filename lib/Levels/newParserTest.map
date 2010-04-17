@@ -2,6 +2,8 @@ header
 	T;ground;grass1;lib/Textures/grass1.png
 	T;ground;dirt1;lib/Textures/dirt1.png
 	T;ground;cube1;lib/Textures/cube1.png
+	T;brick;brick1;lib/Textures/brick1.png
+	T;brick;brick2;lib/Textures/brick2.png
 /header
 
 level

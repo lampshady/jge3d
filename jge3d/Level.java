@@ -17,18 +17,17 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public class Level {
-	float cube_size = 1.0f;
-	int row_length=0;
-	int col_length=0;
+	private float cube_size = 1.0f;
+	private int row_length=0;
+	private int col_length=0;
 	private int objectlist;
-	String nextline;
-	char type;
-	List<Entity> level_ents;
-	Physics physics;
-	Window window;
-	
-	public static String newline = System.getProperty("line.separator");
-	Renderer render;
+	private String nextline;
+	private char type;
+	private List<Entity> level_ents;
+	private Physics physics;
+	private Window window;
+	private Renderer render;
+	//private static String newline = System.getProperty("line.separator");
 	
 	public Level() {
 		
@@ -193,6 +192,8 @@ public class Level {
 		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
 		fc_level.showOpenDialog(window.getWindow());
 		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
+		render.clearTextureList();
+		level_ents.clear();
 		loadlevel(levelfile);
 		opengldrawtolist();
 		cleanup();
@@ -221,5 +222,4 @@ public class Level {
 		bw.flush();
 		bw.close();
 	}
-
 }

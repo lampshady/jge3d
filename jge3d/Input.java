@@ -10,79 +10,72 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 class Input {
-	int deltaX, deltaY;
-	int mouseX, mouseY;
+	private int deltaX, deltaY;	
+	private Camera camera;
+	private Window window;
+	private Physics physics;
+	private Editor editor;
+	private Level level;
 	
-	public Input() throws LWJGLException
-	{
+	public Input(Camera _camera, Window _window, Physics _physics, Editor _editor, Level _level) throws LWJGLException {
+		camera=_camera;
+		window=_window;
+		physics=_physics;
+		editor=_editor;
+		level=_level;
+		
 		Mouse.create();
 		Mouse.setNativeCursor(null);
 		Keyboard.create();
 	}
 
-	public void handleMouse(Camera camera, Window window, Physics physics, Editor editor, Level level) throws LWJGLException, FileNotFoundException, IOException 
-	{
+	public void handleMouse() throws LWJGLException, FileNotFoundException, IOException {
 		//Handle Mouse Events here
-		while(Mouse.next())
-		{
-			
+		while(Mouse.next())	{
 			Mouse.poll();
 			
 			//update the changes in position
 			deltaX = Mouse.getEventDX();
 			deltaY = Mouse.getEventDY();
 
-			//mouseX = Mouse.getX();
-			//mouseY = Mouse.getY();
-			
-			
-			
-			switch(Mouse.getEventButton())
-			{
+			switch(Mouse.getEventButton()) {
 				case -1://Mouse Movement
-					if(Mouse.isInsideWindow())
-					{
-						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), 0, camera);
-						if(Mouse.isButtonDown(0))
-						{
+					if(Mouse.isInsideWindow()) {
+						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getLayer(), camera);
+						if(Mouse.isButtonDown(0)) {
 							//Pan camera Z
-							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) )
-							{
+							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ) {
 								camera.incrementDistance(-1.0f*deltaY);	
-							}else{
+							} else {
 								camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
 							}
 						}
 						
-						if(Mouse.isButtonDown(1))
-						{
+						if(Mouse.isButtonDown(1)) {
 							//Change angle of camera
 	
 						}
 						
-						if(Mouse.isButtonDown(2))
-						{
+						if(Mouse.isButtonDown(2)) {
 							//Change Perspective
 	
 						}
 					}
 					break;
 				case 0://Left Button
-					if( Mouse.isButtonDown(0) )
-					{
-					}else
-					{
+					if( Mouse.isButtonDown(0) )	{
+						
+					} else {
+						
 					}
 					break;
 				case 1://Right Button
-					if( !(Mouse.isButtonDown(1)) ) 
-					{
+					if( !(Mouse.isButtonDown(1)) ) {
 						level.opengladdtolist(level.addEntity(editor.getCurrentBlock()));
 					}
 					break;
 				case 2://Middle Button
-					if( !(Mouse.isButtonDown(1)) ) 
-					{
+					if( !(Mouse.isButtonDown(1)) ) {
 						Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
 						physics.dropBox(ray.x,ray.y,ray.z,1);
 					}
@@ -96,14 +89,11 @@ class Input {
 		}
 	}
 	
-	public void handleKeyboard(Level level) throws LWJGLException, IOException
-	{
-		while(Keyboard.next())
-		{
+	public void handleKeyboard() throws LWJGLException, IOException {
+		while(Keyboard.next()) {
 			Keyboard.poll();
 			
-			switch(Keyboard.getEventCharacter())
-			{
+			switch(Keyboard.getEventCharacter()) {
 			case 'w':	
 				break;
 			case 'a':

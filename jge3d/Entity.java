@@ -3,11 +3,10 @@ package jge3d;
 import javax.vecmath.Vector3f;
 
 public class Entity {
-	char type;
-	Vector3f position = new Vector3f();
-	String texture_name;
-	boolean collidable;
-	Renderer render = new Renderer();
+	private char type;
+	private Vector3f position = new Vector3f();
+	private String texture_name;
+	private boolean collidable;
 	
 	public Entity(char _type, Vector3f _pos, String _texture_name, boolean _collidable) {
 		type=_type;
@@ -29,6 +28,6 @@ public class Entity {
 	}
 	
 	public String toString() {
-		return type + ";" + position.x + "," + position.y + "," + position.z + ";" + texture_name;
+		return type + ";" + (int)position.x + "," + (int)position.y + "," + (int)position.z + ";" + texture_name;
 	}
 }
