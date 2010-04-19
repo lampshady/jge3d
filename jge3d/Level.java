@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import javax.vecmath.Vector3f;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
+
 import org.lwjgl.opengl.GL11;
 
 public class Level {
@@ -121,28 +121,6 @@ public class Level {
 
 	public void opengldrawtolist() throws LWJGLException, FileNotFoundException, IOException {
 		Vector3f position;
-		
-		Display.makeCurrent();
-		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-			for(int i=0;i<level_ents.size();i++) {
-				GL11.glPushMatrix();
-				position=level_ents.get(i).getPosition();
-
-				if(level_ents.get(i).getCollidable() == true) {
-					physics.addLevelBlock(position.x,position.y,position.z,cube_size);
-				}
-				
-				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,-position.z*cube_size);
-				render.drawcube(level_ents.get(i).getTextureName(), cube_size);
-				GL11.glPopMatrix();
-			
-			}
-		GL11.glEndList();
-		Display.releaseContext();
-	}
-	
-	public void durr() throws LWJGLException, FileNotFoundException, IOException {
-		Vector3f position;
 
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 			for(int i=0;i<level_ents.size();i++) {
@@ -160,11 +138,11 @@ public class Level {
 			}
 		GL11.glEndList();
 	}
-	
+
 	public void opengladdtolist(Entity newEnt) throws LWJGLException, FileNotFoundException, IOException {
 		//Variable to hold position of new level piece
 		Vector3f position=newEnt.getPosition();
-		Display.makeCurrent();
+
 		//Replace old display list with new one containing new level object
 		GL11.glPushMatrix();
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
@@ -178,7 +156,7 @@ public class Level {
 			}
 		GL11.glEndList();
 		GL11.glPopMatrix();
-		Display.releaseContext();
+
 		//Add physics just for the new object
 		if(newEnt.getCollidable() == true) {
 			physics.addLevelBlock(position.x,position.y,position.z,cube_size);

@@ -6,6 +6,7 @@ import java.io.FileReader;
 
 //LWJGL input
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
 
 public class Main {
 	public static void main(String[] args) throws LWJGLException {
@@ -57,6 +58,7 @@ public class Main {
 			render.reconstruct(level, editor, physics, camera);
 			
 			while (isRunning) {
+				Display.makeCurrent();
 				//read keyboard and mouse
 				input.handleMouse();
 				input.handleKeyboard();
@@ -69,6 +71,12 @@ public class Main {
 
 				//Print FPS to title bar
 				window.updateFPS();
+				
+				//Check if it's time to close
+				if (Display.isCloseRequested())
+					isRunning=false;
+				
+				Display.releaseContext();
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());

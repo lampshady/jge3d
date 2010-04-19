@@ -188,7 +188,7 @@ public class Window {
 					Math.max(initialHeight, window.getHeight())
 				);
 			}
-			});
+		});
 	}
 	
 	public void updateFPS() {
@@ -276,7 +276,7 @@ public class Window {
        			javax.swing.SwingUtilities.invokeLater(new Runnable() {
        				public void run() {
             			try {
-							level.durr();
+							level.load();
 						} catch (IOException e) {
 							e.printStackTrace();
 						} catch (LWJGLException e) {
