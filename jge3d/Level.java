@@ -183,9 +183,10 @@ public class Level {
 	}
 	
 	public void load() throws IOException, LWJGLException {
-		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
-		fc_level.showOpenDialog(window.getWindow());
-		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
+		//final JFileChooser fc_level = new JFileChooser("lib/Levels/");
+		//fc_level.showOpenDialog(window.getWindow());
+		//BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
+		BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
 		level_ents.clear();
 		loadlevel(levelfile);
 		opengldrawtolist();

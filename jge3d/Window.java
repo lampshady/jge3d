@@ -272,19 +272,13 @@ public class Window {
             
             public void actionPerformed(ActionEvent e)
             {
-            	levelLoadButton.setEnabled(false);
-       			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-       				public void run() {
-            			try {
-							level.load();
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (LWJGLException e) {
-							e.printStackTrace();
-						}
-       				}
-       			});
-       			levelLoadButton.setEnabled(true);
+				try {
+					level.load();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (LWJGLException e1) {
+					e1.printStackTrace();
+				}
                 System.out.println("You loaded the level\n");
             }
         });  
