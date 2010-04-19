@@ -119,11 +119,9 @@ class Renderer {
         
 		editor.renderCurrentBlock();
         
-		//Flush the GL buffer
         GL11.glFlush();
-		 
-		// now tell the screen to update
-		Display.update();
+		Display.update();// now tell the screen to update
+		
 		Display.releaseContext();
 	}
 	
@@ -166,5 +164,9 @@ class Renderer {
 	
 	public void clearTextureList() {
 		textures.clear();
+	}
+	
+	public boolean hasKey(String key) {
+		return textures.containsKey(key);
 	}
 }

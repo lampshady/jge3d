@@ -40,7 +40,7 @@ public class Main {
 			BufferedReader levelfile;
 			levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
 			level.setLevel(levelfile, physics, render, window);
-			
+		
 			//Camera
 			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
 			camera.goToStart(level.getHeight(), level.getWidth());
@@ -72,6 +72,7 @@ public class Main {
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
+			e.printStackTrace();
 			System.exit(-1);
 		}
 	}

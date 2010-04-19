@@ -266,18 +266,25 @@ public class Window {
             }
         });  
         
+        //http://forums.sun.com/thread.jspa?threadID=490317
+        //http://mindprod.com/jgloss/swingthreads.html
         levelLoadButton.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e)
             {
-                //Execute when button is pressed
-            	try {
-					level.load();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (LWJGLException e1) {
-					e1.printStackTrace();
-				}
+            	levelLoadButton.setEnabled(false);
+       			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+       				public void run() {
+            			try {
+							level.durr();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (LWJGLException e) {
+							e.printStackTrace();
+						}
+       				}
+       			});
+       			levelLoadButton.setEnabled(true);
                 System.out.println("You loaded the level\n");
             }
         });  

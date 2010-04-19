@@ -23,7 +23,7 @@ public class Editor {
 		 current_position_vector = camera.getRayToPlane(mouseX, mouseY, window.getLayer()); 
 	}
 	
-	public void renderCurrentBlock() throws FileNotFoundException, IOException {
+	public void renderCurrentBlock() throws FileNotFoundException, IOException, LWJGLException {
 		GL11.glPushMatrix();
 			current_position_vector.x = (float)Math.floor(current_position_vector.x);
 			current_position_vector.y = (float)Math.floor(current_position_vector.y);
