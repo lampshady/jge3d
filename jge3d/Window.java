@@ -71,8 +71,12 @@ public class Window {
 	private long prev_time=0;
 	private int frames=0;
 	
+	//local references to other classes
 	private Level level;
 	private Renderer render;
+	
+	//Window queue (to avoid stepping on another threads context)
+	private boolean load_level;
 	
 	public Window(Level _level, Renderer _render) {
 		level = _level;
@@ -272,14 +276,7 @@ public class Window {
             
             public void actionPerformed(ActionEvent e)
             {
-				try {
-					level.load();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (LWJGLException e1) {
-					e1.printStackTrace();
-				}
-                System.out.println("You loaded the level\n");
+				load_level = true;
             }
         });  
 	}
@@ -372,5 +369,14 @@ public class Window {
 	    }
 	    public void treeStructureChanged(TreeModelEvent e) {
 	    }
+	}
+	
+	public boolean getLoadLevel() {
+		if (load_level){
+			load_level = false;
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

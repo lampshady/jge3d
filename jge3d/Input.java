@@ -71,7 +71,7 @@ class Input {
 					break;
 				case 1://Right Button
 					if( !(Mouse.isButtonDown(1)) ) {
-						level.opengladdtolist(level.addEntity(editor.getCurrentBlock()));
+						level.addEntity(editor.getCurrentBlock());
 					}
 					break;
 				case 2://Middle Button

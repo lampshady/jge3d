@@ -2,7 +2,6 @@ package jge3d;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,44 +13,31 @@ import javax.vecmath.Vector3f;
 
 import org.lwjgl.LWJGLException;
 
-import org.lwjgl.opengl.GL11;
-
 public class Level {
 	private float cube_size = 1.0f;
 	private int row_length=0;
 	private int col_length=0;
-	private int objectlist;
 	private String nextline;
 	private char type;
 	private List<Entity> level_ents;
-	private Physics physics;
 	private Window window;
 	private Renderer render;
+	private boolean level_changed;
+	private Entity latest_ent;
 	//private static String newline = System.getProperty("line.separator");
 	
 	public Level() {
 		
 	}
-	
-	public Level(BufferedReader ref, Physics _physics, Renderer _render, Window _window) throws IOException, LWJGLException {
-		objectlist = GL11.glGenLists(1);
-		physics = _physics;
+
+	public void setLevel(Renderer _render, Window _window) throws IOException, LWJGLException {
 		render = _render;
 		window = _window;
 		level_ents = new ArrayList<Entity>();
-		loadlevel(ref);
-		opengldrawtolist();
-		cleanup();
-	}
-	
-	public void setLevel(BufferedReader ref, Physics _physics, Renderer _render, Window _window) throws IOException, LWJGLException {
-		objectlist = GL11.glGenLists(1);
-		render = _render;
-		window = _window;
-		physics = _physics;
-		level_ents = new ArrayList<Entity>();
-		loadlevel(ref);
-		opengldrawtolist();
+		BufferedReader levelfile;
+		levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
+		loadlevel(levelfile);
+		render.makeLevelList();
 		cleanup();
 	}
 	
@@ -111,62 +97,13 @@ public class Level {
 								Integer.parseInt(split_position[1]),
 								Integer.parseInt(split_position[2])
 						);
-						level_ents.add(new Entity(type,position,texture,true));break;
-					default: System.out.print("FUCKSHIT level parsing error");break;
+						level_ents.add(new Entity(type,position,texture,true));
+						break;
+					default: System.out.print("FUCKSHIT level parsing error");
+					break;
 				}
 			}
 		}
-	}
-	
-
-	public void opengldrawtolist() throws LWJGLException, FileNotFoundException, IOException {
-		Vector3f position;
-
-		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-			for(int i=0;i<level_ents.size();i++) {
-				GL11.glPushMatrix();
-				position=level_ents.get(i).getPosition();
-
-				if(level_ents.get(i).getCollidable() == true) {
-					physics.addLevelBlock(position.x,position.y,position.z,cube_size);
-				}
-				
-				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,-position.z*cube_size);
-				render.drawcube(level_ents.get(i).getTextureName(), cube_size);
-				GL11.glPopMatrix();
-			
-			}
-		GL11.glEndList();
-	}
-
-	public void opengladdtolist(Entity newEnt) throws LWJGLException, FileNotFoundException, IOException {
-		//Variable to hold position of new level piece
-		Vector3f position=newEnt.getPosition();
-
-		//Replace old display list with new one containing new level object
-		GL11.glPushMatrix();
-		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-			for(int i=0;i<level_ents.size();i++) {
-				GL11.glPushMatrix();
-				position=level_ents.get(i).getPosition();
-				
-				GL11.glTranslatef(position.x*cube_size,position.y*cube_size,-position.z*cube_size);
-				render.drawcube(level_ents.get(i).getTextureName(), cube_size);
-				GL11.glPopMatrix();
-			}
-		GL11.glEndList();
-		GL11.glPopMatrix();
-
-		//Add physics just for the new object
-		if(newEnt.getCollidable() == true) {
-			physics.addLevelBlock(position.x,position.y,position.z,cube_size);
-		}
-	}
-	
-	public void opengldraw() {
-		GL11.glPushMatrix();
-			GL11.glCallList(objectlist);
-		GL11.glPopMatrix();
 	}
 	
 	public int getHeight() {
@@ -177,9 +114,10 @@ public class Level {
 		return row_length;
 	}
 	
-	public Entity addEntity(Entity ent) {
+	public void addEntity(Entity ent) {
 		level_ents.add(ent);
-		return ent;
+		latest_ent = ent;
+		level_changed = true;
 	}
 	
 	public void load() throws IOException, LWJGLException {
@@ -189,7 +127,6 @@ public class Level {
 		BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
 		level_ents.clear();
 		loadlevel(levelfile);
-		opengldrawtolist();
 		cleanup();
 	}
 	
@@ -215,5 +152,38 @@ public class Level {
 		//Close buffers
 		bw.flush();
 		bw.close();
+	}
+	
+	public int getLevelSize() {
+		return level_ents.size();
+	}
+	
+	public Vector3f getLevelEntityPosition(int index) {
+		return level_ents.get(index).getPosition();
+	}
+	
+	public String getLevelEntityTextureName(int index) {
+		return level_ents.get(index).getTextureName();
+	}
+	
+	public float getLevelEntitySize() {
+		return cube_size;
+	}
+	
+	public boolean getLevelEntityCollidable(int index) {
+		return level_ents.get(index).getCollidable();
+	}
+	
+	public boolean getLevelChanged() {
+		if(level_changed) {
+			level_changed=false;
+			return true;
+		} else {
+			return level_changed;
+		}
+	}
+	
+	public Entity getLatestEntity() {
+		return latest_ent;
 	}
 }

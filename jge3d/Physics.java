@@ -1,21 +1,14 @@
 package jge3d;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.vecmath.Vector3f;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-
 import com.bulletphysics.collision.broadphase.AxisSweep3;
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
 import com.bulletphysics.collision.dispatch.CollisionDispatcher;
 import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
-import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
@@ -37,19 +30,11 @@ public class Physics {
 	private ConstraintSolver solver;
 	private DynamicsWorld dynamicsWorld;
 	private List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
-	
-	//Test stuff
-	float[] body_matrix = new float[16];	//hold matrix of box
-	FloatBuffer buf;
-	Renderer render;
-	private final Transform m = new Transform();	//wtf is this for
 
 	//For holding the previous time in microseconds to calculate deltaT
 	private long prev_time;
 	
-	public Physics(Renderer _render) {
-		render=_render;
-		
+	public Physics() {		
 		//Default collision constructor
 		collisionConfiguration = new DefaultCollisionConfiguration();
 		
@@ -73,8 +58,6 @@ public class Physics {
 		
 		//Preset the previous time so deltaT isn't enormous on first run
 		prev_time = System.nanoTime();
-		
-		buf = BufferUtils.createFloatBuffer(16);
 	}
 		
 	public void addLevelBlock(float x, float y, float z, float cube_size) {
@@ -162,49 +145,9 @@ public class Physics {
 
 		return body;
 	}
-
-	public void render() throws FileNotFoundException, IOException {
-		if (dynamicsWorld != null) {
-			int numObjects = dynamicsWorld.getNumCollisionObjects();
-			for (int i = 0; i < numObjects; i++) {
-				CollisionObject colObj = dynamicsWorld.getCollisionObjectArray().get(i);
-				RigidBody body = RigidBody.upcast(colObj);
-				
-				if(body.getInvMass() != 0) {
-					if (body != null && body.getMotionState() != null) {
-						DefaultMotionState myMotionState = (DefaultMotionState) body.getMotionState();
-						m.set(myMotionState.graphicsWorldTrans);
-					}
-					else {
-						colObj.getWorldTransform(m);
-					}
 	
-					GL11.glPushMatrix();
-						m.getOpenGLMatrix(body_matrix);
-						
-						//Put all this matrix shit in a float buffer
-						buf.put(body_matrix);
-						buf.flip();
-						
-						GL11.glMultMatrix(buf);
-						buf.clear();
-		
-						//Testing code
-						//ObjectPool<Vector3f> vectorsPool = ObjectPool.get(Vector3f.class);
-						//BoxShape boxShape = (BoxShape) body.getCollisionShape();
-						//Vector3f halfExtent = boxShape.getHalfExtentsWithMargin(vectorsPool.get());
-						//GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
-						
-						//Draw cube at matrix
-						render.drawcube("cube1", 1);
-						
-						//More testing code
-						//vectorsPool.release(halfExtent);
-							
-					GL11.glPopMatrix();
-				}
-			}
-		}
+	public DynamicsWorld getDynamicsWorld() {
+		return dynamicsWorld;
 	}
 	
 	public void clientUpdate() {
