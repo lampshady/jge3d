@@ -22,7 +22,7 @@ public class Level {
 	private List<Entity> level_ents;
 	private Window window;
 	private Renderer render;
-	private boolean level_changed;
+	private boolean level_changed=false;
 	private Entity latest_ent;
 	//private static String newline = System.getProperty("line.separator");
 	
@@ -68,6 +68,8 @@ public class Level {
 						if(render.hasKey(splitString[2]) == false)
 							render.setTexture(splitString[1], splitString[2], splitString[3]);
 						break;
+					case 'L':
+							//render.setLight();
 					default: System.out.print("FUCKSHIT level parsing error");break;
 				}
 			}

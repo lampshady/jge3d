@@ -19,7 +19,7 @@ public class Main {
 			Level level;
 			Renderer render;
 			
-			//Create an empty level
+			//Create an empty  level
 			level = new Level();
 
 			//Make some physics
@@ -30,12 +30,9 @@ public class Main {
 			
 			//create the window and all that jazz
  			window = new Window(level, render);
- 			//Display.makeCurrent();
+
 			//setup the initial perspective
 			render.initGL(window);
-			
-			//Read in a level 
-			level.setLevel(render, window);
 		
 			//Camera
 			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
@@ -47,11 +44,14 @@ public class Main {
 			//Create inputs
 			input = new Input(camera, window, physics, editor, level);
 
-			//Just to show off the physics
-			physics.dropBox(17,15,0,1.0f);
-			
 			//Renderer also needs references to the editor and camera
 			render.reconstruct(editor, camera);
+			
+			//Read in a level 
+			level.setLevel(render, window);
+
+			//Just to show off the physics
+			physics.dropBox(17,15,0,1.0f);
 			
 			while (isRunning) {
 				if(window.getLoadLevel()) {

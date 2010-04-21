@@ -176,7 +176,7 @@ class Renderer {
 		renderEditorBlock();
         
         GL11.glFlush();
-		Display.update();// now tell the screen to update
+		Display.update();	// now tell the screen to update
 		
 		Display.releaseContext();
 	}
@@ -197,7 +197,7 @@ class Renderer {
 		//Calculate the shape of the screen and notify OpenGL
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(45.0f, (float) window.getGLWidth() / (float) window.getGLHeight(), 0.1f, 20000.0f);
+		GLU.gluPerspective(45.0f, (float) window.getGLWidth() / (float) window.getGLHeight(), 1f, 10000.0f);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	

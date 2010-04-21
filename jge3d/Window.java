@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -173,14 +171,7 @@ public class Window {
 		    Sys.alert("Unable to create display.", e.toString());
 		    System.exit(0);
 		}
-		
-		//Make it so closing the window closes the program
-		window.addWindowListener(new WindowAdapter(){
-			@Override
-			public void windowClosing(WindowEvent e){
-				System.exit(0);
-			}
-		});
+
 		//Force minimum size of window
 		window.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent event) {
@@ -214,8 +205,7 @@ public class Window {
 		return GLView.getHeight();
 	} 
 	
-	public void setupTextureView()
-	{
+	public void setupTextureView() {
 		textureView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 400));
 		textureView.setLayout(new BoxLayout(textureView, BoxLayout.Y_AXIS));
 		textureView.add(textureLabel);
@@ -227,8 +217,7 @@ public class Window {
 		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
 		textureAddButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 final JFileChooser fc_texture = new JFileChooser("lib/Textures/");
 				fc_texture.showOpenDialog(window);
                 System.out.println("You loaded the texture:" +fc_texture.getSelectedFile().getPath() + "\n");
@@ -273,9 +262,7 @@ public class Window {
         //http://forums.sun.com/thread.jspa?threadID=490317
         //http://mindprod.com/jgloss/swingthreads.html
         levelLoadButton.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
 				load_level = true;
             }
         });  
@@ -293,16 +280,14 @@ public class Window {
 		editorView.add(editorLayerNext);
 
 		editorLayerPrev.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 current_layer--;
                 editorLayerField.setText(String.valueOf(current_layer));
             }
         });  
         
 		editorLayerNext.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
             	current_layer++;
             	editorLayerField.setText(String.valueOf(current_layer));
             }
