@@ -48,7 +48,7 @@ public class Level {
 
 	}
 
-	private void loadlevel(BufferedReader br) throws IOException {
+	private void loadlevel(BufferedReader br) throws IOException, LWJGLException {
 		while (((nextline = br.readLine()) != null)) {
 			if(nextline.compareToIgnoreCase("header") == 0) 
 				parseHeader(br);
@@ -57,7 +57,7 @@ public class Level {
 		}
 	}
 	
-	private void parseHeader(BufferedReader br) throws IOException {
+	private void parseHeader(BufferedReader br) throws IOException, LWJGLException {
 		String nextline;
 		String[] splitString;
 		while ((nextline = br.readLine()).compareToIgnoreCase("/header") != 0) {

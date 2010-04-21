@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.lwjgl.LWJGLException;
 import org.newdawn.slick.opengl.Texture;
 
 public class TextureList {
@@ -17,7 +18,7 @@ public class TextureList {
 		return textures.get(key).getTexture();
 	}
 	
-	public void set(String group, String name, String path) throws FileNotFoundException, IOException {
+	public void set(String group, String name, String path) throws FileNotFoundException, IOException, LWJGLException {
 		textures.put(name, new TextureData(group,name,path));
 	}
 	
