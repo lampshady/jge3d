@@ -42,8 +42,8 @@ public class Physics {
 		dispatcher = new CollisionDispatcher(collisionConfiguration);
 		
 		//Min and Max collision boundaries for world (needs changing)
-		worldAabbMin = new Vector3f(-1000,-1000,-1000);
-		worldAabbMax = new Vector3f(1000,1000,1000);
+		worldAabbMin = new Vector3f(-10,-10,-10);
+		worldAabbMax = new Vector3f(10,10,10);
 		
 		//algorithm for finding collision proximity (there are better ones)
 		overlappingPairCache = new AxisSweep3(worldAabbMin, worldAabbMax);

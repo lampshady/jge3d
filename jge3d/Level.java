@@ -68,8 +68,12 @@ public class Level {
 				
 				switch(type) {
 					case 'T':
-						if(texture.hasKey(splitString[2]) == false)
+						if(texture.hasKey(splitString[1]) == false) {
 							texture.set(splitString[1], splitString[2], splitString[3]);
+							window.insertTexture(splitString[2]);
+						} else {
+							//this is for when we implement texture groups
+						}
 						break;
 					case 'L':
 							//render.setLight();

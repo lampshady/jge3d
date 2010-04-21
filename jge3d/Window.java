@@ -1,5 +1,6 @@
 package jge3d;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,6 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
@@ -50,6 +53,8 @@ public class Window {
 	//Tree controls
 	private DefaultMutableTreeNode textureRootNode;
 	private DefaultTreeModel textureTreeModel;
+	private int texture_index=0;
+	private String textureTreeCurrentSelection="cube1";
 	
 	//Level controls
 	private JPanel levelView;
@@ -152,11 +157,13 @@ public class Window {
 		);
 
 		//Layout right pane
-		//RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.Y_AXIS));
+		RightPane.setLayout(new BorderLayout());
 		RightPane.setBackground(new Color(0,0,0));
-		RightPane.add(textureView);
-		RightPane.add(levelView);
-		RightPane.add(editorView);
+		RightPane.add(textureView, BorderLayout.NORTH);
+		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		RightPane.add(levelView, BorderLayout.WEST);
+		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		RightPane.add(editorView, BorderLayout.SOUTH);
 		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
 		
 		//layout the texture panel
@@ -215,16 +222,19 @@ public class Window {
 	} 
 	
 	public void setupTextureView() {
-		textureView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 400));
+		textureView.setBorder(BorderFactory.createLineBorder(Color.green));
+		//textureView.setPreferredSize(new Dimension(RightPane.getWidth(), 500));
 		textureView.setLayout(new BoxLayout(textureView, BoxLayout.Y_AXIS));
 		textureView.add(textureLabel);
 		textureView.add(texturePreview);
+		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
 		textureView.add(textureTree);
+		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
 		textureView.add(textureAddButton);
 		textureView.add(textureDelButton);
 		texturePreview.setPreferredSize(new Dimension(128, 128));
-		textureTree.setPreferredSize(new Dimension(textureView.getWidth()-2, 300));
-		textureTree.setAlignmentX(Box.CENTER_ALIGNMENT);
+		//textureTree.setPreferredSize(new Dimension(textureView.getWidth(), 300));
+		textureTree.setAlignmentX(Box.LEFT_ALIGNMENT);
 		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
 		textureAddButton.addActionListener(new ActionListener() {
@@ -235,7 +245,7 @@ public class Window {
 
                 //Draw image centered in the middle of the panel    
                 texturePreview.setIcon(new ImageIcon(fc_texture.getSelectedFile().getPath()));
-                //updateTree();
+                insertTexture(fc_texture.getSelectedFile().getName());
             }
         });  
         
@@ -245,12 +255,30 @@ public class Window {
                 System.out.println("You deleted the texture\n");
             }
         });  
+        
+    	textureTree.addTreeSelectionListener(new TreeSelectionListener() {
+    	    public void valueChanged(TreeSelectionEvent e) {
+    	        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+    	        textureTree.getLastSelectedPathComponent();
+
+    	    /* if nothing is selected */ 
+    	        if (node == null) return;
+
+    	        if (node.toString() == textureRootNode.toString()) return;
+    	        
+    	    /* retrieve the node that was selected */ 
+    	        //Object nodeInfo = node.getUserObject();
+    	        texturePreview.setIcon(new ImageIcon(texture.getDataByName(node.toString()).getPath()));
+    	        textureTreeCurrentSelection = node.toString();
+    	    }
+    	});
 	}
 	
 	//Contains editor commands pertaining to the level (currently saving and loading)
 	public void setupLevelView() {
 		//levelView.setLayout(new FlowLayout());
 		//levelView.setAlignmentX(Component.LEFT_ALIGNMENT);
+		levelView.setBorder(BorderFactory.createLineBorder(Color.green));
 		levelView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 200));
 		levelView.add(levelLabel);
 		levelView.add(levelLoadButton);
@@ -282,10 +310,10 @@ public class Window {
 	//Contains all current editor commands (currently layer)
 	private void setupEditorView()
 	{
+		editorView.setBorder(BorderFactory.createLineBorder(Color.green));
 		editorView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 25));
 		editorView.setLayout(new BoxLayout(editorView, BoxLayout.X_AXIS));
 		editorView.add(editorLabel);
-		editorView.add(Box.createHorizontalGlue());
 		editorView.add(editorLayerPrev);
 		editorView.add(editorLayerField);
 		editorView.add(editorLayerNext);
@@ -317,7 +345,7 @@ public class Window {
 	private void initTree() {
 		textureRootNode = new DefaultMutableTreeNode("Textures");
 		textureTreeModel = new DefaultTreeModel(textureRootNode);
-		textureTreeModel.addTreeModelListener(new textureTreeListener());
+		textureTreeModel.addTreeModelListener(new textureTreeModelListener());
 
 		textureTree = new JTree(textureTreeModel);
 		textureTree.setEditable(true);
@@ -326,21 +354,22 @@ public class Window {
 		textureTree.setShowsRootHandles(true);
 		textureTree.setPreferredSize(new Dimension(RightPane.getWidth(), 100));
 	}
+
+	public String getSelectedTexture() {
+		return textureTreeCurrentSelection;
+	}
 	
-	//Called when adding new textures
-	private void updateTree() {
-		textureTreeModel.removeNodeFromParent(textureRootNode);
-		textureTreeModel = new DefaultTreeModel(textureRootNode);
-		int index = 0;
-		for(String key: texture.getHash().keySet()) {
-			textureTreeModel.insertNodeInto(new DefaultMutableTreeNode(texture.getHash().get(key).getGroup()), textureRootNode, index);
-			index++;
-			texture.getHash().get(key).getName();
-		}
+	public void insertTexture(String name) {
+		textureTreeModel.insertNodeInto(
+			new DefaultMutableTreeNode(name),
+			textureRootNode,
+			texture_index
+		);
+		++texture_index;
 	}
 	
 	//Defines the actions taken when something happens to the tree
-	private class textureTreeListener implements TreeModelListener {
+	class textureTreeModelListener implements TreeModelListener {
 	    public void treeNodesChanged(TreeModelEvent e) {
 	        DefaultMutableTreeNode node;
 	        node = (DefaultMutableTreeNode)

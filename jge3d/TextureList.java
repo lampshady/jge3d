@@ -21,6 +21,10 @@ public class TextureList {
 		textures.put(name, new TextureData(group,name,path));
 	}
 	
+	public TextureData getDataByName(String key) {
+		return textures.get(key);
+	}
+	
 	public int length() {
 		return textures.size();
 	}

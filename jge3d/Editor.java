@@ -22,8 +22,11 @@ public class Editor {
 	}
 	
 	public Entity getCurrentBlock() {
-		String texture="brick2";
 		char type='L';
-		return new Entity(type, current_position_vector, texture,true);
+		return new Entity(type,
+			current_position_vector,
+			window.getSelectedTexture(),
+			true
+		);
 	}
 }
