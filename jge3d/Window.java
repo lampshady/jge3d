@@ -233,7 +233,7 @@ public class Window {
 		textureView.add(textureAddButton);
 		textureView.add(textureDelButton);
 		texturePreview.setPreferredSize(new Dimension(128, 128));
-		//textureTree.setPreferredSize(new Dimension(textureView.getWidth(), 300));
+		textureTree.setPreferredSize(new Dimension(textureView.getWidth(), 300));
 		textureTree.setAlignmentX(Box.LEFT_ALIGNMENT);
 		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
