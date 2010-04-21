@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.vecmath.Vector3f;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
 
 public class Level {
 	private float cube_size = 1.0f;
@@ -22,17 +23,19 @@ public class Level {
 	private List<Entity> level_ents;
 	private Window window;
 	private Renderer render;
-	private boolean level_changed=false;
+	private TextureList texture;
 	private Entity latest_ent;
+	private boolean level_changed=false;
 	//private static String newline = System.getProperty("line.separator");
 	
-	public Level() {
-		
+	public Level(TextureList _texture) {
+		texture = _texture;
 	}
 
 	public void setLevel(Renderer _render, Window _window) throws IOException, LWJGLException {
 		render = _render;
 		window = _window;
+		
 		level_ents = new ArrayList<Entity>();
 		BufferedReader levelfile;
 		levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
@@ -65,8 +68,8 @@ public class Level {
 				
 				switch(type) {
 					case 'T':
-						if(render.hasKey(splitString[2]) == false)
-							render.setTexture(splitString[1], splitString[2], splitString[3]);
+						if(texture.hasKey(splitString[2]) == false)
+							texture.set(splitString[1], splitString[2], splitString[3]);
 						break;
 					case 'L':
 							//render.setLight();
@@ -123,12 +126,17 @@ public class Level {
 	}
 	
 	public void load() throws IOException, LWJGLException {
-		//final JFileChooser fc_level = new JFileChooser("lib/Levels/");
-		//fc_level.showOpenDialog(window.getWindow());
-		//BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
-		BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
+		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
+		fc_level.showOpenDialog(window.getWindow());
+		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
+		//BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
 		level_ents.clear();
 		loadlevel(levelfile);
+		
+		Display.makeCurrent();
+		render.makeLevelList();
+		Display.releaseContext();
+		
 		cleanup();
 	}
 	
@@ -140,8 +148,8 @@ public class Level {
 		
 		//Create header consisting of textures and stuff
 		bw.write("header\n");
-		for(String key: render.getHash().keySet())
-			bw.write("\t" + render.getHash().get(key) + "\n");
+		for(String key: texture.getHash().keySet())
+			bw.write("\t" + texture.getHash().get(key) + "\n");
 		bw.write("/header\n");
 		bw.newLine();
 		

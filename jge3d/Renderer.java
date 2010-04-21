@@ -3,7 +3,6 @@ package jge3d;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.util.HashMap;
 
 import javax.vecmath.Vector3f;
 
@@ -12,7 +11,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureImpl;
 
 import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.dynamics.RigidBody;
@@ -20,35 +19,36 @@ import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
 class Renderer {
-	private HashMap<String, TextureList> textures;
 	private Level level;
 	private Editor editor;
 	private Physics physics;
 	private Camera camera;
+	private TextureList texture;
 	private int objectlist;
 	
-	public Renderer(Level _level, Physics _physics) {
-		textures = new HashMap<String, TextureList>();
+	public Renderer(Level _level, Physics _physics, TextureList _texture) {
 		level = _level;
 		physics = _physics;
+		texture = _texture;
 		
 		//Buffer to hold LWJGL matrix transformations (for physics rendering)
 		buf = BufferUtils.createFloatBuffer(16);
 	}
 	
-	public void reconstruct(Editor _editor, Camera _camera) throws LWJGLException {
+	public void addReferences(Editor _editor, Camera _camera) throws LWJGLException {
 		editor=_editor;
 		camera=_camera;
-
-		objectlist = GL11.glGenLists(1);
 	}
 	
 	public void drawcube(String texture_name, float cube_size) throws FileNotFoundException, IOException {		
-		//bind a texture for drawing
-		getTextureByName(texture_name).bind();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);    
 		GL11.glDisable(GL11.GL_BLEND);		// Turn Blending On
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
+
+		//bind a texture for drawing
+		texture.getByName(texture_name).bind();
+		//GL11.glBind(texture.getByName(texture_name));
+		//System.out.print(texture_name);
 		
         GL11.glBegin(GL11.GL_QUADS);
         	// Front Face
@@ -93,6 +93,12 @@ class Renderer {
 	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
 	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
         GL11.glEnd();
+        
+        //!!! DOCUMENT YOUR FUCKING CODE SLICK-UTILS
+        //This has to be run or slick caches the 
+        //texture and reuses it indefinitely
+        //The slick library doesn't mention this once
+        TextureImpl.unbind();
 	}
 	
 	public void transparentcube(float alpha, float cube_size) throws FileNotFoundException, IOException {		
@@ -145,9 +151,9 @@ class Renderer {
         GL11.glEnd();
 	}
 	
-	public void draw() throws LWJGLException, FileNotFoundException, IOException
-	{
+	public void draw() throws LWJGLException, FileNotFoundException, IOException {
 		//Make sure that the screen is active
+		//(doing this every frame slows stuff down)
 		Display.makeCurrent();
 
 		// render using OpenGL 
@@ -162,7 +168,7 @@ class Renderer {
 		);
 		
 		//Check if level has been altered since last frame
-		if(level.getLevelChanged()){
+		if(level.getLevelChanged()) {
 			addToLevelList(level.getLatestEntity());
 		}
 		
@@ -181,7 +187,9 @@ class Renderer {
 		Display.releaseContext();
 	}
 
-	public void initGL(Window window) {
+	public void initGL(Window window) throws LWJGLException {
+		Display.makeCurrent();
+		
 		//initialize the view
 		setPerspective(window);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);     
@@ -191,6 +199,8 @@ class Renderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
+		
+		Display.releaseContext();
 	}
 	
 	public void setPerspective(Window window) {
@@ -199,30 +209,6 @@ class Renderer {
 		GL11.glLoadIdentity();
 		GLU.gluPerspective(45.0f, (float) window.getGLWidth() / (float) window.getGLHeight(), 1f, 10000.0f);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-	}
-	
-	public Texture getTextureByName(String key) {
-		return textures.get(key).getTexture();
-	}
-	
-	public void setTexture(String group, String name, String path) throws FileNotFoundException, IOException {
-		textures.put(name, new TextureList(group,name,path));
-	}
-	
-	public int length() {
-		return textures.size();
-	}
-	
-	public HashMap<String, TextureList> getHash() {
-		return textures;
-	}
-	
-	public void clearTextureList() {
-		textures.clear();
-	}
-	
-	public boolean hasKey(String key) {
-		return textures.containsKey(key);
 	}
 	
 	public void renderEditorBlock() throws FileNotFoundException, IOException {
@@ -243,14 +229,15 @@ class Renderer {
 	
 	public void makeLevelList() throws LWJGLException, FileNotFoundException, IOException {
 		Vector3f position;
-		
+
+		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 			for(int i=0;i<level.getLevelSize();i++) {
 				GL11.glPushMatrix();
 				position=level.getLevelEntityPosition(i);
 
 				if(level.getLevelEntityCollidable(i) == true) {
-					physics.addLevelBlock(position.x,position.y,position.z,level.getLevelEntitySize());
+					physics.addLevelBlock(position.x,position.y,-position.z,level.getLevelEntitySize());
 				}
 				
 				GL11.glTranslatef(
@@ -286,18 +273,14 @@ class Renderer {
 
 		//Add physics just for the new object
 		if(newEnt.getCollidable() == true) {
-			physics.addLevelBlock(position.x,position.y,position.z,newEnt.getSize());
+			physics.addLevelBlock(position.x,position.y,-position.z,newEnt.getSize());
 		}
 	}
 	
 	public void renderLevelList() {
 		GL11.glCallList(objectlist);
 	}
-	
-	public void setPhysics(Physics _physics) {
-		physics=_physics;
-	}
-	
+
 	//Physics transforms
 	float[] body_matrix = new float[16];	//hold matrix of box
 	FloatBuffer buf;

@@ -71,14 +71,23 @@ public class Window {
 	
 	//local references to other classes
 	private Level level;
-	private Renderer render;
+	private TextureList texture;
 	
 	//Window queue (to avoid stepping on another threads context)
 	private boolean load_level;
 	
-	public Window(Level _level, Renderer _render) {
+	public Window(Level _level, TextureList _texture) {
 		level = _level;
-		render = _render;
+		texture = _texture;
+		
+		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        //    public void run() {
+                createAndShowGUI();
+        //    }
+        //});
+	}
+	
+	public void createAndShowGUI() {
 		// Set the target size of the window.
 		int targetWidth = 1024;
 		int targetHeight = 768;
@@ -214,13 +223,15 @@ public class Window {
 		textureView.add(textureAddButton);
 		textureView.add(textureDelButton);
 		texturePreview.setPreferredSize(new Dimension(128, 128));
+		textureTree.setPreferredSize(new Dimension(textureView.getWidth()-2, 300));
+		textureTree.setAlignmentX(Box.CENTER_ALIGNMENT);
 		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
 		textureAddButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 final JFileChooser fc_texture = new JFileChooser("lib/Textures/");
 				fc_texture.showOpenDialog(window);
-                System.out.println("You loaded the texture:" +fc_texture.getSelectedFile().getPath() + "\n");
+                System.out.println("You loaded the texture:" + fc_texture.getSelectedFile().getPath() + "\n");
 
                 //Draw image centered in the middle of the panel    
                 texturePreview.setIcon(new ImageIcon(fc_texture.getSelectedFile().getPath()));
@@ -321,10 +332,10 @@ public class Window {
 		textureTreeModel.removeNodeFromParent(textureRootNode);
 		textureTreeModel = new DefaultTreeModel(textureRootNode);
 		int index = 0;
-		for(String key: render.getHash().keySet()) {
-			textureTreeModel.insertNodeInto(new DefaultMutableTreeNode(render.getHash().get(key).getGroup()), textureRootNode, index);
+		for(String key: texture.getHash().keySet()) {
+			textureTreeModel.insertNodeInto(new DefaultMutableTreeNode(texture.getHash().get(key).getGroup()), textureRootNode, index);
 			index++;
-			render.getHash().get(key).getName();
+			texture.getHash().get(key).getName();
 		}
 	}
 	

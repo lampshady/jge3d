@@ -1,43 +1,40 @@
 package jge3d;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 public class TextureList {
-	//private String format;
-	private String group;
-	private String name;
-	private Texture texture;
-	private String path;
+	private HashMap<String, TextureData> textures;
 	
-	public TextureList(String _group, String _name, String _path) throws FileNotFoundException, IOException {
-		texture = TextureLoader.getTexture("png", new FileInputStream(_path));
-		name = _name;
-		group = _group;
-		path = _path;
+	public TextureList() {
+		textures = new HashMap<String, TextureData>();
 	}
 	
-	public Texture getTexture() {
-		return texture;
+	public Texture getByName(String key) {
+		return textures.get(key).getTexture();
 	}
 	
-	public String getName() {
-		return name;
+	public void set(String group, String name, String path) throws FileNotFoundException, IOException {
+		textures.put(name, new TextureData(group,name,path));
 	}
 	
-	public String getGroup() {
-		return group;
+	public int length() {
+		return textures.size();
 	}
 	
-	public String getPath() {
-		return path;
+	public HashMap<String, TextureData> getHash() {
+		return textures;
 	}
 	
-	public String toString() {
-		return "T;" + group + ";" + name + ";" + path;
+	public void clearList() {
+		textures.clear();
 	}
+	
+	public boolean hasKey(String key) {
+		return textures.containsKey(key);
+	}
+	
 }

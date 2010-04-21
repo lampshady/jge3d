@@ -18,18 +18,22 @@ public class Main {
 			Input input;
 			Level level;
 			Renderer render;
+			TextureList texture;
+
+			//Create a texture holder
+			texture = new TextureList();
 			
 			//Create an empty  level
-			level = new Level();
+			level = new Level(texture);
 
 			//Make some physics
 			physics = new Physics();
 			
 			//Renderer for drawing stuff
-			render = new Renderer(level, physics);
+			render = new Renderer(level, physics, texture);
 			
 			//create the window and all that jazz
- 			window = new Window(level, render);
+ 			window = new Window(level, texture);
 
 			//setup the initial perspective
 			render.initGL(window);
@@ -45,14 +49,16 @@ public class Main {
 			input = new Input(camera, window, physics, editor, level);
 
 			//Renderer also needs references to the editor and camera
-			render.reconstruct(editor, camera);
+			render.addReferences(editor, camera);
 			
 			//Read in a level 
+			Display.makeCurrent();
 			level.setLevel(render, window);
-
+			Display.releaseContext();
+			
 			//Just to show off the physics
 			physics.dropBox(17,15,0,1.0f);
-			
+
 			while (isRunning) {
 				if(window.getLoadLevel()) {
 					level.load();
@@ -73,8 +79,11 @@ public class Main {
 				window.updateFPS();
 				
 				//Check if it's time to close
-				if (Display.isCloseRequested())
+				if (Display.isCloseRequested()) {
 					isRunning=false;
+					Display.destroy();
+                    System.exit(0);
+				}
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());

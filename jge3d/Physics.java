@@ -158,8 +158,6 @@ public class Physics {
 		// step the simulation
 		if (dynamicsWorld != null) {
 			dynamicsWorld.stepSimulation(deltaT / 1000000000f);
-			// optional but useful: debug drawing
-			//dynamicsWorld.debugDrawWorld();
 		}
 	}
 }
