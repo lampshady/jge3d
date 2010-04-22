@@ -25,7 +25,7 @@ public class Editor {
 		char type='L';
 		return new Entity(type,
 			current_position_vector,
-			window.getSelectedTexture(),
+			window.textureView.getSelectedTexture(),
 			true
 		);
 	}

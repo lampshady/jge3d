@@ -42,7 +42,7 @@ public class Window {
 	private JFrame window;
 	private Canvas GLView;
 	private JPanel RightPane;
-	private JPanel textureView;
+	JPanel textureView;
 	private DisplayMode chosenMode = null;
 	
 	//TextureView controls
@@ -52,6 +52,7 @@ public class Window {
 	private JTree textureTree;
 	private JScrollPane textureTreeScroll;
 	private JLabel texturePreview;
+	
 	//Tree controls
 	private DefaultMutableTreeNode textureRootNode;
 	private DefaultTreeModel textureTreeModel;
@@ -104,13 +105,7 @@ public class Window {
 		GLView = new Canvas();
 		RightPane = new JPanel();
 		
-		//TextureView
-		textureView = new JPanel();
-		textureLabel = new JLabel("Texture Viewer");
-		textureAddButton = new JButton("Add");
-		textureDelButton = new JButton("Remove");
-		texturePreview = new JLabel();
-		initTree();
+		textureView = new TextureView(RightPane.getWidth(), RightPane.getHeight(), texture);
 		
 		//LevelView
 		levelView = new JPanel();
@@ -168,9 +163,6 @@ public class Window {
 		RightPane.add(editorView, BorderLayout.SOUTH);
 		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
 		
-		//layout the texture panel
-		setupTextureView();
-		
 		//layout the Level panel
 		setupLevelView();
 		
@@ -219,60 +211,14 @@ public class Window {
 	public int getGLWidth() {
 		return GLView.getWidth();
 	}
+	
 	public int getGLHeight() {
 		return GLView.getHeight();
-	} 
-	
-	public void setupTextureView() {
-		textureView.setBorder(BorderFactory.createLineBorder(Color.green));
-		//textureView.setPreferredSize(new Dimension(RightPane.getWidth(), 500));
-		textureView.setLayout(new BoxLayout(textureView, BoxLayout.Y_AXIS));
-		textureView.add(textureLabel);
-		textureView.add(texturePreview);
-		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
-		textureView.add(textureTreeScroll);
-		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
-		textureView.add(textureAddButton);
-		textureView.add(textureDelButton);
-		texturePreview.setPreferredSize(new Dimension(128, 128));
-		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
-
-		textureAddButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc_texture = new JFileChooser("lib/Textures/");
-				fc_texture.showOpenDialog(window);
-                System.out.println("You loaded the texture:" + fc_texture.getSelectedFile().getPath() + "\n");
-
-                //Draw image centered in the middle of the panel    
-                texturePreview.setIcon(new ImageIcon(fc_texture.getSelectedFile().getPath()));
-                insertTexture(fc_texture.getSelectedFile().getName());
-            }
-        });  
-        
-        textureDelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-                System.out.println("You deleted the texture\n");
-            }
-        });  
-        
-    	textureTree.addTreeSelectionListener(new TreeSelectionListener() {
-    	    public void valueChanged(TreeSelectionEvent e) {
-    	        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-    	        textureTree.getLastSelectedPathComponent();
-
-    	    /* if nothing is selected */ 
-    	        if (node == null) return;
-
-    	        if (node.toString() == textureRootNode.toString()) return;
-    	        
-    	    /* retrieve the node that was selected */ 
-    	        //Object nodeInfo = node.getUserObject();
-    	        texturePreview.setIcon(new ImageIcon(texture.getDataByName(node.toString()).getPath()));
-    	        textureTreeCurrentSelection = node.toString();
-    	    }
-    	});
 	}
+	
+	
+        
+        
 	
 	//Contains editor commands pertaining to the level (currently saving and loading)
 	public void setupLevelView() {
@@ -341,62 +287,7 @@ public class Window {
 		return current_layer;
 	}
 	
-	//Create the texture tree
-	private void initTree() {
-		textureRootNode = new DefaultMutableTreeNode("Textures");
-		textureTreeModel = new DefaultTreeModel(textureRootNode);
-		textureTreeModel.addTreeModelListener(new textureTreeModelListener());
 
-		textureTree = new JTree(textureTreeModel);
-		textureTree.setEditable(true);
-		textureTree.getSelectionModel().setSelectionMode
-		        (TreeSelectionModel.SINGLE_TREE_SELECTION);
-		textureTree.setShowsRootHandles(true);
-		
-		textureTreeScroll = new JScrollPane(textureTree);
-		textureTreeScroll.setPreferredSize(new Dimension(RightPane.getWidth(), 100));
-	}
-
-	public String getSelectedTexture() {
-		return textureTreeCurrentSelection;
-	}
-	
-	public void insertTexture(String name) {
-		textureTreeModel.insertNodeInto(
-			new DefaultMutableTreeNode(name),
-			textureRootNode,
-			texture_index
-		);
-		++texture_index;
-	}
-	
-	//Defines the actions taken when something happens to the tree
-	class textureTreeModelListener implements TreeModelListener {
-	    public void treeNodesChanged(TreeModelEvent e) {
-	        DefaultMutableTreeNode node;
-	        node = (DefaultMutableTreeNode)
-	                 (e.getTreePath().getLastPathComponent());
-	        /*
-	         * If the event lists children, then the changed
-	         * node is the child of the node we have already
-	         * gotten.  Otherwise, the changed node and the
-	         * specified node are the same.
-	         */
-	        try {
-	            int index = e.getChildIndices()[0];
-	            node = (DefaultMutableTreeNode)
-	                   (node.getChildAt(index));
-	        } catch (NullPointerException exc) {}
-
-	        System.out.println("New value: " + node.getUserObject());
-	    }
-	    public void treeNodesInserted(TreeModelEvent e) {
-	    }
-	    public void treeNodesRemoved(TreeModelEvent e) {
-	    }
-	    public void treeStructureChanged(TreeModelEvent e) {
-	    }
-	}
 	
 	public boolean getLoadLevel() {
 		if (load_level){
