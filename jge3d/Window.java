@@ -21,6 +21,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
@@ -49,6 +50,7 @@ public class Window {
 	private JButton textureAddButton;
 	private JButton textureDelButton;
 	private JTree textureTree;
+	private JScrollPane textureTreeScroll;
 	private JLabel texturePreview;
 	//Tree controls
 	private DefaultMutableTreeNode textureRootNode;
@@ -228,13 +230,11 @@ public class Window {
 		textureView.add(textureLabel);
 		textureView.add(texturePreview);
 		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
-		textureView.add(textureTree);
+		textureView.add(textureTreeScroll);
 		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
 		textureView.add(textureAddButton);
 		textureView.add(textureDelButton);
 		texturePreview.setPreferredSize(new Dimension(128, 128));
-		textureTree.setPreferredSize(new Dimension(textureView.getWidth(), 300));
-		textureTree.setAlignmentX(Box.LEFT_ALIGNMENT);
 		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
 		textureAddButton.addActionListener(new ActionListener() {
@@ -352,7 +352,9 @@ public class Window {
 		textureTree.getSelectionModel().setSelectionMode
 		        (TreeSelectionModel.SINGLE_TREE_SELECTION);
 		textureTree.setShowsRootHandles(true);
-		textureTree.setPreferredSize(new Dimension(RightPane.getWidth(), 100));
+		
+		textureTreeScroll = new JScrollPane(textureTree);
+		textureTreeScroll.setPreferredSize(new Dimension(RightPane.getWidth(), 100));
 	}
 
 	public String getSelectedTexture() {
