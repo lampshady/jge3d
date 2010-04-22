@@ -1,11 +1,8 @@
 package jge3d;
 
-//Required for file reading
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 //LWJGL input
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
 
 public class Main {
 	public static void main(String[] args) throws LWJGLException {
@@ -21,25 +18,25 @@ public class Main {
 			Input input;
 			Level level;
 			Renderer render;
+			TextureList texture;
+
+			//Create a texture holder
+			texture = new TextureList();
 			
-			level = new Level();
+			//Create an empty  level
+			level = new Level(texture);
+
+			//Make some physics
+			physics = new Physics();
 			
 			//Renderer for drawing stuff
-			render = new Renderer();
+			render = new Renderer(level, physics, texture);
 			
 			//create the window and all that jazz
- 			window = new Window(level, render);
+ 			window = new Window(level, texture);
 
 			//setup the initial perspective
 			render.initGL(window);
-
-			//Make some physics
-			physics = new Physics(render);
-			
-			//Read in a level 
-			BufferedReader levelfile;
-			levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
-			level.setLevel(levelfile, physics, render, window);
 		
 			//Camera
 			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
@@ -51,12 +48,23 @@ public class Main {
 			//Create inputs
 			input = new Input(camera, window, physics, editor, level);
 
+			//Renderer also needs references to the editor and camera
+			render.addReferences(editor, camera);
+			
+			//Read in a level 
+			Display.makeCurrent();
+			level.setLevel(render, window);
+			Display.releaseContext();
+			
 			//Just to show off the physics
 			physics.dropBox(17,15,0,1.0f);
-			
-			render.reconstruct(level, editor, physics, camera);
-			
+
 			while (isRunning) {
+				if(window.getLoadLevel()) {
+					level.load();
+					System.out.println("You loaded the level\n");
+				}
+				
 				//read keyboard and mouse
 				input.handleMouse();
 				input.handleKeyboard();
@@ -69,6 +77,13 @@ public class Main {
 
 				//Print FPS to title bar
 				window.updateFPS();
+				
+				//Check if it's time to close
+				if (Display.isCloseRequested()) {
+					isRunning=false;
+					Display.destroy();
+                    System.exit(0);
+				}
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
@@ -76,4 +91,5 @@ public class Main {
 			System.exit(-1);
 		}
 	}
+
 }

@@ -1,5 +1,6 @@
 package jge3d;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -26,6 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
@@ -52,6 +53,8 @@ public class Window {
 	//Tree controls
 	private DefaultMutableTreeNode textureRootNode;
 	private DefaultTreeModel textureTreeModel;
+	private int texture_index=0;
+	private String textureTreeCurrentSelection="cube1";
 	
 	//Level controls
 	private JPanel levelView;
@@ -71,12 +74,25 @@ public class Window {
 	private long prev_time=0;
 	private int frames=0;
 	
+	//local references to other classes
 	private Level level;
-	private Renderer render;
+	private TextureList texture;
 	
-	public Window(Level _level, Renderer _render) {
+	//Window queue (to avoid stepping on another threads context)
+	private boolean load_level;
+	
+	public Window(Level _level, TextureList _texture) {
 		level = _level;
-		render = _render;
+		texture = _texture;
+		
+		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        //    public void run() {
+                createAndShowGUI();
+        //    }
+        //});
+	}
+	
+	public void createAndShowGUI() {
 		// Set the target size of the window.
 		int targetWidth = 1024;
 		int targetHeight = 768;
@@ -141,11 +157,13 @@ public class Window {
 		);
 
 		//Layout right pane
-		//RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.Y_AXIS));
+		RightPane.setLayout(new BorderLayout());
 		RightPane.setBackground(new Color(0,0,0));
-		RightPane.add(textureView);
-		RightPane.add(levelView);
-		RightPane.add(editorView);
+		RightPane.add(textureView, BorderLayout.NORTH);
+		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		RightPane.add(levelView, BorderLayout.WEST);
+		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		RightPane.add(editorView, BorderLayout.SOUTH);
 		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
 		
 		//layout the texture panel
@@ -169,14 +187,7 @@ public class Window {
 		    Sys.alert("Unable to create display.", e.toString());
 		    System.exit(0);
 		}
-		
-		//Make it so closing the window closes the program
-		window.addWindowListener(new WindowAdapter(){
-			@Override
-			public void windowClosing(WindowEvent e){
-				System.exit(0);
-			}
-		});
+
 		//Force minimum size of window
 		window.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent event) {
@@ -188,7 +199,7 @@ public class Window {
 					Math.max(initialHeight, window.getHeight())
 				);
 			}
-			});
+		});
 	}
 	
 	public void updateFPS() {
@@ -210,28 +221,31 @@ public class Window {
 		return GLView.getHeight();
 	} 
 	
-	public void setupTextureView()
-	{
-		textureView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 400));
+	public void setupTextureView() {
+		textureView.setBorder(BorderFactory.createLineBorder(Color.green));
+		//textureView.setPreferredSize(new Dimension(RightPane.getWidth(), 500));
 		textureView.setLayout(new BoxLayout(textureView, BoxLayout.Y_AXIS));
 		textureView.add(textureLabel);
 		textureView.add(texturePreview);
+		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
 		textureView.add(textureTree);
+		textureView.add(Box.createRigidArea(new Dimension(0, 5)));
 		textureView.add(textureAddButton);
 		textureView.add(textureDelButton);
 		texturePreview.setPreferredSize(new Dimension(128, 128));
+		textureTree.setPreferredSize(new Dimension(textureView.getWidth(), 300));
+		textureTree.setAlignmentX(Box.LEFT_ALIGNMENT);
 		texturePreview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
 		textureAddButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 final JFileChooser fc_texture = new JFileChooser("lib/Textures/");
 				fc_texture.showOpenDialog(window);
-                System.out.println("You loaded the texture:" +fc_texture.getSelectedFile().getPath() + "\n");
+                System.out.println("You loaded the texture:" + fc_texture.getSelectedFile().getPath() + "\n");
 
                 //Draw image centered in the middle of the panel    
                 texturePreview.setIcon(new ImageIcon(fc_texture.getSelectedFile().getPath()));
-                //updateTree();
+                insertTexture(fc_texture.getSelectedFile().getName());
             }
         });  
         
@@ -241,12 +255,30 @@ public class Window {
                 System.out.println("You deleted the texture\n");
             }
         });  
+        
+    	textureTree.addTreeSelectionListener(new TreeSelectionListener() {
+    	    public void valueChanged(TreeSelectionEvent e) {
+    	        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+    	        textureTree.getLastSelectedPathComponent();
+
+    	    /* if nothing is selected */ 
+    	        if (node == null) return;
+
+    	        if (node.toString() == textureRootNode.toString()) return;
+    	        
+    	    /* retrieve the node that was selected */ 
+    	        //Object nodeInfo = node.getUserObject();
+    	        texturePreview.setIcon(new ImageIcon(texture.getDataByName(node.toString()).getPath()));
+    	        textureTreeCurrentSelection = node.toString();
+    	    }
+    	});
 	}
 	
 	//Contains editor commands pertaining to the level (currently saving and loading)
 	public void setupLevelView() {
 		//levelView.setLayout(new FlowLayout());
 		//levelView.setAlignmentX(Component.LEFT_ALIGNMENT);
+		levelView.setBorder(BorderFactory.createLineBorder(Color.green));
 		levelView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 200));
 		levelView.add(levelLabel);
 		levelView.add(levelLoadButton);
@@ -269,23 +301,8 @@ public class Window {
         //http://forums.sun.com/thread.jspa?threadID=490317
         //http://mindprod.com/jgloss/swingthreads.html
         levelLoadButton.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent e)
-            {
-            	levelLoadButton.setEnabled(false);
-       			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-       				public void run() {
-            			try {
-							level.durr();
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (LWJGLException e) {
-							e.printStackTrace();
-						}
-       				}
-       			});
-       			levelLoadButton.setEnabled(true);
-                System.out.println("You loaded the level\n");
+            public void actionPerformed(ActionEvent e) {
+				load_level = true;
             }
         });  
 	}
@@ -293,25 +310,23 @@ public class Window {
 	//Contains all current editor commands (currently layer)
 	private void setupEditorView()
 	{
+		editorView.setBorder(BorderFactory.createLineBorder(Color.green));
 		editorView.setPreferredSize(new Dimension(RightPane.getWidth()-2, 25));
 		editorView.setLayout(new BoxLayout(editorView, BoxLayout.X_AXIS));
 		editorView.add(editorLabel);
-		editorView.add(Box.createHorizontalGlue());
 		editorView.add(editorLayerPrev);
 		editorView.add(editorLayerField);
 		editorView.add(editorLayerNext);
 
 		editorLayerPrev.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 current_layer--;
                 editorLayerField.setText(String.valueOf(current_layer));
             }
         });  
         
 		editorLayerNext.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
             	current_layer++;
             	editorLayerField.setText(String.valueOf(current_layer));
             }
@@ -330,7 +345,7 @@ public class Window {
 	private void initTree() {
 		textureRootNode = new DefaultMutableTreeNode("Textures");
 		textureTreeModel = new DefaultTreeModel(textureRootNode);
-		textureTreeModel.addTreeModelListener(new textureTreeListener());
+		textureTreeModel.addTreeModelListener(new textureTreeModelListener());
 
 		textureTree = new JTree(textureTreeModel);
 		textureTree.setEditable(true);
@@ -339,21 +354,22 @@ public class Window {
 		textureTree.setShowsRootHandles(true);
 		textureTree.setPreferredSize(new Dimension(RightPane.getWidth(), 100));
 	}
+
+	public String getSelectedTexture() {
+		return textureTreeCurrentSelection;
+	}
 	
-	//Called when adding new textures
-	private void updateTree() {
-		textureTreeModel.removeNodeFromParent(textureRootNode);
-		textureTreeModel = new DefaultTreeModel(textureRootNode);
-		int index = 0;
-		for(String key: render.getHash().keySet()) {
-			textureTreeModel.insertNodeInto(new DefaultMutableTreeNode(render.getHash().get(key).getGroup()), textureRootNode, index);
-			index++;
-			render.getHash().get(key).getName();
-		}
+	public void insertTexture(String name) {
+		textureTreeModel.insertNodeInto(
+			new DefaultMutableTreeNode(name),
+			textureRootNode,
+			texture_index
+		);
+		++texture_index;
 	}
 	
 	//Defines the actions taken when something happens to the tree
-	private class textureTreeListener implements TreeModelListener {
+	class textureTreeModelListener implements TreeModelListener {
 	    public void treeNodesChanged(TreeModelEvent e) {
 	        DefaultMutableTreeNode node;
 	        node = (DefaultMutableTreeNode)
@@ -378,5 +394,14 @@ public class Window {
 	    }
 	    public void treeStructureChanged(TreeModelEvent e) {
 	    }
+	}
+	
+	public boolean getLoadLevel() {
+		if (load_level){
+			load_level = false;
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
