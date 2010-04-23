@@ -194,11 +194,7 @@ public class Window extends JFrame{
 	public int getGLHeight() {
 		return GLView.getHeight();
 	}
-	
-	
-        
-        
-	
+
 	//Contains editor commands pertaining to the level (currently saving and loading)
 	public void setupLevelView() {
 		//levelView.setLayout(new FlowLayout());

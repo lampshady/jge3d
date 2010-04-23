@@ -97,9 +97,9 @@ class Input {
 	public void handleKeyboard() throws LWJGLException, IOException {
 		while(Keyboard.next()) {
 			Keyboard.poll();
-			
+			player.activate();
 			switch(Keyboard.getEventCharacter()) {
-				case 'w':	
+				case 'w':
 					player.move(new Vector3f(0,200,0), 10);
 					System.out.print("up\n");
 					break;

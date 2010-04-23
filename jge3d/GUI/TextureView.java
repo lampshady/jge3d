@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,6 +24,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
+
+import org.lwjgl.LWJGLException;
 
 import jge3d.TextureList;
 
@@ -92,12 +96,30 @@ public class TextureView extends JPanel{
             public void actionPerformed(ActionEvent e) 
             {
                 final JFileChooser fc_texture = new JFileChooser("lib/Textures/");
-				fc_texture.showOpenDialog(getRootPane());
+				String filename;
+                String filename_noextension;
+                
+                fc_texture.showOpenDialog(getRootPane());
                 System.out.println("You loaded the texture:" + fc_texture.getSelectedFile().getPath() + "\n");
 
                 //Draw image centered in the middle of the panel    
                 preview.setIcon(new ImageIcon(fc_texture.getSelectedFile().getPath()));
-                insertTexture(fc_texture.getSelectedFile().getName());
+                filename = fc_texture.getSelectedFile().getName();
+                filename_noextension = filename.split("\\.")[0];
+                insertTexture(filename_noextension);
+                try {
+					textureList.set(
+						"groupnotimplemented",
+						filename_noextension,
+						"lib/Textures/" + filename
+					);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (LWJGLException e1) {
+					e1.printStackTrace();
+				}
             }
         });
 		

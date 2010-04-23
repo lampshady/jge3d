@@ -146,6 +146,7 @@ public class Physics {
 		body.setFriction(0.0f);
 		body.setDamping(0.1f, 1.0f);
 		body.setAngularVelocity(new Vector3f(0,0,0));
+		
 		//body.setGravity(new Vector3f(0,1,0));
 		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
 		//body.setCollisionFlags(0);
@@ -154,18 +155,6 @@ public class Physics {
 		//Vector3f initial_velocity = new Vector3f(0.0f,0.0f,0.0f);	//Initial direction
 		//initial_velocity.normalize();	//transform to this position		
 		//initial_velocity.scale(0.0f);	//Initial speed
-		
-		/*
-		//Transform relative to world
-		Transform worldTrans = body.getWorldTransform(new Transform());
-		Vector3f world_pos = new Vector3f(10.0f,10.0f,0.0f);
-		worldTrans.origin.set(world_pos);
-		worldTrans.setRotation(new Quat4f(0f, 0f, 0f, 1f));
-		body.setWorldTransform(worldTrans);
-		*/
-		
-		//body.setLinearVelocity(initial_velocity);
-		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
 		
 		return body;
 	}

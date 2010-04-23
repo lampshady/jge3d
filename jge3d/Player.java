@@ -17,4 +17,8 @@ public class Player extends Character {
 	public void move(Vector3f impulse, float velocity) {
 		player_physics.applyImpulse(impulse, new Vector3f((int)0, (int)0, (int)0));
 	}
+	
+	public void activate() {
+		player_physics.activate();
+	}
 }
