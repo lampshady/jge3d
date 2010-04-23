@@ -100,13 +100,12 @@ public class Physics {
 		RigidBody body = createRigidBody(mass, startTransform, boxShape);
 		
 		//Setup objects properties [ a lot of this is probably redundant]
-		/*
-		body.setFriction(0.5f);
-		body.setDamping(0.2f, 0.1f);
-		body.setGravity(new Vector3f(0,0,0));
-		body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
-		body.setCollisionFlags(0);
-		*/
+		body.setFriction(0.0f);
+		body.setDamping(1.0f, 1.0f);
+		//body.setGravity(new Vector3f(0,1,0));
+		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
+		//body.setCollisionFlags(0);
+		
 		//Find inital velocity
 		//Vector3f initial_velocity = new Vector3f(0.0f,0.0f,0.0f);	//Initial direction
 		//initial_velocity.normalize();	//transform to this position		
@@ -127,6 +126,50 @@ public class Physics {
 		return body;
 	}
 		
+	public RigidBody createPlayer(float x, float y, float z, float cube_size){
+		//Give this thing some mass
+		float mass = 10f;
+		
+		//Create a shape for the object
+		CollisionShape boxShape = new BoxShape(new Vector3f(cube_size, cube_size, cube_size));
+		collisionShapes.add(boxShape);
+		
+		//Transform relative to initial position
+		Transform startTransform = new Transform();
+		startTransform.setIdentity();
+		startTransform.origin.set(new Vector3f(x,y,z));
+
+		//Create a rigid body to represent the object
+		RigidBody body = createRigidBody(mass, startTransform, boxShape);
+		
+		//Setup objects properties
+		body.setFriction(0.0f);
+		body.setDamping(0.1f, 1.0f);
+		body.setAngularVelocity(new Vector3f(0,0,0));
+		//body.setGravity(new Vector3f(0,1,0));
+		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
+		//body.setCollisionFlags(0);
+		
+		//Find inital velocity
+		//Vector3f initial_velocity = new Vector3f(0.0f,0.0f,0.0f);	//Initial direction
+		//initial_velocity.normalize();	//transform to this position		
+		//initial_velocity.scale(0.0f);	//Initial speed
+		
+		/*
+		//Transform relative to world
+		Transform worldTrans = body.getWorldTransform(new Transform());
+		Vector3f world_pos = new Vector3f(10.0f,10.0f,0.0f);
+		worldTrans.origin.set(world_pos);
+		worldTrans.setRotation(new Quat4f(0f, 0f, 0f, 1f));
+		body.setWorldTransform(worldTrans);
+		*/
+		
+		//body.setLinearVelocity(initial_velocity);
+		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+		
+		return body;
+	}
+	
 	public RigidBody createRigidBody(float mass, Transform startTransform, CollisionShape shape) {
 		// rigid body is dynamic if and only if mass is non zero, otherwise static
 		boolean isDynamic = (mass != 0f);

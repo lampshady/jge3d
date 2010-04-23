@@ -19,17 +19,17 @@ import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
 class Renderer {
-	private Level level;
 	private Editor editor;
 	private Physics physics;
 	private Camera camera;
 	private TextureList texture;
+	private EntityList entity;
 	private int objectlist;
 	
-	public Renderer(Level _level, Physics _physics, TextureList _texture) {
-		level = _level;
+	public Renderer(Level _level, Physics _physics, TextureList _texture, EntityList _entity) {
 		physics = _physics;
 		texture = _texture;
+		entity = _entity;
 		
 		//Buffer to hold LWJGL matrix transformations (for physics rendering)
 		buf = BufferUtils.createFloatBuffer(16);
@@ -168,8 +168,8 @@ class Renderer {
 		);
 		
 		//Check if level has been altered since last frame
-		if(level.getLevelChanged()) {
-			addToLevelList(level.getLatestEntity());
+		if(entity.getListChanged()) {
+			addToLevelList(entity.getLatestEntity());
 		}
 		
         //render level
@@ -232,20 +232,21 @@ class Renderer {
 
 		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-			for(int i=0;i<level.getLevelSize();i++) {
+			for(int i=0;i<entity.getListSize();i++) {
 				GL11.glPushMatrix();
-				position=level.getLevelEntityPosition(i);
+				position=entity.getEntityPosition(i);
 
-				if(level.getLevelEntityCollidable(i) == true) {
-					physics.addLevelBlock(position.x,position.y,-position.z,level.getLevelEntitySize());
+				if(entity.getEntityCollidable(i) == true) {
+					physics.addLevelBlock(position.x,position.y,-position.z,entity.getEntitySize(i));
 				}
 				
 				GL11.glTranslatef(
-					position.x*level.getLevelEntitySize(),
-					position.y*level.getLevelEntitySize(),
-					-position.z*level.getLevelEntitySize()
+					position.x*entity.getEntitySize(i),
+					position.y*entity.getEntitySize(i),
+					-position.z*entity.getEntitySize(i)
 				);
-				drawcube(level.getLevelEntityTextureName(i), level.getLevelEntitySize());
+				
+				drawcube(entity.getEntityTextureName(i), entity.getEntitySize(i));
 				GL11.glPopMatrix();
 			}
 		GL11.glEndList();
@@ -257,16 +258,16 @@ class Renderer {
 
 		//Replace old display list with new one containing new level object
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-		for(int i=0;i<level.getLevelSize();i++) {
+		for(int i=0;i<entity.getListSize();i++) {
 			GL11.glPushMatrix();
-			position=level.getLevelEntityPosition(i);
+			position=entity.getEntityPosition(i);
 			
 			GL11.glTranslatef(
-				position.x*level.getLevelEntitySize(),
-				position.y*level.getLevelEntitySize(),
-				-position.z*level.getLevelEntitySize()
+				position.x*entity.getEntitySize(i),
+				position.y*entity.getEntitySize(i),
+				-position.z*entity.getEntitySize(i)
 			);
-			drawcube(level.getLevelEntityTextureName(i), level.getLevelEntitySize());
+			drawcube(entity.getEntityTextureName(i), entity.getEntitySize(i));
 			GL11.glPopMatrix();
 		}
 		GL11.glEndList();

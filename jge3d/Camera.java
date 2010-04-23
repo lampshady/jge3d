@@ -37,7 +37,7 @@ public class Camera {
 		
 		declination = 0;
 		rotation = 0;
-		distance = 63.0f;
+		distance = 45.0f;
 		setUpVector( 0, 1, 0 );
 		updatePosition();
 	}
@@ -53,8 +53,9 @@ public class Camera {
 		
 		declination = 0;
 		rotation = 0;
-		distance = 63.0f;
+		distance = 45.0f;
 		setUpVector( 0, 1, 0 );
+		goToStart(height, width);
 		updatePosition();
 	}
 	
@@ -171,17 +172,15 @@ public class Camera {
 	//hard coded, ugh!  Magic numbers~
 	public void goToStart(float height, float width) {
 		//
-		focus[0] = 24.0f;
-		focus[1] = -11.0f;
+		focus[0] = 18.0f;
+		focus[1] = 8.0f;
 		focus[2] = 0.0f;
 		
 		position[0] = 0.0f;
 		position[1] = 0.0f;
-		position[2] = 63.0f;
+		position[2] = 45.0f;
 		
 		setUpVector(0,1,0);
-		
-		//debug();
 	}
 
 	public Vector3f getRayTo(int mouseX, int mouseY) throws LWJGLException {

@@ -404,4 +404,8 @@ public class Window {
 			return false;
 		}
 	}
+	
+	public void setLoadLevel(boolean _load_level) {
+		load_level = _load_level;
+	}
 }

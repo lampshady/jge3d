@@ -5,8 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.vecmath.Vector3f;
@@ -15,30 +13,28 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
 public class Level {
-	private float cube_size = 1.0f;
 	private int row_length=0;
 	private int col_length=0;
 	private String nextline;
 	private char type;
-	private List<Entity> level_ents;
 	private Window window;
 	private Renderer render;
 	private TextureList texture;
-	private Entity latest_ent;
-	private boolean level_changed=false;
+	private EntityList entity;
+
 	//private static String newline = System.getProperty("line.separator");
 	
-	public Level(TextureList _texture) {
+	public Level(TextureList _texture, EntityList _entity) {
 		texture = _texture;
+		entity = _entity;
 	}
 
 	public void setLevel(Renderer _render, Window _window) throws IOException, LWJGLException {
 		render = _render;
 		window = _window;
-		
-		level_ents = new ArrayList<Entity>();
+
 		BufferedReader levelfile;
-		levelfile = new BufferedReader(new FileReader("lib/Levels/newParserTest.map"));
+		levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
 		loadlevel(levelfile);
 		render.makeLevelList();
 		cleanup();
@@ -106,7 +102,7 @@ public class Level {
 								Integer.parseInt(split_position[1]),
 								Integer.parseInt(split_position[2])
 						);
-						level_ents.add(new Entity(type,position,texture,true));
+						entity.addEntity(new Entity(type,position,texture,true));
 						break;
 					default: System.out.print("FUCKSHIT level parsing error");
 					break;
@@ -122,19 +118,13 @@ public class Level {
 	public int getWidth() {
 		return row_length;
 	}
-	
-	public void addEntity(Entity ent) {
-		level_ents.add(ent);
-		latest_ent = ent;
-		level_changed = true;
-	}
-	
+
 	public void load() throws IOException, LWJGLException {
 		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
 		fc_level.showOpenDialog(window.getWindow());
 		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
 		//BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
-		level_ents.clear();
+		entity.clear();
 		loadlevel(levelfile);
 		
 		Display.makeCurrent();
@@ -159,45 +149,12 @@ public class Level {
 		
 		//Create level body defining block positions
 		bw.write(("level\n"));
-		for(int i=0; i<level_ents.size();i++)
-			bw.write("\t" + level_ents.get(i).toString() + "\n");
+		for(int i=0; i<entity.getListSize();i++)
+			bw.write("\t" + entity.getByIndex(i).toString() + "\n");
 		bw.write(("/level\n"));
 		
 		//Close buffers
 		bw.flush();
 		bw.close();
-	}
-	
-	public int getLevelSize() {
-		return level_ents.size();
-	}
-	
-	public Vector3f getLevelEntityPosition(int index) {
-		return level_ents.get(index).getPosition();
-	}
-	
-	public String getLevelEntityTextureName(int index) {
-		return level_ents.get(index).getTextureName();
-	}
-	
-	public float getLevelEntitySize() {
-		return cube_size;
-	}
-	
-	public boolean getLevelEntityCollidable(int index) {
-		return level_ents.get(index).getCollidable();
-	}
-	
-	public boolean getLevelChanged() {
-		if(level_changed) {
-			level_changed=false;
-			return true;
-		} else {
-			return level_changed;
-		}
-	}
-	
-	public Entity getLatestEntity() {
-		return latest_ent;
 	}
 }

@@ -37,4 +37,8 @@ public class Entity {
 	public float getSize() {
 		return size;
 	}
+	
+	public char getType() {
+		return type;
+	}
 }

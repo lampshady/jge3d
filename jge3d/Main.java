@@ -19,18 +19,23 @@ public class Main {
 			Level level;
 			Renderer render;
 			TextureList texture;
+			EntityList entity;
+			Player player;
 
 			//Create a texture holder
 			texture = new TextureList();
 			
+			//A list for storing all the entities
+			entity = new EntityList();
+			
 			//Create an empty  level
-			level = new Level(texture);
+			level = new Level(texture, entity);
 
 			//Make some physics
 			physics = new Physics();
 			
 			//Renderer for drawing stuff
-			render = new Renderer(level, physics, texture);
+			render = new Renderer(level, physics, texture, entity);
 			
 			//create the window and all that jazz
  			window = new Window(level, texture);
@@ -40,13 +45,15 @@ public class Main {
 		
 			//Camera
 			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
-			camera.goToStart(level.getHeight(), level.getWidth());
 			
 			//Make an editor
 			editor = new Editor(render, window);
 			
+			//Make a player
+			player = new Player(physics);
+			
 			//Create inputs
-			input = new Input(camera, window, physics, editor, level);
+			input = new Input(camera, window, physics, editor, entity, player);
 
 			//Renderer also needs references to the editor and camera
 			render.addReferences(editor, camera);
