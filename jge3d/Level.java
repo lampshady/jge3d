@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.vecmath.Vector3f;
 
+import jge3d.GUI.Window;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
@@ -66,7 +68,7 @@ public class Level {
 					case 'T':
 						if(texture.hasKey(splitString[1]) == false) {
 							texture.set(splitString[1], splitString[2], splitString[3]);
-							window.insertTexture(splitString[2]);
+							window.getTextureView().insertTexture(splitString[2]);
 						} else {
 							//this is for when we implement texture groups
 						}
@@ -124,7 +126,10 @@ public class Level {
 		fc_level.showOpenDialog(window.getWindow());
 		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
 		//BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
+		
 		entity.clear();
+		window.getTextureView().clear();
+
 		loadlevel(levelfile);
 		
 		Display.makeCurrent();

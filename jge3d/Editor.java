@@ -2,6 +2,8 @@ package jge3d;
 
 import javax.vecmath.Vector3f;
 
+import jge3d.GUI.Window;
+
 import org.lwjgl.LWJGLException;
 
 public class Editor {
@@ -25,7 +27,7 @@ public class Editor {
 		char type='L';
 		return new Entity(type,
 			current_position_vector,
-			window.getSelectedTexture(),
+			window.getTextureView().getSelectedTexture(),
 			true
 		);
 	}
