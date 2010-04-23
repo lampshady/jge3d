@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import javax.vecmath.Vector3f;
 
+import jge3d.GUI.Window;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

@@ -1,6 +1,8 @@
 package jge3d;
 
 //LWJGL input
+import jge3d.GUI.Window;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
@@ -81,8 +83,8 @@ public class Main {
 				//Check if it's time to close
 				if (Display.isCloseRequested()) {
 					isRunning=false;
-					Display.destroy();
-                    System.exit(0);
+					//Display.destroy();
+                    //System.exit(0);
 				}
 			}
 		} catch(Exception e) {

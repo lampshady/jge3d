@@ -6,6 +6,8 @@ import java.nio.FloatBuffer;
 
 import javax.vecmath.Vector3f;
 
+import jge3d.GUI.Window;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
