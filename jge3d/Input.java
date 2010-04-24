@@ -10,6 +10,7 @@ import jge3d.GUI.Window;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 class Input {
 	private int deltaX, deltaY;	
