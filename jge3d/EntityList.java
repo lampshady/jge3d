@@ -70,6 +70,16 @@ public class EntityList {
 	public float getEntitySize(int index) {
 		return entities.get(index).getSize();
 	}
+	
+	public void deleteByPosition(Vector3f position) {
+		for(int i=0; i<entities.size(); i++) {
+			if( position.equals(entities.get(i).getPosition()) ) {
+				entities.remove(i);
+				System.out.print("Found it: Deleting...\n Done. \n");
+				list_changed = true;
+			}
+		}
+	}
 /*
 	public int getLevelSize() {
 		level_size = 0;

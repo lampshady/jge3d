@@ -69,7 +69,7 @@ public class Main {
 			physics.dropBox(17,15,0,1.0f);
 
 			while (isRunning) {
-				if(window.getLoadLevel()) {
+				if(window.getLevelView().getLoadLevel()) {
 					level.load();
 					System.out.println("You loaded the level\n");
 				}

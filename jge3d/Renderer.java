@@ -48,7 +48,6 @@ class Renderer {
 	public void drawcube(String texture_name, float cube_size) throws FileNotFoundException, IOException {		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);    
 		GL11.glDisable(GL11.GL_BLEND);		// Turn Blending On
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
 
 		//bind a texture for drawing
 		texture.getByName(texture_name).bind();
@@ -108,7 +107,6 @@ class Renderer {
 	
 	public void transparentcube(float alpha, float cube_size) throws FileNotFoundException, IOException {		
 		GL11.glEnable(GL11.GL_BLEND);		// Turn Blending On
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
 		
 		GL11.glBegin(GL11.GL_QUADS);
@@ -227,7 +225,7 @@ class Renderer {
 			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, -current_position_vector.z);
 			
 			//Draw a transparent cube
-			transparentcube(0.9f, 1.0f);
+			transparentcube(1.0f, 1.0f);
 			
 		GL11.glPopMatrix();
 	}

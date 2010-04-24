@@ -34,26 +34,19 @@ public class TextureView extends JPanel{
 	JButton textureDelButton;
 	private TextureList textureList;
 	
-	int width;
-	int height;
-	
 	//JTree controls
 	private DefaultMutableTreeNode textureRootNode;
 	private DefaultTreeModel textureTreeModel;
 	private int texture_index=0;
 	private String textureTreeCurrentSelection="cube1";
 		
-	public void clear()
-	{
+	public void clear()	{
 		textureRootNode.removeAllChildren();
 		texture_index = 0;
 	}
 	
-	TextureView(int w, int h, TextureList tlist)
-	{
+	TextureView(TextureList tlist) {
 		textureList = tlist;
-		width = w;
-		height = h;
 		
 		//TextureView
 		textureLabel = new JLabel("Texture Viewer");
@@ -63,17 +56,9 @@ public class TextureView extends JPanel{
 		initTree();
 		
 		setupTextureView();
-		
-		/*
-		textureLabel.setVisible(true);
-		textureAddButton.setVisible(true);
-		textureDelButton.setVisible(true);
-		preview.setVisible(true);
-		*/
 	}
 	
-	public void setupTextureView() 
-	{
+	public void setupTextureView() {
 		this.setBorder(BorderFactory.createLineBorder(Color.green));
 		//textureView.setPreferredSize(new Dimension(RightPane.getWidth(), 500));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -87,10 +72,8 @@ public class TextureView extends JPanel{
 		preview.setPreferredSize(new Dimension(128, 128));
 		preview.setIcon(new ImageIcon("lib/Textures/cube1.png"));
 
-		textureAddButton.addActionListener(new ActionListener() 
-		{
-            public void actionPerformed(ActionEvent e) 
-            {
+		textureAddButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)  {
                 final JFileChooser fc_texture = new JFileChooser("lib/Textures/");
 				String filename;
                 String filename_noextension;
@@ -113,8 +96,7 @@ public class TextureView extends JPanel{
         });
 		
 		textureDelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 System.out.println("You deleted the texture\n");
             }
         });  
@@ -149,7 +131,7 @@ public class TextureView extends JPanel{
 		textureTree.setShowsRootHandles(true);
 		
 		treeScroll = new JScrollPane(textureTree);
-		treeScroll.setPreferredSize(new Dimension(width, 100));
+		treeScroll.setPreferredSize(new Dimension(super.getWidth(), 100));
 	}
 	
 	public void insertTexture(String name) {

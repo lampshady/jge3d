@@ -20,6 +20,7 @@ class Input {
 	private Level level;
 	private Player player;
 	private EntityList entity;
+	private Vector3f player_velocity;
 	
 	public Input(Camera _camera, Window _window, Physics _physics, Editor _editor, EntityList _entity, Player _player) throws LWJGLException {
 		camera=_camera;
@@ -28,6 +29,8 @@ class Input {
 		editor=_editor;
 		entity=_entity;
 		player=_player;
+		
+		player_velocity = new Vector3f();
 		
 		Mouse.create();
 		Mouse.setNativeCursor(null);
@@ -47,7 +50,7 @@ class Input {
 			switch(Mouse.getEventButton()) {
 				case -1://Mouse Movement
 					if(Mouse.isInsideWindow()) {
-						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getLayer(), camera);
+						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getEditorView().getLayer(), camera);
 						if(Mouse.isButtonDown(0)) {
 							//Pan camera Z
 							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ) {
@@ -64,7 +67,8 @@ class Input {
 						
 						if(Mouse.isButtonDown(2)) {
 							//Change Perspective
-	
+							camera.incrementDeclination(-deltaY*.01f);
+							camera.incrementRotation(-deltaX*.01f);
 						}
 					}
 					break;
@@ -102,20 +106,19 @@ class Input {
 			player.activate();
 			switch(Keyboard.getEventCharacter()) {
 				case 'w':
-					player.move(new Vector3f(0,200,0), 10);
-					System.out.print("up\n");
+					player_velocity.y = 200;
 					break;
 				case 'a':
-					player.move(new Vector3f(-10,0,0), 10);
-					System.out.print("left\n");
+					player_velocity.x = -20;
 					break;
 				case 's':
-					player.move(new Vector3f(0,-10,0), 10);
-					System.out.print("down\n");
+					player_velocity.y = -10;
 					break;
 				case 'd':
-					player.move(new Vector3f(10,0,0), 10);
-					System.out.print("right\n");
+					player_velocity.x = 20;
+					break;
+				case 'x':
+					entity.deleteByPosition(editor.getCurrentPosition());
 					break;
 				case ' ':
 					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
@@ -125,9 +128,29 @@ class Input {
 					level.save();
 					break;
 				case Keyboard.KEY_F2:
-					window.setLoadLevel(true);
+					window.getLevelView().setLoadLevel(true);
 					break;
 			}
+			System.out.print(player.getVelocity().x + " " + player.getVelocity().y + " " + player.getVelocity().z + "\n");
+			
+			if(player.getVelocity().x > 15 || player.getVelocity().x < -15)
+				player_velocity.x=0;
+			if(player.getVelocity().y > 15 || player.getVelocity().y < -15)
+				player_velocity.y=0;
+			if(player.getVelocity().z > 15 || player.getVelocity().z < -15)
+				player_velocity.z=0;
+			
+			player.move(
+				new Vector3f(
+					player_velocity.x,
+					player_velocity.y,
+					player_velocity.z
+				)
+				, 10
+			);
+			player_velocity.x=0;
+			player_velocity.y=0;
+			player_velocity.z=0;
 			/*
 			switch(Keyboard.getEventKey()) {
 				case Keyboard.KEY_W:	

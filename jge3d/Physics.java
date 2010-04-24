@@ -53,7 +53,7 @@ public class Physics {
 		
 		//Create the dynamics world and set default options
 		dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-		dynamicsWorld.setGravity(new Vector3f(0,-10,0));
+		dynamicsWorld.setGravity(new Vector3f(0,-20,0));
 		dynamicsWorld.getDispatchInfo().allowedCcdPenetration = 0f;
 		
 		//Preset the previous time so deltaT isn't enormous on first run
@@ -100,8 +100,8 @@ public class Physics {
 		RigidBody body = createRigidBody(mass, startTransform, boxShape);
 		
 		//Setup objects properties [ a lot of this is probably redundant]
-		body.setFriction(0.0f);
-		body.setDamping(1.0f, 1.0f);
+		body.setFriction(0.5f);
+		//body.setDamping(0.2f, 0.2f);
 		//body.setGravity(new Vector3f(0,1,0));
 		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
 		//body.setCollisionFlags(0);
@@ -139,22 +139,23 @@ public class Physics {
 		startTransform.setIdentity();
 		startTransform.origin.set(new Vector3f(x,y,z));
 
-		//Create a rigid body to represent the object
-		RigidBody body = createRigidBody(mass, startTransform, boxShape);
+		//if you give the object 0 local inertia it doesn't rotate around the z axis
+		Vector3f localInertia = new Vector3f(0f, 0f, 0f);
 		
+		//set motion state (keeps track of objects motion, durr)
+		DefaultMotionState myMotionState = new DefaultMotionState(startTransform);
+		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(mass, myMotionState, boxShape, localInertia);
+		RigidBody body = new RigidBody(cInfo);
+
 		//Setup objects properties
-		body.setFriction(0.0f);
+		body.setFriction(0.99f);
 		body.setDamping(0.1f, 1.0f);
 		body.setAngularVelocity(new Vector3f(0,0,0));
-		
 		//body.setGravity(new Vector3f(0,1,0));
 		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
 		//body.setCollisionFlags(0);
 		
-		//Find inital velocity
-		//Vector3f initial_velocity = new Vector3f(0.0f,0.0f,0.0f);	//Initial direction
-		//initial_velocity.normalize();	//transform to this position		
-		//initial_velocity.scale(0.0f);	//Initial speed
+		dynamicsWorld.addRigidBody(body);
 		
 		return body;
 	}

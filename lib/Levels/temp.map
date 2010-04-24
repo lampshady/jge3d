@@ -1,4 +1,5 @@
 header
+	T;group;dirt2;lib/Textures/dirt2.png
 	T;ground;dirt1;lib/Textures/dirt1.png
 	T;ground;grass1;lib/Textures/grass1.png
 	T;brick;brick1;lib/Textures/brick1.png
@@ -7,13 +8,6 @@ header
 /header
 
 level
-	L;0,0,0;dirt1
-	L;1,1,1;grass1
-	L;2,2,2;dirt1
-	L;3,3,3;grass1
-	L;4,4,4;dirt1
-	L;5,5,5;grass1
-	L;6,6,6;dirt1
 	L;14,-7,0;dirt1
 	L;16,-7,0;dirt1
 	L;18,-7,0;dirt1
@@ -114,4 +108,106 @@ level
 	L;0,20,-1;cube1
 	L;32,24,0;cube1
 	L;15,23,0;cube1
+	L;41,-7,0;dirt2
+	L;41,-9,0;dirt2
+	L;41,-11,0;dirt2
+	L;43,-11,0;dirt2
+	L;43,-9,0;dirt2
+	L;43,-7,0;dirt2
+	L;43,-5,0;dirt2
+	L;45,-3,0;dirt2
+	L;45,-5,0;dirt2
+	L;45,-7,0;dirt2
+	L;45,-9,0;dirt2
+	L;45,-11,0;dirt2
+	L;47,-11,0;dirt2
+	L;47,-9,0;dirt2
+	L;47,-7,0;dirt2
+	L;47,-5,0;dirt2
+	L;47,-3,0;dirt2
+	L;47,-1,0;dirt2
+	L;41,-5,0;dirt2
+	L;43,-3,0;dirt2
+	L;45,-1,0;dirt2
+	L;47,1,0;dirt2
+	L;49,1,0;dirt2
+	L;51,1,0;dirt2
+	L;53,1,0;dirt2
+	L;55,1,0;dirt2
+	L;57,1,0;dirt2
+	L;59,1,0;dirt2
+	L;59,1,0;dirt2
+	L;61,1,0;dirt2
+	L;49,-1,0;dirt2
+	L;51,-1,0;dirt2
+	L;53,-1,0;dirt2
+	L;55,-1,0;dirt2
+	L;57,-1,0;dirt2
+	L;59,-1,0;dirt2
+	L;61,-1,0;dirt2
+	L;49,-3,0;dirt2
+	L;49,-5,0;dirt2
+	L;49,-7,0;dirt2
+	L;49,-9,0;dirt2
+	L;49,-11,0;dirt2
+	L;51,-11,0;dirt2
+	L;51,-9,0;dirt2
+	L;51,-7,0;dirt2
+	L;51,-5,0;dirt2
+	L;51,-3,0;dirt2
+	L;53,-3,0;dirt2
+	L;53,-5,0;dirt2
+	L;53,-7,0;dirt2
+	L;53,-9,0;dirt2
+	L;53,-11,0;dirt2
+	L;55,-11,0;dirt2
+	L;55,-9,0;dirt2
+	L;55,-7,0;dirt2
+	L;55,-9,0;dirt2
+	L;55,-5,0;dirt2
+	L;55,-3,0;dirt2
+	L;57,-3,0;dirt2
+	L;57,-5,0;dirt2
+	L;57,-7,0;dirt2
+	L;57,-9,0;dirt2
+	L;57,-11,0;dirt2
+	L;59,-11,0;dirt2
+	L;59,-9,0;dirt2
+	L;59,-7,0;dirt2
+	L;59,-5,0;dirt2
+	L;59,-3,0;dirt2
+	L;61,-3,0;dirt2
+	L;61,-5,0;dirt2
+	L;61,-7,0;dirt2
+	L;61,-9,0;dirt2
+	L;61,-9,0;dirt2
+	L;61,-11,0;dirt2
+	L;41,-5,0;brick2
+	L;43,-5,0;brick2
+	L;43,-3,0;brick2
+	L;45,-3,0;brick2
+	L;45,-1,0;brick2
+	L;47,1,0;brick2
+	L;47,-1,0;brick2
+	L;49,1,0;brick2
+	L;51,1,0;brick2
+	L;53,1,0;brick2
+	L;55,1,0;brick2
+	L;57,1,0;brick2
+	L;59,1,0;brick2
+	L;61,1,0;brick2
+	L;41,-7,0;brick2
+	L;41,-9,0;brick2
+	L;41,-11,0;brick2
+	L;55,3,0;brick2
+	L;57,3,0;brick2
+	L;59,3,0;brick2
+	L;57,5,0;brick2
+	L;61,-1,0;brick2
+	L;61,-3,0;brick2
+	L;61,-5,0;brick2
+	L;61,-7,0;brick2
+	L;61,-9,0;brick2
+	L;61,-11,0;brick2
+	L;61,-11,0;brick2
 /level
