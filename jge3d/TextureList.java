@@ -47,18 +47,21 @@ public class TextureList {
 	}
 	
 	public void queueTextureForLoading(String load) {
-		String[] split_texture = load.split("\\,");;
-        String filename = load;
-        String filename_noextension = filename.split("\\.")[0];
-		textures.set(
-				"groupnotimplemented",
-				filename_noextension,
-				"lib/Textures/" + filename
-			);
 		texture_load_string = load;
+		textures_changed = true;
 	}
 	
-	public boolean getLoadTexture() {
+	public void loadQueuedTexture() throws FileNotFoundException, IOException, LWJGLException {
+		String[] split_string = texture_load_string.split("\\,");
+		textures.put(split_string[1],
+				new TextureData(
+					split_string[0],
+					split_string[1],
+					split_string[2]
+			));
+	}
+	
+	public boolean hasChanged() {
 		if (textures_changed){
 			textures_changed = false; 
 			return true;

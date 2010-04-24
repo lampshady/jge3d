@@ -65,7 +65,6 @@ public class Window extends JFrame{
 		level = _level;
 		texture = _texture;
 		
-		
 		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
         //    public void run() {
                 createAndShowGUI();

@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,8 +22,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
-
-import org.lwjgl.LWJGLException;
 
 import jge3d.TextureList;
 
@@ -108,6 +104,11 @@ public class TextureView extends JPanel{
                 filename_noextension = filename.split("\\.")[0];
                 insertTexture(filename_noextension);
 
+                textureList.queueTextureForLoading(
+                	"group" + "," +
+                	filename_noextension +
+                	",lib/Textures/" + filename
+                );
             }
         });
 		

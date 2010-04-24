@@ -75,10 +75,9 @@ public class Main {
 				}
 				
 				//Check if textureList has been altered since last frame
-				if(window.getTextureView().getLoadTexture()) {
-					
+				if(texture.hasChanged()) {
+					texture.loadQueuedTexture();
 				}
-				
 				
 				//read keyboard and mouse
 				input.handleMouse();
