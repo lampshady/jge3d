@@ -28,6 +28,9 @@ class Renderer {
 	private EntityList entity;
 	private int objectlist;
 	
+	//Notifier for adding textures
+	boolean textures_changed = false;	
+	
 	public Renderer(Level _level, Physics _physics, TextureList _texture, EntityList _entity) {
 		physics = _physics;
 		texture = _texture;

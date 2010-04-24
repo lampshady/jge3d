@@ -10,6 +10,10 @@ import org.newdawn.slick.opengl.Texture;
 public class TextureList {
 	private HashMap<String, TextureData> textures;
 	
+	//Queue for texture loading
+	String texture_load_string = "";
+	boolean textures_changed;
+	
 	public TextureList() {
 		textures = new HashMap<String, TextureData>();
 	}
@@ -42,4 +46,24 @@ public class TextureList {
 		return textures.containsKey(key);
 	}
 	
+	public void queueTextureForLoading(String load) {
+		String[] split_texture = load.split("\\,");;
+        String filename = load;
+        String filename_noextension = filename.split("\\.")[0];
+		textures.set(
+				"groupnotimplemented",
+				filename_noextension,
+				"lib/Textures/" + filename
+			);
+		texture_load_string = load;
+	}
+	
+	public boolean getLoadTexture() {
+		if (textures_changed){
+			textures_changed = false; 
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

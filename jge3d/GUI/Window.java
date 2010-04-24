@@ -262,8 +262,6 @@ public class Window extends JFrame{
 		return current_layer;
 	}
 	
-
-	
 	public boolean getLoadLevel() {
 		if (load_level){
 			load_level = false; 

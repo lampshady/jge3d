@@ -107,19 +107,7 @@ public class TextureView extends JPanel{
                 filename = fc_texture.getSelectedFile().getName();
                 filename_noextension = filename.split("\\.")[0];
                 insertTexture(filename_noextension);
-                try {
-					textureList.set(
-						"groupnotimplemented",
-						filename_noextension,
-						"lib/Textures/" + filename
-					);
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (LWJGLException e1) {
-					e1.printStackTrace();
-				}
+
             }
         });
 		
@@ -203,4 +191,6 @@ public class TextureView extends JPanel{
 	    public void treeStructureChanged(TreeModelEvent e) {
 	    }
 	}
+	
+
 }

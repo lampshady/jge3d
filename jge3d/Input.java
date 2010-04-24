@@ -95,8 +95,10 @@ class Input {
 	}
 	
 	public void handleKeyboard() throws LWJGLException, IOException {
+
 		while(Keyboard.next()) {
 			Keyboard.poll();
+			
 			player.activate();
 			switch(Keyboard.getEventCharacter()) {
 				case 'w':
@@ -129,17 +131,20 @@ class Input {
 			/*
 			switch(Keyboard.getEventKey()) {
 				case Keyboard.KEY_W:	
-					player.move(new Vector3f(-1,0,0), 10);
+					player.move(new Vector3f(0,200,0), 10);
+					System.out.print("up\n");
 					break;
 				case Keyboard.KEY_A:
-					player.move(new Vector3f(1,0,0), 10);
+					player.move(new Vector3f(-10,0,0), 10);
+					System.out.print("left\n");
 					break;
 				case Keyboard.KEY_S:
-					player.move(new Vector3f(0,-1,0), 10);
-					System.out.print("asdf");
+					player.move(new Vector3f(0,-10,0), 10);
+					System.out.print("down\n");
 					break;
 				case Keyboard.KEY_D:
-					player.move(new Vector3f(0,10,0), 10);
+					player.move(new Vector3f(10,0,0), 10);
+					System.out.print("right\n");
 					break;
 				case Keyboard.KEY_SPACE:
 					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
@@ -153,6 +158,7 @@ class Input {
 					break;
 			}
 			*/
+			
 		}
 	}
 }

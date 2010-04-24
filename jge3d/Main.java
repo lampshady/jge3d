@@ -74,6 +74,12 @@ public class Main {
 					System.out.println("You loaded the level\n");
 				}
 				
+				//Check if textureList has been altered since last frame
+				if(window.getTextureView().getLoadTexture()) {
+					
+				}
+				
+				
 				//read keyboard and mouse
 				input.handleMouse();
 				input.handleKeyboard();
