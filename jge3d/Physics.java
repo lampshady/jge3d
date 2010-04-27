@@ -30,6 +30,7 @@ public class Physics {
 	private ConstraintSolver solver;
 	private DynamicsWorld dynamicsWorld;
 	private List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
+	float deltaT;
 
 	//For holding the previous time in microseconds to calculate deltaT
 	private long prev_time;
@@ -185,12 +186,16 @@ public class Physics {
 	
 	public void clientUpdate() {
 		// simple dynamics world doesn't handle fixed-time-stepping
-		float deltaT = (System.nanoTime()-prev_time);
+		deltaT = (System.nanoTime()-prev_time);
 		prev_time = System.nanoTime();
 		
 		// step the simulation
 		if (dynamicsWorld != null) {
 			dynamicsWorld.stepSimulation(deltaT / 1000000000f);
 		}
+	}
+	
+	public float getDeltaT() {
+		return deltaT;
 	}
 }

@@ -24,11 +24,11 @@ public class Editor {
 	}
 	
 	public Entity getCurrentBlock() {
-		char type='L';
-		return new Entity(type,
+		return new Entity('L',
 			current_position_vector,
 			window.getTextureView().getSelectedTexture(),
-			true
+			true,
+			0	//replace with TTL from ent browser
 		);
 	}
 }

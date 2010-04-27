@@ -24,17 +24,18 @@ public class Main {
 			EntityList entity;
 			Player player;
 
+
+			//Make some physics
+			physics = new Physics();
+			
 			//Create a texture holder
 			texture = new TextureList();
 			
 			//A list for storing all the entities
-			entity = new EntityList();
+			entity = new EntityList(physics);
 			
 			//Create an empty  level
 			level = new Level(texture, entity);
-
-			//Make some physics
-			physics = new Physics();
 			
 			//Renderer for drawing stuff
 			render = new Renderer(level, physics, texture, entity);
