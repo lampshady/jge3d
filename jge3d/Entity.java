@@ -35,6 +35,7 @@ public class Entity {
 		size=1.0f;
 		phys_body=rb;
 		ttl=_ttl;
+		created_at=System.currentTimeMillis();
 	}
 
 	public Vector3f getPosition() {
@@ -70,9 +71,11 @@ public class Entity {
 	}
 	
 	public boolean isDead() {
-		if( (System.currentTimeMillis() >= (created_at+ttl)) && (ttl != 0) )
+		if( (System.currentTimeMillis() >= (created_at+ttl)) && (ttl != 0) ) {
+			System.out.print("RIP\n===\nBorn: " + created_at + "\nDied:" +  System.currentTimeMillis() +  "\n" + "Lived: " + ((System.currentTimeMillis()-created_at)/1000.0f) + " sec\n");
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 }

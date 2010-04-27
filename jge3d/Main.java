@@ -84,6 +84,9 @@ public class Main {
 				//read keyboard and mouse
 				input.handleMouse();
 				input.handleKeyboard();
+
+				//Check to make sure none of the entities are marked as dead
+				entity.pruneEntities();
 				
 				//Update the world's physical layout
 				physics.clientUpdate();

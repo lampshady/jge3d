@@ -84,7 +84,7 @@ public class Physics {
 		dynamicsWorld.addRigidBody(body);
 	}
 	
-	public RigidBody dropBox(float x, float y, float z, float cube_size){
+	public Entity dropBox(float x, float y, float z, float cube_size){
 		//Give this thing some mass
 		float mass = 10f;
 		
@@ -124,7 +124,7 @@ public class Physics {
 		//body.setLinearVelocity(initial_velocity);
 		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
 		
-		return body;
+		return new Entity('C',new Vector3f(),"cube1",true,this,body,5000);
 	}
 		
 	public RigidBody createPlayer(float x, float y, float z, float cube_size){

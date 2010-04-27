@@ -10,7 +10,6 @@ import jge3d.GUI.Window;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
 class Input {
 	private int deltaX, deltaY;	
@@ -134,7 +133,7 @@ class Input {
 					break;
 				case ' ':
 					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
-					physics.dropBox(ray.x,ray.y,ray.z,1);
+					entity.addEntity(physics.dropBox(ray.x,ray.y,ray.z,1));
 					break;
 				case Keyboard.KEY_F1:
 					level.save();
