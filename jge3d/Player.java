@@ -10,6 +10,7 @@ public class Player extends Character {
 	private RigidBody player_physics;
 	float max_velocity;
 	Vector3f current_velocity;
+	Vector3f position;	
 	
 	public Player(Physics _physics) {
 		//player = new Entity('P',new Vector3f(17,15,0), "cube1", true);
@@ -27,5 +28,9 @@ public class Player extends Character {
 	
 	public Vector3f getVelocity() {
 		return player_physics.getLinearVelocity(current_velocity);
+	}
+	
+	public Vector3f getLocation() {
+		return player_physics.getCenterOfMassPosition(position);
 	}
 }

@@ -21,6 +21,9 @@ public class Camera {
 	
 	//Don't flip over, its confusing.
 	private float maximum_declination = 89.9f;
+	
+	private Vector3f player_position;
+	
 	private float minimum_declination = 0.1f;
 	
 	public Camera(float height, float width){
@@ -250,6 +253,12 @@ public class Camera {
 				 								this.getPositionZ() + t * ray.z); 
 		
 		return ray;
+	}
+	
+	public void checkPlayerLocation(Player player) {
+		player_position = player.getLocation();
+		
+		
 	}
 	
 	public void debug() {

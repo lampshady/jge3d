@@ -47,7 +47,7 @@ class Renderer {
 	
 	public void drawcube(String texture_name, float cube_size) throws FileNotFoundException, IOException {		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);    
-		GL11.glDisable(GL11.GL_BLEND);		// Turn Blending On
+		//GL11.glDisable(GL11.GL_BLEND);		// Turn Blending On
 
 		//bind a texture for drawing
 		texture.getByName(texture_name).bind();

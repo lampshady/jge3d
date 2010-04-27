@@ -226,6 +226,52 @@ level
 	L;-3,-7,2;dirt2
 	L;-3,-7,0;dirt2
 	L;29,-3,0;grass1
-	L;14,3,0;cube1
 	L;-3,-3,0;grass1
+	L;11,11,0;cube1
+	L;72,-11,0;brick2
+	L;72,-9,0;brick2
+	L;72,-7,0;brick2
+	L;72,-5,0;brick2
+	L;72,-3,0;brick2
+	L;72,-1,0;brick2
+	L;72,1,0;brick2
+	L;74,1,0;brick2
+	L;76,1,0;brick2
+	L;78,1,0;brick2
+	L;80,1,0;brick2
+	L;82,1,0;brick2
+	L;84,1,0;brick2
+	L;86,1,0;brick2
+	L;88,1,0;brick2
+	L;90,1,0;brick2
+	L;92,1,0;brick2
+	L;92,-1,0;brick2
+	L;92,-3,0;brick2
+	L;92,-5,0;brick2
+	L;92,-7,0;brick2
+	L;92,-9,0;brick2
+	L;92,-11,0;brick2
+	L;103,1,0;brick2
+	L;103,-1,0;brick2
+	L;103,-3,0;brick2
+	L;103,-5,0;brick2
+	L;103,-7,0;brick2
+	L;103,-11,0;brick2
+	L;103,-9,0;brick2
+	L;114,-1,0;brick2
+	L;114,1,0;brick2
+	L;114,-3,0;brick2
+	L;114,-5,0;brick2
+	L;114,-7,0;brick2
+	L;114,-9,0;brick2
+	L;114,-11,0;brick2
+	L;116,1,0;brick2
+	L;118,1,0;brick2
+	L;120,1,0;brick2
+	L;122,1,0;brick2
+	L;124,1,0;brick2
+	L;126,1,0;brick2
+	L;128,1,0;brick2
+	L;130,1,0;brick2
+	L;132,1,0;brick2
 /level

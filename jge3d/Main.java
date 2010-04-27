@@ -86,6 +86,9 @@ public class Main {
 				//Update the world's physical layout
 				physics.clientUpdate();
 
+				//Camera check versus player position
+				
+				
 				//Draw world
 				render.draw();
 
