@@ -46,7 +46,7 @@ public class Main {
 			render.initGL(window);
 		
 			//Camera
-			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
+			camera = new Camera(level.getHeight(), level.getWidth());
 			
 			//Make an editor
 			editor = new Editor(render, window);
@@ -68,6 +68,7 @@ public class Main {
 			//Just to show off the physics
 			physics.dropBox(17,15,0,1.0f);
 
+			//window.get
 			while (isRunning) {
 				if(window.getLevelView().getLoadLevel()) {
 					level.load();

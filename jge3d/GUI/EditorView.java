@@ -11,6 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.vecmath.Vector3f;
+
+import jge3d.Camera;
 
 public class EditorView extends JPanel{
 	//EditorView
@@ -59,5 +62,22 @@ public class EditorView extends JPanel{
 	
 	public int getLayer() {
 		return current_layer;
+	}
+	
+	public void incrementLayer(int inc, Camera camera)
+	{
+		current_layer += inc;
+		editorLayerField.setText(String.valueOf(current_layer));
+		camera.moveFocus(new Vector3f(0,0, -1.0f * (float)inc));
+	}
+	
+	public Vector3f getLayerNormal()
+	{
+		return new Vector3f(0, 0, 1);
+	}
+	
+	public Vector3f getLayerPoint()
+	{
+		return new Vector3f(0, 0, current_layer);
 	}
 }
