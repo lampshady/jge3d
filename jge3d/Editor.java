@@ -16,7 +16,8 @@ public class Editor {
 	}
 	
 	public void setCurrentBlock(int mouseX, int mouseY, float zPlane, Camera camera) throws LWJGLException {
-		 current_position_vector = camera.getRayToPlane(mouseX, mouseY, window.getEditorView().getLayer()); 
+		 current_position_vector = camera.getRayToPlane(mouseX, mouseY, new Vector3f(0,0,1), new Vector3f(0,0,0));
+				// window.getEditorView().getLayerNormal(), window.getEditorView().getLayerPoint()); 
 	}
 	
 	public Vector3f getCurrentPosition() {

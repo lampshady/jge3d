@@ -1,7 +1,7 @@
 header
 	T;group;dirt2;lib/Textures/dirt2.png
-	T;group;path1;lib/Textures/path1.PNG
 	T;ground;dirt1;lib/Textures/dirt1.png
+	T;group;path1;lib/Textures/path1.PNG
 	T;ground;grass1;lib/Textures/grass1.png
 	T;brick;brick1;lib/Textures/brick1.png
 	T;brick;brick2;lib/Textures/brick2.png
@@ -144,7 +144,6 @@ level
 	L;3,-3,0;path1
 	L;1,-3,0;path1
 	L;-1,-3,0;path1
-	L;-3,-3,0;path1
 	L;-3,-3,-2;grass1
 	L;-1,-3,-2;grass1
 	L;1,-3,-2;grass1
@@ -227,4 +226,6 @@ level
 	L;-3,-7,2;dirt2
 	L;-3,-7,0;dirt2
 	L;29,-3,0;grass1
+	L;14,3,0;cube1
+	L;-3,-3,0;grass1
 /level
