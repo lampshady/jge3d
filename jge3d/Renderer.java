@@ -222,7 +222,7 @@ class Renderer {
 			
 			//Z needs to be replaced with -layer * cube_size
 			current_position_vector.z = (float)Math.floor(current_position_vector.z);
-			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, -current_position_vector.z);
+			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, current_position_vector.z);
 			
 			//Draw a transparent cube
 			transparentcube(1.0f, 1.0f);

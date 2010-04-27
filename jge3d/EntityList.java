@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.vecmath.Vector3f;
 
+import com.bulletphysics.dynamics.RigidBody;
 
 public class EntityList {
 	private List<Entity> entities;
@@ -12,15 +13,25 @@ public class EntityList {
 	//private int level_size = 0;
 	//private boolean level_changed;
 	private boolean list_changed;
+	private Physics physics;
 	
-	public EntityList() {
+	public EntityList(Physics _physics) {
 		entities = new ArrayList<Entity>();
+		physics = _physics;
 	}
 
 	public void clear() {
 		entities.clear();
 	}
 
+	public Entity addEntityByParams(char _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
+		latest_ent = new Entity(_type,_pos,_texture_name,_collidable,physics,rb,_ttl);
+		entities.add(latest_ent);
+		list_changed=true;
+
+		return latest_ent;
+	}
+	
 	public Entity addEntity(Entity ent) {
 		entities.add(ent);
 		latest_ent = ent;
@@ -74,35 +85,26 @@ public class EntityList {
 	public void deleteByPosition(Vector3f position) {
 		for(int i=0; i<entities.size(); i++) {
 			if( position.equals(entities.get(i).getPosition()) ) {
+				entities.get(i).deletePhysics();
 				entities.remove(i);
 				System.out.print("Found it: Deleting...\n Done. \n");
 				list_changed = true;
 			}
 		}
 	}
-/*
-	public int getLevelSize() {
-		level_size = 0;
-		
-		for(int i=0; i < entities.size();i++) {
-			if(entities.get(i).getType() == 'L') {
-				++level_size;
-			}
-		}
-
-		return level_size;
+	
+	public Physics getPhysics() {
+		return physics;
 	}
 	
-	public List<Entity> getLevelEntities() {
-		List<Entity> level_ents = new ArrayList<Entity>();
-		
-		for(int i=0; i < entities.size();i++) {
-			if(entities.get(i).getType() == 'L') {
-				level_ents.add(entities.get(i));
+	public void pruneEntities() {
+		for(int i=0; i<entities.size(); i++) {
+			if( entities.get(i).isDead() ) {
+				entities.get(i).deletePhysics();
+				entities.remove(i);
+				System.out.print("Found a dead one: Deleting...\n Done. \n");
+				list_changed = true;
 			}
 		}
-		
-		return level_ents;
 	}
-*/
 }

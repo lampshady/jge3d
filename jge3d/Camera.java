@@ -3,6 +3,7 @@ package jge3d;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import javax.vecmath.Tuple3f;
 import javax.vecmath.Vector3f;
 
 import org.lwjgl.opengl.Display;
@@ -12,10 +13,10 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 
 public class Camera {
-	private float[] position;					//x, y, z
+	private Vector3f position;					//x, y, z
 	private float declination;					//Angle up and down
 	private float rotation;						//Angle left and right
-	private float[] focus;						//x, y, z of target
+	private Vector3f focus;						//x, y, z of target
 	private float distance;						//distance from focus
 	private Vector3f up_vector;					//vector pointing up
 	
@@ -29,31 +30,20 @@ public class Camera {
 	public Camera(float height, float width){
 		//initial setup (float about 0,0,0 I guess?
 		
-		position = new float[3];
-		focus = new float[3];
-		
-		for( int i = 0; i<3; i++ )
-			 position[i] = 0;
-		
-		for( int i = 0; i<3; i++ )
-			 focus[i] = 0;
-		
+		position = new Vector3f(0,0,0);
+		focus = new Vector3f(0,0,0);
 		declination = 0;
 		rotation = 0;
 		distance = 45.0f;
 		setUpVector( 0, 1, 0 );
+		goToStart(height, width);
 		updatePosition();
 	}
 	
 	public Camera(float x, float y, float z, float height, float width)
 	{
-		position = new float[3];
-		focus = new float[3];
-		
-		focus[0] = x;
-		focus[1] = y;
-		focus[2] = z;
-		
+		position = new Vector3f(0,0,0);
+		focus = new Vector3f(x, y, z);
 		declination = 0;
 		rotation = 0;
 		distance = 45.0f;
@@ -64,17 +54,17 @@ public class Camera {
 	
 	float getPositionX()
 	{
-		return position[0] + focus[0];
+		return position.x + focus.x;
 	}
 	
 	float getPositionY()
 	{
-		return position[1] + focus[1];
+		return position.y + focus.y;
 	}
 	
 	float getPositionZ()
 	{
-		return position[2] + focus[2];
+		return position.z + focus.z;
 	}
 	
 	Vector3f getUp()
@@ -99,24 +89,24 @@ public class Camera {
 	
 	float getFocusX()
 	{
-		return focus[0];
+		return focus.x;
 	}
 	
 	float getFocusY()
 	{
-		return focus[1];
+		return focus.y;
 	}
 	
 	float getFocusZ()
 	{
-		return focus[2];
+		return focus.z;
 	}
 	
 	public void changeFocus(float x, float y, float z)
 	{
-		focus[0] = x;
-		focus[1] = y;
-		focus[2] = z;
+		focus.x = x;
+		focus.y = y;
+		focus.z = z;
 		updatePosition();
 	}
 	
@@ -145,9 +135,8 @@ public class Camera {
 	
 	public void moveFocus( Vector3f vector3f )
 	{
-		focus[0] += vector3f.x;
-		focus[1] += vector3f.y;
-		focus[2] += vector3f.z;
+		//focus.set( vector3f.x, vector3f.y, vector3f.z );
+		focus.add(vector3f);
 		updatePosition();
 	}
 	
@@ -156,10 +145,10 @@ public class Camera {
 		 float a = 0;
 		 
 		 //calculate positions from angles as if focus were (0,0,0)
-		 position[1] = (float) ((distance * Math.sin(declination)));
+		 position.y = (float) ((distance * Math.sin(declination)));
 		 a = (float) ((distance * Math.cos(declination)));
-		 position[0] = (float) (a*Math.sin(rotation));
-		 position[2] = (float) (a*Math.cos(rotation));
+		 position.x = (float) (a*Math.sin(rotation));
+		 position.z = (float) (a*Math.cos(rotation));
 	}
 	
 	private void setUpVector(float x, float y, float z)
@@ -175,14 +164,8 @@ public class Camera {
 	//hard coded, ugh!  Magic numbers~
 	public void goToStart(float height, float width) {
 		//
-		focus[0] = 18.0f;
-		focus[1] = 8.0f;
-		focus[2] = 0.0f;
-		
-		position[0] = 0.0f;
-		position[1] = 0.0f;
-		position[2] = 45.0f;
-		
+		focus.set(18.0f, 8.0f, 0.0f);
+		position.set(0.0f, 0.0f, 45.0f);
 		setUpVector(0,1,0);
 	}
 
@@ -220,7 +203,7 @@ public class Camera {
 		return pos;
 	}
 	
-	public Vector3f getRayToPlane(int mouseX, int mouseY, float zPlane) throws LWJGLException {
+	public Vector3f getRayToPlane(int mouseX, int mouseY, Vector3f normal, Vector3f planePoint) throws LWJGLException {
 		//We need exclusive access to the window
 		Display.makeCurrent();
 		
@@ -228,7 +211,7 @@ public class Camera {
 		IntBuffer viewport = BufferUtils.createIntBuffer(16);
 		FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
 		FloatBuffer projection = BufferUtils.createFloatBuffer(16);
-		FloatBuffer position = BufferUtils.createFloatBuffer(3);
+		FloatBuffer mousePosition = BufferUtils.createFloatBuffer(3);
 		Vector3f ray = new Vector3f();
 		
 		//Get some information about the viewport, modelview, and projection matrix
@@ -236,21 +219,27 @@ public class Camera {
 		GL11.glGetFloat( GL11.GL_PROJECTION_MATRIX, projection );
 		GL11.glGetInteger( GL11.GL_VIEWPORT, viewport );
 
-		//get the position in 3d space by casting a ray from the mouse
+		//get the position in 3d space by casting a ray from the mouse  
 		//coords to the first contacted point in space
-		GLU.gluUnProject(mouseX, mouseY, 1, modelview, projection, viewport, position);
+		GLU.gluUnProject(mouseX, mouseY, 1, modelview, projection, viewport, mousePosition);
 		
 		//Make a vector out of the silly float buffer LWJGL forces us to use
-		ray.set(position.get(0), position.get(1), position.get(2));
+		float d = -1.0f * (float)(normal.dot(planePoint));
+		
+		//Make ray a vector from origin to point
+		ray.set(mousePosition.get(0), 
+				mousePosition.get(1), 
+				mousePosition.get(2));
+		
+		ray.set(ray.x - position.x, ray.y - position.y, ray.z-position.z);
 		
 		//Don't want to hold on to the context as the renderer will need it
 		Display.releaseContext();
-
-		float t = (zPlane - this.getPositionZ())/ray.z;
+		float t = ( (-1*d) - position.dot(normal) )/( ray.dot(normal) );
 		 
-		 ray = new Vector3f(this.getPositionX() + t * ray.x,
-				 								this.getPositionY() + t * ray.y,
-				 								this.getPositionZ() + t * ray.z); 
+		ray = new Vector3f(fuckingStupidRounding(this.getPositionX() + t * ray.x),
+							fuckingStupidRounding(this.getPositionY() + t * ray.y),
+							this.getPositionZ() + t * ray.z); 
 		
 		return ray;
 	}
@@ -264,9 +253,19 @@ public class Camera {
 	public void debug() {
 		//Debug the camera
 		//System.out.print("Height:		" + height 	+ "	Width:	" + width + "\n");
-		System.out.print("Camera = X:	" + position[0] + "	Y:	" + position[1] + "	Z:	" + position[2] + "\n");
-		System.out.print("Focus  = X:	" + focus[0] 	+ "	Y:	" + focus[1] 	+ "	Z:	" + focus[2] 	+ "\n");
+		System.out.print("Camera = X:	" + position.x + "	Y:	" + position.y + "	Z:	" + position.z + "\n");
+		System.out.print("Focus  = X:	" + focus.x 	+ "	Y:	" + focus.y 	+ "	Z:	" + focus.z 	+ "\n");
 		System.out.print("Up     = X:	" + up_vector.x + "	Y:	" + up_vector.y + "	Z:	" + up_vector.z + "\n\n");	
+	}
+	
+	public float fuckingStupidRounding(float fuckingStupidNumber)
+	{
+		float fuckingStupidDivByTwo = (float)Math.floor(fuckingStupidNumber) % 2.0f;
+		
+		if( fuckingStupidDivByTwo == 1)
+			return (float)Math.floor(fuckingStupidNumber);
+		else
+			return (float)Math.floor(fuckingStupidNumber) + 1.0f;
 	}
 	
 }

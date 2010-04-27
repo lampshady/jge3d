@@ -10,7 +10,6 @@ import jge3d.GUI.Window;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
 class Input {
 	private int deltaX, deltaY;	
@@ -93,8 +92,19 @@ class Input {
 			}
 
 			switch(Mouse.getDWheel()) {
-				case -120: camera.incrementDistance(5.0f); break;
-				case  120: camera.incrementDistance(-5.0f); break;
+				case -120: 
+					//move focus
+					
+					//update current layer
+					window.getEditorView().incrementLayer(-1, camera);
+					editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getEditorView().getLayer(), camera);
+					
+					break;
+				case  120: 
+					//update current layer
+					window.getEditorView().incrementLayer(1, camera);
+					editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getEditorView().getLayer(), camera);
+					break;
 			}
 		}
 	}
@@ -122,12 +132,12 @@ class Input {
 					entity.deleteByPosition(editor.getCurrentPosition());
 					break;
 				case ' ':
-					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
-					physics.dropBox(ray.x,ray.y,ray.z,1);
+					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
+					entity.addEntity(physics.dropBox(ray.x,ray.y,ray.z,1));
 					break;
 				case Keyboard.KEY_F1:
 					level.save();
-					break;
+					break;   
 				case Keyboard.KEY_F2:
 					window.getLevelView().setLoadLevel(true);
 					break;

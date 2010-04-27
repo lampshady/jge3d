@@ -104,7 +104,7 @@ public class Level {
 								Integer.parseInt(split_position[1]),
 								Integer.parseInt(split_position[2])
 						);
-						entity.addEntity(new Entity(type,position,texture,true));
+						entity.addEntity(new Entity(type,position,texture,true,0));
 						break;
 					default: System.out.print("FUCKSHIT level parsing error");
 					break;

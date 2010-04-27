@@ -24,17 +24,18 @@ public class Main {
 			EntityList entity;
 			Player player;
 
+
+			//Make some physics
+			physics = new Physics();
+			
 			//Create a texture holder
 			texture = new TextureList();
 			
 			//A list for storing all the entities
-			entity = new EntityList();
+			entity = new EntityList(physics);
 			
 			//Create an empty  level
 			level = new Level(texture, entity);
-
-			//Make some physics
-			physics = new Physics();
 			
 			//Renderer for drawing stuff
 			render = new Renderer(level, physics, texture, entity);
@@ -46,7 +47,7 @@ public class Main {
 			render.initGL(window);
 		
 			//Camera
-			camera = new Camera(0,0,0,level.getHeight(), level.getWidth());
+			camera = new Camera(level.getHeight(), level.getWidth());
 			
 			//Make an editor
 			editor = new Editor(render, window);
@@ -68,6 +69,7 @@ public class Main {
 			//Just to show off the physics
 			physics.dropBox(17,15,0,1.0f);
 
+			//window.get
 			while (isRunning) {
 				if(window.getLevelView().getLoadLevel()) {
 					level.load();
@@ -82,6 +84,9 @@ public class Main {
 				//read keyboard and mouse
 				input.handleMouse();
 				input.handleKeyboard();
+
+				//Check to make sure none of the entities are marked as dead
+				entity.pruneEntities();
 				
 				//Update the world's physical layout
 				physics.clientUpdate();
