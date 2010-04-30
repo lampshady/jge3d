@@ -14,6 +14,12 @@ public class Entity {
 	private int ttl;
 	private long created_at;
 	private Physics physics;
+	private float mass;
+	private float damping;
+	private float ang_damping;
+	private float friction;
+	private Vector3f axisLimits;
+	private Vector3f angleLimits;
 
 	public Entity(char _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
 		type=_type;
@@ -72,7 +78,7 @@ public class Entity {
 	
 	public boolean isDead() {
 		if( (System.currentTimeMillis() >= (created_at+ttl)) && (ttl != 0) ) {
-			System.out.print("RIP\n===\nBorn: " + created_at + "\nDied:" +  System.currentTimeMillis() +  "\n" + "Lived: " + ((System.currentTimeMillis()-created_at)/1000.0f) + " sec\n");
+			System.out.print("Entity RIP\n==========\nBorn: " + created_at + "\nDied:" +  System.currentTimeMillis() +  "\n" + "Lived: " + ((System.currentTimeMillis()-created_at)/1000.0f) + " sec\n");
 			return true;
 		} else {
 			return false;
