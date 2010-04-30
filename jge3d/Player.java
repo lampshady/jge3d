@@ -10,7 +10,7 @@ public class Player extends Character {
 	private RigidBody player_physics;
 	float max_velocity;
 	Vector3f current_velocity;
-	Vector3f position;	
+	Vector3f position;
 	
 	public Player(Physics _physics) {
 		//player = new Entity('P',new Vector3f(17,15,0), "cube1", true);
@@ -19,7 +19,18 @@ public class Player extends Character {
 	}
 	
 	public void move(Vector3f impulse, float velocity) {
+		current_velocity.add(impulse);
 		player_physics.applyImpulse(impulse, new Vector3f((int)0, (int)0, (int)0));
+	}
+	
+	public void slow(Vector3f impulse, float velocity) {
+		current_velocity.sub(impulse);
+		player_physics.applyImpulse(impulse, new Vector3f((int)0, (int)0, (int)0));
+	}
+	
+	public boolean hasLanded() {
+		//player_physics.;
+		return true;
 	}
 	
 	public void activate() {
@@ -32,5 +43,9 @@ public class Player extends Character {
 	
 	public Vector3f getLocation() {
 		return player_physics.getCenterOfMassPosition(position);
+	}
+	
+	public void setLinearVelocity(Vector3f velocity) {
+		player_physics.setLinearVelocity(velocity);
 	}
 }

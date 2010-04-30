@@ -72,7 +72,9 @@ public class Entity {
 	
 	public boolean isDead() {
 		if( (System.currentTimeMillis() >= (created_at+ttl)) && (ttl != 0) ) {
-			System.out.print("RIP\n===\nBorn: " + created_at + "\nDied:" +  System.currentTimeMillis() +  "\n" + "Lived: " + ((System.currentTimeMillis()-created_at)/1000.0f) + " sec\n");
+			//System.out.print("RIP\n===\nBorn: " + created_at +
+			//"\nDied:" +  System.currentTimeMillis() +  "\n" + "Lived: " +
+			//((System.currentTimeMillis()-created_at)/1000.0f) + " sec\n");
 			return true;
 		} else {
 			return false;
