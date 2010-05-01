@@ -25,7 +25,7 @@ public class Editor {
 	}
 	
 	public Entity getCurrentBlock() {
-		return new Entity('L',
+		return new Entity("level",
 			current_position_vector,
 			window.getTextureView().getSelectedTexture(),
 			true,

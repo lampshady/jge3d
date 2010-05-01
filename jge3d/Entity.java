@@ -5,7 +5,7 @@ import javax.vecmath.Vector3f;
 import com.bulletphysics.dynamics.RigidBody;
 
 public class Entity {
-	private char type;
+	private String type;
 	private Vector3f position = new Vector3f();
 	private String texture_name;
 	private boolean collidable;
@@ -14,14 +14,9 @@ public class Entity {
 	private int ttl;
 	private long created_at;
 	private Physics physics;
-	private float mass;
-	private float damping;
-	private float ang_damping;
-	private float friction;
-	private Vector3f axisLimits;
-	private Vector3f angleLimits;
+	private String model_path;	
 
-	public Entity(char _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
+	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
 		type=_type;
 		position=_pos;
 		texture_name=_texture_name;
@@ -32,7 +27,7 @@ public class Entity {
 	}
 
 	
-	public Entity(char _type, Vector3f _pos, String _texture_name, boolean _collidable, Physics _physics, RigidBody rb, int _ttl) {
+	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, Physics _physics, RigidBody rb, int _ttl) {
 		physics=_physics;
 		type=_type;
 		position=_pos;
@@ -64,7 +59,7 @@ public class Entity {
 		return size;
 	}
 	
-	public char getType() {
+	public String getType() {
 		return type;
 	}
 	
@@ -78,10 +73,27 @@ public class Entity {
 	
 	public boolean isDead() {
 		if( (System.currentTimeMillis() >= (created_at+ttl)) && (ttl != 0) ) {
-			System.out.print("Entity RIP\n==========\nBorn: " + created_at + "\nDied:" +  System.currentTimeMillis() +  "\n" + "Lived: " + ((System.currentTimeMillis()-created_at)/1000.0f) + " sec\n");
+			//System.out.print("RIP\n===\nBorn: " + created_at +
+			//"\nDied:" +  System.currentTimeMillis() +  "\n" + "Lived: " +
+			//((System.currentTimeMillis()-created_at)/1000.0f) + " sec\n");
 			return true;
 		} else {
 			return false;
 		}
 	}
+	
+	public void setMass(float mass) {
+		phys_body.setMassProps(mass, new Vector3f(0,0,0));
+	}
+	
+	public void setDamping(float lin_damping, float ang_damping) {
+		phys_body.setDamping(lin_damping, ang_damping);
+	}
+	
+	public void setFriction(float friction) {
+		phys_body.setFriction(friction);
+	}
+	//private Vector3f axisLimits;
+	//private Vector3f angleLimits;
+	
 }

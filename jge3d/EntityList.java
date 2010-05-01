@@ -24,7 +24,7 @@ public class EntityList {
 		entities.clear();
 	}
 
-	public Entity addEntityByParams(char _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
+	public Entity addEntityByParams(String _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
 		latest_ent = new Entity(_type,_pos,_texture_name,_collidable,physics,rb,_ttl);
 		entities.add(latest_ent);
 		list_changed=true;

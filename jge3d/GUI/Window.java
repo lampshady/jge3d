@@ -46,7 +46,7 @@ public class Window extends JFrame{
 	public Window(Level _level, TextureList _texture) {
 		level = _level;
 		texture = _texture;
-		
+
 		//One of these days we'll get this thing running in the correct
 		//thread so we don't need all those stupid hooks to avoid makeCurrent errors 
 		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -159,6 +159,14 @@ public class Window extends JFrame{
 	
 	public int getGLHeight() {
 		return GLView.getHeight();
+	}
+	
+	public boolean mouseInGLView() {
+		System.out.print(GLView.getMousePosition() + "\n");
+		if(GLView.getMousePosition() != null)
+			return true;
+		else
+			return false;
 	}
 	
 	//Window Component Getters

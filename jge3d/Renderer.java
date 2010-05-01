@@ -48,11 +48,11 @@ class Renderer {
 	public void drawcube(String texture_name, float cube_size) throws FileNotFoundException, IOException {		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);    
 		GL11.glDisable(GL11.GL_BLEND);		// Turn Blending On
-
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		
 		//bind a texture for drawing
 		texture.getByName(texture_name).bind();
-		//GL11.glBind(texture.getByName(texture_name));
-		//System.out.print(texture_name);
 		
         GL11.glBegin(GL11.GL_QUADS);
         	// Front Face
@@ -97,8 +97,7 @@ class Renderer {
 	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
 	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
         GL11.glEnd();
-        
-        //!!! DOCUMENT YOUR FUCKING CODE SLICK-UTILS
+
         //This has to be run or slick caches the 
         //texture and reuses it indefinitely
         //The slick library doesn't mention this once
@@ -107,7 +106,9 @@ class Renderer {
 	
 	public void transparentcube(float alpha, float cube_size) throws FileNotFoundException, IOException {		
 		GL11.glEnable(GL11.GL_BLEND);		// Turn Blending On
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
 		
 		GL11.glBegin(GL11.GL_QUADS);
 	        // Front Face

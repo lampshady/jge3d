@@ -3,8 +3,9 @@ package jge3d;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import javax.vecmath.Tuple3f;
 import javax.vecmath.Vector3f;
+
+import jge3d.GUI.Window;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -19,14 +20,18 @@ public class Camera {
 	private Vector3f focus;						//x, y, z of target
 	private float distance;						//distance from focus
 	private Vector3f up_vector;					//vector pointing up
+	private Window window;
+	Vector3f min_window_bounds;
+	Vector3f max_window_bounds;
 	
 	//Don't flip over, its confusing.
 	private float maximum_declination = 89.9f;
+
 	private float minimum_declination = 0.1f;
 	
-	public Camera(float height, float width){
+	public Camera(float height, float width, Window _window){
 		//initial setup (float about 0,0,0 I guess?
-		
+		window = _window;
 		position = new Vector3f(0,0,0);
 		focus = new Vector3f(0,0,0);
 		declination = 0;
@@ -239,6 +244,44 @@ public class Camera {
 							this.getPositionZ() + t * ray.z); 
 		
 		return ray;
+	}
+	
+	public void moveToPlayerLocation(Player player) throws LWJGLException {
+		min_window_bounds = getRayToPlane(0, 0, new Vector3f(0,0,1), new Vector3f(0,0,0));
+		max_window_bounds = getRayToPlane(window.getGLWidth(), window.getGLHeight(), new Vector3f(0,0,1), new Vector3f(0,0,0));
+		
+		if(player.getLocation().x > -10+max_window_bounds.x)
+			focus.x += 0.05;
+		if(player.getLocation().x < 10+min_window_bounds.x)
+			focus.x -= 0.05;		
+		if(player.getLocation().y > -10+max_window_bounds.y)
+			focus.y += 0.05;
+		if(player.getLocation().y < 10+min_window_bounds.y)
+			focus.y -= 0.05;
+		
+		updatePosition();
+		/*
+		System.out.print(
+			"Win topright:\n" +
+			max_window_bounds.x + " " +
+			max_window_bounds.y + " " +
+			max_window_bounds.z + "\n"
+		);
+		
+		System.out.print(
+			"Win bottomleft:\n" +
+			min_window_bounds.x + " " +
+			min_window_bounds.y + " " +
+			min_window_bounds.z + "\n"
+		);
+		
+		System.out.print(
+			"Player:\n" +
+			player.getLocation().x + " " +
+			player.getLocation().y + " " +
+			player.getLocation().z + "\n"
+		);
+		*/
 	}
 	
 	public void debug() {

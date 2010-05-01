@@ -18,7 +18,6 @@ public class Level {
 	private int row_length=0;
 	private int col_length=0;
 	private String nextline;
-	private char type;
 	private Window window;
 	private Renderer render;
 	private TextureList texture;
@@ -58,24 +57,23 @@ public class Level {
 	private void parseHeader(BufferedReader br) throws IOException, LWJGLException {
 		String nextline;
 		String[] splitString;
+		String type;
 		while ((nextline = br.readLine()).compareToIgnoreCase("/header") != 0) {
 			if(nextline.length() > 0) {
 				nextline = nextline.trim();
-				type = (nextline.charAt(0));
 				splitString = nextline.split(";");
-				
-				switch(type) {
-					case 'T':
-						if(texture.hasKey(splitString[1]) == false) {
-							texture.set(splitString[1], splitString[2], splitString[3]);
-							window.getTextureView().insertTexture(splitString[2]);
-						} else {
-							//this is for when we implement texture groups
-						}
-						break;
-					case 'L':
-							//render.setLight();
-					default: System.out.print("FUCKSHIT level parsing error");break;
+				type = (nextline.substring(0, 1));
+				if(type.equals("T")) {
+					if(texture.hasKey(splitString[1]) == false) {
+						texture.set(splitString[1], splitString[2], splitString[3]);
+						window.getTextureView().insertTexture(splitString[2]);
+					} else {
+						//this is for when we implement texture groups
+					}
+				} else if (type.equals("L")) {
+					//render.setLight();
+				} else {
+					System.out.print("FUCKSHIT level parsing error");break;
 				}
 			}
 		}
@@ -86,28 +84,30 @@ public class Level {
 		String[] splitString;
 		String texture;
 		String[] split_position = new String[3];
+		String type;
 		
 		while ((nextline = br.readLine()).compareToIgnoreCase("/level") != 0) {
 			if(nextline.length() > 0) {
 				nextline = nextline.trim();
-				type = (nextline.charAt(0));
 				splitString = nextline.split(";");
+				type = (nextline.substring(0, 1));
 				
-				switch(type) {
-					case 'L':
-						split_position = splitString[1].split(",");
-						
-						texture = splitString[2];
-												
-						Vector3f position = new Vector3f(
-								Integer.parseInt(split_position[0]),
-								Integer.parseInt(split_position[1]),
-								Integer.parseInt(split_position[2])
-						);
-						entity.addEntity(new Entity(type,position,texture,true,0));
-						break;
-					default: System.out.print("FUCKSHIT level parsing error");
-					break;
+				if(type.equals("L")) {
+					split_position = splitString[1].split(",");
+					
+					texture = splitString[2];
+											
+					Vector3f position = new Vector3f(
+							Integer.parseInt(split_position[0]),
+							Integer.parseInt(split_position[1]),
+							Integer.parseInt(split_position[2])
+					);
+					entity.addEntity(new Entity(type,position,texture,true,0));
+				} else if(type.equals("plane")) {
+					
+				}
+				else {
+					System.out.print("FUCKSHIT level parsing error");
 				}
 			}
 		}

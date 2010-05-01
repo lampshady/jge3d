@@ -47,7 +47,7 @@ public class Main {
 			render.initGL(window);
 		
 			//Camera
-			camera = new Camera(level.getHeight(), level.getWidth());
+			camera = new Camera(level.getHeight(), level.getWidth(), window);
 			
 			//Make an editor
 			editor = new Editor(render, window);
@@ -65,11 +65,7 @@ public class Main {
 			Display.makeCurrent();
 			level.setLevel(render, window);
 			Display.releaseContext();
-			
-			//Just to show off the physics
-			physics.dropBox(17,15,0,1.0f);
 
-			//window.get
 			while (isRunning) {
 				if(window.getLevelView().getLoadLevel()) {
 					level.load();
@@ -91,6 +87,9 @@ public class Main {
 				//Update the world's physical layout
 				physics.clientUpdate();
 
+				//Camera check versus player position
+				camera.moveToPlayerLocation(player);
+				
 				//Draw world
 				render.draw();
 
