@@ -45,6 +45,10 @@ public class EntityList {
 		entities.remove(index);
 	}
 	
+	public Entity get(int index) {
+		return entities.get(index);
+	}
+	
 	public Vector3f getEntityPosition(int index) {
 		return entities.get(index).getPosition();
 	}

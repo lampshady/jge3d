@@ -15,8 +15,17 @@ public class Entity {
 	private int ttl;
 	private long created_at;
 	private Physics physics;
-	private static String[] keys = {"type", "postionX","positionY","positionZ","texture_name","collidable","size","ttl"};
+	private boolean transparent = false;
+	private float alpha=1.0f;
+	private static String[] keys = {"name","type","postionX","positionY","positionZ","transparent","alpha","texture_name","collidable","size","ttl"};
+	protected static int num_entities=0;
+	
+	public Entity() {
+		name="ent" + num_entities++;
+	}
+	
 	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
+		name="ent" + num_entities++;
 		type=_type;
 		position=_pos;
 		texture_name=_texture_name;
@@ -60,8 +69,32 @@ public class Entity {
 		return texture_name;
 	}
 	
+	//public String toString() {
+	//	return type + ";" + (int)position.x + "," + (int)position.y + "," + (int)position.z + ";" + texture_name;
+	//}
+	
 	public String toString() {
-		return type + ";" + (int)position.x + "," + (int)position.y + "," + (int)position.z + ";" + texture_name;
+		String out = 
+			"Entity=" + name + "\n" +
+				"\t" + "positionX=" + position.x + "\n" +
+				"\t" + "positionY=" + position.y + "\n" +
+				"\t" + "positionZ=" + position.z + "\n" +
+				"\t" + "transparent=" + transparent + "\n" +
+				"\t" + "alpha=" + alpha + "\n" +
+				"\t" + "texture_name=" + texture_name + "\n" +
+				"\t" + "collidable=" + collidable + "\n" +
+				"\t" + "size=" + size + "\n" +
+			"/Entity\n";
+			
+		return out;
+	}
+	
+	public Boolean getTransparent() {
+		return transparent;
+	}
+	
+	public float getAlpha() {
+		return alpha;
 	}
 	
 	public float getSize() {
@@ -104,11 +137,11 @@ public class Entity {
 	}
 	
 	public void setPositionY(Float y) {
-		position.x = y;
+		position.y = y;
 	}
 	
 	public void setPositionZ(Float z) {
-		position.x = z;
+		position.z = z;
 	}
 	
 	public void setTextureName(String name) {
@@ -141,6 +174,70 @@ public class Entity {
 	
 	public void setTTL(Integer _ttl) {
 		ttl=_ttl;
+	}
+	
+	public void setTransparent(Boolean _transparent) {
+		transparent=_transparent;
+	}
+	
+	public void setAlpha(Float _alpha) {
+		alpha=_alpha;
+	}
+	/*
+	public void set(String key, Object value) {
+		if(key.equals("name"))
+			setName((String)name);
+		else if(key.equals("type"))
+        	setType((String)value);
+        else if(key.equals("positionX"))
+        	setPositionX((Float)value);
+    	else if(key.equals("positionY"))
+    		setPositionY((Float)value);
+		else if(key.equals("positionZ"))
+			setPositionZ((Float)value);
+		else if(key.equals("transparent"))
+			setTransparent((Boolean)value);
+		else if(key.equals("alpha"))
+			setAlpha((Float)value);
+		else if(key.equals("texture_name"))
+			setTextureName((String)value);
+		else if(key.equals("collidable"))		
+			setCollidable((Boolean)value);
+		else if(key.equals("size"))
+			setSize((Float)value);
+		else if(key.equals("ttl"))
+			setTTL((Integer)value);
+		else {
+			System.out.print("SSHHIIITTTTT!!!! Entity parsing error");
+		}
+	}
+	*/
+	public void set(String key, String value) {
+		if(key.equals("name"))
+			setName(name);
+		else if(key.equals("type"))
+        	setType(value);
+        else if(key.equals("positionX"))
+        	setPositionX(Float.valueOf(value));
+    	else if(key.equals("positionY"))
+    		setPositionY(Float.valueOf(value));
+		else if(key.equals("positionZ"))
+			setPositionZ(Float.valueOf(value));
+		else if(key.equals("transparent"))
+			setTransparent(Boolean.valueOf(value));
+		else if(key.equals("alpha"))
+			setAlpha(Float.valueOf(value));
+		else if(key.equals("texture_name"))
+			setTextureName(value);
+		else if(key.equals("collidable"))		
+			setCollidable(Boolean.valueOf(value));
+		else if(key.equals("size"))
+			setSize(Float.valueOf(value));
+		else if(key.equals("ttl"))
+			setTTL(Integer.valueOf(value));
+		else {
+			System.out.print("SSHHIIITTTTT!!!! Entity parsing error");
+		}
 	}
 	
 	public static String[] getKeys() {

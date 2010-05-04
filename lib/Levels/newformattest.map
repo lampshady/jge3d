@@ -1,0 +1,2938 @@
+header
+	T;group;dirt2;lib/Textures/dirt2.png
+	T;group;path1;lib/Textures/path1.PNG
+	T;ground;dirt1;lib/Textures/dirt1.png
+	T;ground;grass1;lib/Textures/grass1.png
+	T;brick;brick1;lib/Textures/brick1.png
+	T;brick;brick2;lib/Textures/brick2.png
+	T;ground;cube1;lib/Textures/cube1.png
+	T;border;grass_border1;lib/Textures/grass_border1.png
+/header
+
+level
+Entity=ent0
+	positionX=19.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent1
+	positionX=21.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent2
+	positionX=23.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent3
+	positionX=25.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent4
+	positionX=27.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent5
+	positionX=19.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent6
+	positionX=21.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent7
+	positionX=23.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent8
+	positionX=25.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent9
+	positionX=21.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent10
+	positionX=23.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent11
+	positionX=25.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent12
+	positionX=27.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent13
+	positionX=23.0
+	positionY=3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent14
+	positionX=5.0
+	positionY=15.0
+	positionZ=10.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent15
+	positionX=33.0
+	positionY=21.0
+	positionZ=10.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent16
+	positionX=33.0
+	positionY=21.0
+	positionZ=10.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent17
+	positionX=8.0
+	positionY=15.0
+	positionZ=-14.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent18
+	positionX=17.0
+	positionY=13.0
+	positionZ=-14.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent19
+	positionX=11.0
+	positionY=18.0
+	positionZ=-14.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent20
+	positionX=23.0
+	positionY=16.0
+	positionZ=-5.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent21
+	positionX=0.0
+	positionY=20.0
+	positionZ=-1.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent22
+	positionX=32.0
+	positionY=24.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent23
+	positionX=15.0
+	positionY=23.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent24
+	positionX=41.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent25
+	positionX=41.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent26
+	positionX=41.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent27
+	positionX=43.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent28
+	positionX=43.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent29
+	positionX=43.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent30
+	positionX=43.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent31
+	positionX=45.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent32
+	positionX=45.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent33
+	positionX=45.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent34
+	positionX=45.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent35
+	positionX=45.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent36
+	positionX=47.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent37
+	positionX=47.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent38
+	positionX=47.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent39
+	positionX=47.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent40
+	positionX=47.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent41
+	positionX=47.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent42
+	positionX=41.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent43
+	positionX=43.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent44
+	positionX=45.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent45
+	positionX=47.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent46
+	positionX=49.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent47
+	positionX=51.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent48
+	positionX=53.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent49
+	positionX=55.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent50
+	positionX=57.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent51
+	positionX=59.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent52
+	positionX=59.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent53
+	positionX=61.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent54
+	positionX=49.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent55
+	positionX=51.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent56
+	positionX=53.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent57
+	positionX=55.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent58
+	positionX=57.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent59
+	positionX=59.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent60
+	positionX=61.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent61
+	positionX=49.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent62
+	positionX=49.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent63
+	positionX=49.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent64
+	positionX=49.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent65
+	positionX=49.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent66
+	positionX=51.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent67
+	positionX=51.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent68
+	positionX=51.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent69
+	positionX=51.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent70
+	positionX=51.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent71
+	positionX=53.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent72
+	positionX=53.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent73
+	positionX=53.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent74
+	positionX=53.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent75
+	positionX=53.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent76
+	positionX=55.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent77
+	positionX=55.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent78
+	positionX=55.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent79
+	positionX=55.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent80
+	positionX=55.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent81
+	positionX=55.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent82
+	positionX=57.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent83
+	positionX=57.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent84
+	positionX=57.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent85
+	positionX=57.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent86
+	positionX=57.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent87
+	positionX=59.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent88
+	positionX=59.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent89
+	positionX=59.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent90
+	positionX=59.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent91
+	positionX=59.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent92
+	positionX=61.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent93
+	positionX=61.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent94
+	positionX=61.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent95
+	positionX=61.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent96
+	positionX=61.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent97
+	positionX=61.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent98
+	positionX=41.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent99
+	positionX=43.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent100
+	positionX=43.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent101
+	positionX=45.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent102
+	positionX=45.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent103
+	positionX=47.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent104
+	positionX=47.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent105
+	positionX=49.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent106
+	positionX=51.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent107
+	positionX=53.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent108
+	positionX=55.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent109
+	positionX=57.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent110
+	positionX=59.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent111
+	positionX=61.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent112
+	positionX=41.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent113
+	positionX=41.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent114
+	positionX=41.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent115
+	positionX=55.0
+	positionY=3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent116
+	positionX=57.0
+	positionY=3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent117
+	positionX=59.0
+	positionY=3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent118
+	positionX=57.0
+	positionY=5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent119
+	positionX=61.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent120
+	positionX=61.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent121
+	positionX=61.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent122
+	positionX=61.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent123
+	positionX=61.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent124
+	positionX=61.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent125
+	positionX=61.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent126
+	positionX=15.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent127
+	positionX=13.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent128
+	positionX=11.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent129
+	positionX=9.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent130
+	positionX=7.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent131
+	positionX=5.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent132
+	positionX=3.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent133
+	positionX=1.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent134
+	positionX=-1.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent135
+	positionX=-3.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent136
+	positionX=-1.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent137
+	positionX=1.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent138
+	positionX=3.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent139
+	positionX=5.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent140
+	positionX=7.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent141
+	positionX=9.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent142
+	positionX=11.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent143
+	positionX=13.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent144
+	positionX=15.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent145
+	positionX=17.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent146
+	positionX=19.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent147
+	positionX=21.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent148
+	positionX=23.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent149
+	positionX=25.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent150
+	positionX=27.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent151
+	positionX=29.0
+	positionY=-3.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent152
+	positionX=-3.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent153
+	positionX=-3.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent154
+	positionX=-1.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent155
+	positionX=-1.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent156
+	positionX=1.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent157
+	positionX=3.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent158
+	positionX=5.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent159
+	positionX=7.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent160
+	positionX=9.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent161
+	positionX=11.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent162
+	positionX=13.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent163
+	positionX=15.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent164
+	positionX=17.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent165
+	positionX=19.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent166
+	positionX=21.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent167
+	positionX=23.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent168
+	positionX=25.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent169
+	positionX=27.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent170
+	positionX=29.0
+	positionY=-3.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent171
+	positionX=17.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=path1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent172
+	positionX=-3.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent173
+	positionX=-3.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent174
+	positionX=-1.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent175
+	positionX=1.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent176
+	positionX=3.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent177
+	positionX=5.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent178
+	positionX=7.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent179
+	positionX=9.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent180
+	positionX=11.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent181
+	positionX=13.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent182
+	positionX=15.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent183
+	positionX=17.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent184
+	positionX=19.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent185
+	positionX=21.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent186
+	positionX=23.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent187
+	positionX=25.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent188
+	positionX=27.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent189
+	positionX=29.0
+	positionY=-5.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent190
+	positionX=29.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent191
+	positionX=29.0
+	positionY=-5.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent192
+	positionX=-3.0
+	positionY=-5.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent193
+	positionX=-3.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent194
+	positionX=-3.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent195
+	positionX=-3.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent196
+	positionX=-1.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent197
+	positionX=1.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent198
+	positionX=3.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent199
+	positionX=5.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent200
+	positionX=7.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent201
+	positionX=9.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent202
+	positionX=11.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent203
+	positionX=13.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent204
+	positionX=15.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent205
+	positionX=17.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent206
+	positionX=19.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent207
+	positionX=21.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent208
+	positionX=23.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent209
+	positionX=25.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent210
+	positionX=27.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent211
+	positionX=29.0
+	positionY=-7.0
+	positionZ=-2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent212
+	positionX=29.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent213
+	positionX=29.0
+	positionY=-7.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent214
+	positionX=-3.0
+	positionY=-7.0
+	positionZ=2.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent215
+	positionX=-3.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=dirt2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent216
+	positionX=29.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent217
+	positionX=-3.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=grass1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent218
+	positionX=11.0
+	positionY=11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=cube1
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent219
+	positionX=72.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent220
+	positionX=72.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent221
+	positionX=72.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent222
+	positionX=72.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent223
+	positionX=72.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent224
+	positionX=72.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent225
+	positionX=72.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent226
+	positionX=74.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent227
+	positionX=76.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent228
+	positionX=78.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent229
+	positionX=80.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent230
+	positionX=82.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent231
+	positionX=84.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent232
+	positionX=86.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent233
+	positionX=88.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent234
+	positionX=90.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent235
+	positionX=92.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent236
+	positionX=92.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent237
+	positionX=92.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent238
+	positionX=92.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent239
+	positionX=92.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent240
+	positionX=92.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent241
+	positionX=92.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent242
+	positionX=103.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent243
+	positionX=103.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent244
+	positionX=103.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent245
+	positionX=103.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent246
+	positionX=103.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent247
+	positionX=103.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent248
+	positionX=103.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent249
+	positionX=114.0
+	positionY=-1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent250
+	positionX=114.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent251
+	positionX=114.0
+	positionY=-3.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent252
+	positionX=114.0
+	positionY=-5.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent253
+	positionX=114.0
+	positionY=-7.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent254
+	positionX=114.0
+	positionY=-9.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent255
+	positionX=114.0
+	positionY=-11.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent256
+	positionX=116.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent257
+	positionX=118.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent258
+	positionX=120.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent259
+	positionX=122.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent260
+	positionX=124.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent261
+	positionX=126.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent262
+	positionX=128.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent263
+	positionX=130.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent264
+	positionX=132.0
+	positionY=1.0
+	positionZ=0.0
+	transparent=false
+	alpha=1.0
+	texture_name=brick2
+	collidable=true
+	size=1.0
+/Entity
+
+Entity=ent265
+	positionX=19.0
+	positionY=8.0
+	positionZ=0.0
+	transparent=true
+	alpha=0.5
+	texture_name=grass_border1
+	collidable=true
+	size=1.0
+/Entity
+/level

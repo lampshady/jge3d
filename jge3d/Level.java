@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
-import javax.vecmath.Vector3f;
 
 import jge3d.GUI.Window;
 
@@ -35,7 +34,7 @@ public class Level {
 		window = _window;
 
 		BufferedReader levelfile;
-		levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
+		levelfile = new BufferedReader(new FileReader("lib/Levels/newformattest.map"));
 		loadlevel(levelfile);
 		render.makeLevelList();
 		cleanup();
@@ -78,33 +77,31 @@ public class Level {
 			}
 		}
 	}
-	
+
 	private void parseLevel(BufferedReader br) throws NumberFormatException, IOException {
 		String nextline;
 		String[] splitString;
-		String texture;
-		String[] split_position = new String[3];
-		String type;
+		String key;
+		String value;
+		Entity current_entity;
 		
 		while ((nextline = br.readLine()).compareToIgnoreCase("/level") != 0) {
 			if(nextline.length() > 0) {
 				nextline = nextline.trim();
-				splitString = nextline.split(";");
-				type = (nextline.substring(0, 1));
+				splitString = nextline.split("=");
+				key = splitString[0];
+				value = splitString[1];
 				
-				if(type.equals("L")) {
-					split_position = splitString[1].split(",");
-					
-					texture = splitString[2];
-											
-					Vector3f position = new Vector3f(
-							Integer.parseInt(split_position[0]),
-							Integer.parseInt(split_position[1]),
-							Integer.parseInt(split_position[2])
-					);
-					entity.addEntity(new Entity(type,position,texture,true,0));
-				} else if(type.equals("plane")) {
-					
+				if(key.equals("Entity")) {
+					current_entity = entity.addEntity(new Entity());
+					while ((nextline = br.readLine()).compareToIgnoreCase("/Entity") != 0) {
+						nextline = nextline.trim();
+						splitString = nextline.split("=");
+						key = splitString[0];
+						value = splitString[1];
+						//System.out.print(key + "=" + value + "\n");
+						current_entity.set(key, value);
+					}
 				}
 				else {
 					System.out.print("FUCKSHIT level parsing error");
@@ -155,7 +152,7 @@ public class Level {
 		//Create level body defining block positions
 		bw.write(("level\n"));
 		for(int i=0; i<entity.getListSize();i++)
-			bw.write("\t" + entity.getByIndex(i).toString() + "\n");
+			bw.write(entity.getByIndex(i).toString() + "\n");
 		bw.write(("/level\n"));
 		
 		//Close buffers

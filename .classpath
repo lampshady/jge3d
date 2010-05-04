@@ -26,9 +26,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/vecmath.jar"/>
-	<classpathentry kind="lib" path="lib/slick-util.jar" sourcepath="lib/src/slick-util.zip">
+	<classpathentry kind="lib" path="lib/slick.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="http://slick.cokeandcode.com/javadoc-util/"/>
+			<attribute name="javadoc_location" value="http://slick.cokeandcode.com/javadoc/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
