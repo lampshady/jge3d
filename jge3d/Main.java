@@ -24,7 +24,6 @@ public class Main {
 			EntityList entity;
 			Player player;
 
-
 			//Make some physics
 			physics = new Physics();
 			
@@ -41,7 +40,7 @@ public class Main {
 			render = new Renderer(level, physics, texture, entity);
 			
 			//create the window and all that jazz
- 			window = new Window(level, texture);
+ 			window = new Window(level, texture, entity);
 
 			//setup the initial perspective
 			render.initGL(window);

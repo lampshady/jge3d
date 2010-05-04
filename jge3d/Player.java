@@ -2,9 +2,7 @@ package jge3d;
 
 import javax.vecmath.Vector3f;
 
-import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.dynamics.RigidBody;
-import com.bulletphysics.linearmath.Transform;
 
 //The player(s)' class
 public class Player extends Character {

@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import jge3d.EntityList;
 import jge3d.Level;
 import jge3d.TextureList;
 
@@ -28,9 +29,10 @@ public class Window extends JFrame{
 	private JPanel RightPane;
 	
 	//Panels that we're going to use for the right pane
-	TextureView textureView;
-	EditorView editorView;
-	LevelView levelView;
+	private TextureView textureView;
+	private EditorView editorView;
+	private LevelView levelView;
+	private EntityView entityView;
 	
 	//holds the current monitor sizing mode
 	private DisplayMode chosenMode = null;
@@ -42,11 +44,13 @@ public class Window extends JFrame{
 	//local references to other classes
 	private Level level;
 	private TextureList texture;
+	private EntityList entity;
 		
-	public Window(Level _level, TextureList _texture) {
+	public Window(Level _level, TextureList _texture, EntityList _entity) {
 		level = _level;
 		texture = _texture;
-
+		entity = _entity;
+		
 		//One of these days we'll get this thing running in the correct
 		//thread so we don't need all those stupid hooks to avoid makeCurrent errors 
 		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -69,6 +73,7 @@ public class Window extends JFrame{
 		textureView = new TextureView(texture);
 		editorView = new EditorView();
 		levelView = new LevelView(level);
+		entityView = new EntityView(entity);
 		
 		//layout the window
 		chosenMode = new DisplayMode(targetWidth, targetHeight);
@@ -112,6 +117,10 @@ public class Window extends JFrame{
 		RightPane.add(levelView, BorderLayout.WEST);
 		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
 		RightPane.add(editorView, BorderLayout.SOUTH);
+		
+		//RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		//RightPane.add(entityView, BorderLayout.PAGE_END);
+		
 		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
 				
 		this.validate();

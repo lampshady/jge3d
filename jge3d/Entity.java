@@ -5,6 +5,7 @@ import javax.vecmath.Vector3f;
 import com.bulletphysics.dynamics.RigidBody;
 
 public class Entity {
+	private String name;
 	private String type;
 	private Vector3f position = new Vector3f();
 	private String texture_name;
@@ -14,8 +15,7 @@ public class Entity {
 	private int ttl;
 	private long created_at;
 	private Physics physics;
-	private String model_path;	
-
+	private static String[] keys = {"type", "postionX","positionY","positionZ","texture_name","collidable","size","ttl"};
 	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
 		type=_type;
 		position=_pos;
@@ -42,6 +42,15 @@ public class Entity {
 	public Vector3f getPosition() {
 		return position;
 	}
+	public float getPositionX() {
+		return position.x;
+	}
+	public float getPositionY() {
+		return position.y;
+	}
+	public float getPositionZ() {
+		return position.z;
+	}
 	
 	public boolean getCollidable() {
 		return collidable;
@@ -67,6 +76,14 @@ public class Entity {
 		return ttl;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String _name) {
+		name=_name;
+	}
+	
 	public void deletePhysics() {
 		physics.getDynamicsWorld().removeRigidBody(phys_body);
 	}
@@ -82,6 +99,30 @@ public class Entity {
 		}
 	}
 	
+	public void setPositionX(Float x) {
+		position.x = x;
+	}
+	
+	public void setPositionY(Float y) {
+		position.x = y;
+	}
+	
+	public void setPositionZ(Float z) {
+		position.x = z;
+	}
+	
+	public void setTextureName(String name) {
+		texture_name = name;
+	}
+	
+	public void setCollidable(Boolean _collidable) {
+		collidable = _collidable;
+	}
+	
+	public void setType(String _type) {
+		type=_type;
+	}
+	
 	public void setMass(float mass) {
 		phys_body.setMassProps(mass, new Vector3f(0,0,0));
 	}
@@ -92,6 +133,18 @@ public class Entity {
 	
 	public void setFriction(float friction) {
 		phys_body.setFriction(friction);
+	}
+	
+	public void setSize(float _size) {
+		size = _size;
+	}
+	
+	public void setTTL(Integer _ttl) {
+		ttl=_ttl;
+	}
+	
+	public static String[] getKeys() {
+		return keys;
 	}
 	//private Vector3f axisLimits;
 	//private Vector3f angleLimits;
