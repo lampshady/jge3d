@@ -25,8 +25,9 @@ public class EntityTableModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int row, int column) {
-    	System.out.print(dataVector.get(row) + "\n");
-        if(dataVector.get(row).equals("type"))
+    	//System.out.print(dataVector.get(row) + "\n");
+        
+    	if(dataVector.get(row).equals("type"))
         	return ent.getType();
         else if(dataVector.get(row).equals("positionX") || dataVector.get(row).equals("positionY") || dataVector.get(row).equals("positionZ"))
         	return ent.getPositionX();
@@ -43,7 +44,7 @@ public class EntityTableModel extends AbstractTableModel {
 		else if(dataVector.get(row).equals("ttl"))
 			return ent.getTTL();
 		else {
-			System.out.print("SSHHIIITTTTT!!!! EntityView parsing error(row not found");
+			System.out.print("SSHHIIITTTTT!!!! EntityTable value getting error(row not found");
 			return "fail";
 		}
     }
@@ -67,7 +68,7 @@ public class EntityTableModel extends AbstractTableModel {
 		else if(dataVector.get(row).equals("ttl"))
 			ent.setTTL((Integer)value);
 		else {
-			System.out.print("SSHHIIITTTTT!!!! EntityView parsing error(row not found");
+			System.out.print("SSHHIIITTTTT!!!! EntityTable value setting error(row not found)\n");
 		}
         fireTableCellUpdated(row, column);
     }
