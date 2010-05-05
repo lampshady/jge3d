@@ -25,6 +25,7 @@ public class EntityTableModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int row, int column) {
+    	System.out.print(dataVector.get(row) + "\n");
         if(dataVector.get(row).equals("type"))
         	return ent.getType();
         else if(dataVector.get(row).equals("positionX") || dataVector.get(row).equals("positionY") || dataVector.get(row).equals("positionZ"))
@@ -48,6 +49,7 @@ public class EntityTableModel extends AbstractTableModel {
     }
 
     public void setValueAt(Object value, int row, int column) {
+    	System.out.print(dataVector.get(row) + "\n");
         if(dataVector.get(row).equals("type"))
         	ent.setType((String)value);
         else if(dataVector.get(row).equals("positionX") || dataVector.get(row).equals("positionY") || dataVector.get(row).equals("positionZ"))
@@ -79,6 +81,8 @@ public class EntityTableModel extends AbstractTableModel {
     }
 
     public void preFill() {
+    	dataVector.add("asdf");
+    	/*
     	for(String key: Entity.getKeys()) {
     		dataVector.add(key);
     		fireTableRowsInserted(
@@ -86,13 +90,15 @@ public class EntityTableModel extends AbstractTableModel {
     			dataVector.size()-1
     		);
     	}
+    	*/
     }
    
     public void addEmptyRow() {
         dataVector.add(new String());
         fireTableRowsInserted(
            dataVector.size() - 1,
-           dataVector.size() - 1);
+           dataVector.size() - 1
+    	);
     }
 }
 

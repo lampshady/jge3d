@@ -51,7 +51,7 @@ class Renderer {
 		editor=_editor;
 		camera=_camera;
 	}
-	int asdf;
+
 	public void drawcube(Entity ent) throws FileNotFoundException, IOException {		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
@@ -328,7 +328,7 @@ class Renderer {
 				if(entity.getEntityCollidable(i) == true) {
 					physics.addLevelBlock(position.x,position.y,-position.z,entity.getEntitySize(i));
 				}
-				System.out.print(asdf++ + ":" + entity.get(i).getTextureName() + "\n");
+				
 				GL11.glTranslatef(
 					position.x*entity.getEntitySize(i),
 					position.y*entity.getEntitySize(i),

@@ -11,6 +11,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -110,16 +111,15 @@ public class Window extends JFrame{
 		);
 
 		//Layout right pane
-		RightPane.setLayout(new BorderLayout());
+		RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.Y_AXIS));
 		RightPane.setBackground(new Color(0,0,0));
-		RightPane.add(textureView, BorderLayout.NORTH);
+		RightPane.add(textureView);
 		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
-		RightPane.add(levelView, BorderLayout.WEST);
+		RightPane.add(levelView);
 		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
-		RightPane.add(editorView, BorderLayout.SOUTH);
-		
-		//RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
-		//RightPane.add(entityView, BorderLayout.PAGE_END);
+		RightPane.add(editorView);
+		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		RightPane.add(entityView);
 		
 		RightPane.setBorder(BorderFactory.createLineBorder(Color.red));
 				
