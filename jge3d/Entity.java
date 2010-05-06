@@ -68,11 +68,7 @@ public class Entity {
 	public String getTextureName() {
 		return texture_name;
 	}
-	
-	//public String toString() {
-	//	return type + ";" + (int)position.x + "," + (int)position.y + "," + (int)position.z + ";" + texture_name;
-	//}
-	
+
 	public String toString() {
 		String out = 
 			"Entity=" + name + "\n" +

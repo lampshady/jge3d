@@ -1,6 +1,5 @@
 package jge3d.GUI;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,7 +32,7 @@ public class Window extends JFrame{
 	private TextureView textureView;
 	private EditorView editorView;
 	private LevelView levelView;
-	private EntityView entityView;
+	private static EntityView entityView;
 	
 	//holds the current monitor sizing mode
 	private DisplayMode chosenMode = null;
@@ -187,4 +186,6 @@ public class Window extends JFrame{
 	public EditorView getEditorView() {	return editorView; }
 	//Level panel
 	public LevelView getLevelView() {	return levelView; }
+	//Entity panel
+	public static EntityView getEntityView() {	return entityView;	}
 }

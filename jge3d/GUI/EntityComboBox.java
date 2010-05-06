@@ -16,17 +16,20 @@ public class EntityComboBox extends JComboBox {
 		for(int i=0; i<entity.getListSize();i++) {
 			this.addItem(entity.get(i).getName());
 		}
-		this.addItem("asdf");
-		
+
 		this.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JComboBox jcmbType = (JComboBox) e.getSource();
 				String cmbType = (String) jcmbType.getSelectedItem();
-
+				update();
 				System.out.print("\n\n\n" + cmbType + "\n\n\n" + e.getActionCommand() + "\n\n\n");
 			}
 		});
+	}
+	
+	public String getValue() {
+		return (String)this.getSelectedItem();
 	}
 	
 	public void update() {

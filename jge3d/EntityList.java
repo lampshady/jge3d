@@ -69,6 +69,15 @@ public class EntityList {
 		return latest_ent;
 	}
 	
+	public Entity getByName(String name) {
+		for(int i=0; i<entities.size();i++) {
+			if(entities.get(i).getName().equals(name)) {
+				return entities.get(i);
+			}
+		}
+		return new Entity();
+	}
+	
 	public String getByIndex(int index) {
 		return entities.get(index).toString();
 	}

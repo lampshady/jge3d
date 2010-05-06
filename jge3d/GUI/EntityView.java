@@ -2,10 +2,7 @@ package jge3d.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -38,5 +35,9 @@ public class EntityView extends JPanel {
         
         this.add(combo_scroller, BorderLayout.NORTH);
         this.add(table_scroller, BorderLayout.CENTER);
+	}
+	
+	public String getComboValue() {
+		return (String)combo_box.getValue();
 	}
 }
