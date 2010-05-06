@@ -52,6 +52,14 @@ public class EditorView extends JPanel{
             }
         });  
         
+		editorLayerField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	System.out.print("something is happening");
+            	current_layer = Integer.valueOf(editorLayerField.getText());
+            	editorLayerField.setText(String.valueOf(current_layer));
+            }
+		});
+		
 		editorLayerNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	current_layer++;

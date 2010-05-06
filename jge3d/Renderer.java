@@ -250,6 +250,7 @@ class Renderer {
 		//Check if level has been altered since last frame
 		if(entity.getListChanged()) {
 			addToLevelList(entity.getLatestEntity());
+			Window.getEntityView().updateComboBox();
 		}
 		
         //render level

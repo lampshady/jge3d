@@ -32,7 +32,7 @@ public class EntityTable extends JTable {
             if (column == interactiveColumn && hasFocus) {
                 if ((EntityTable.this.tableModel.getRowCount() - 1) == row)
                 {
-                	EntityTable.this.tableModel.addEmptyRow();
+                	//EntityTable.this.tableModel.addEmptyRow();
                 }
 
                 highlightLastRow(row);
@@ -62,6 +62,7 @@ public class EntityTable extends JTable {
 
     public class InteractiveTableModelListener implements TableModelListener {
         public void tableChanged(TableModelEvent evt) {
+        	revalidate();
             if (evt.getType() == TableModelEvent.UPDATE) {
                 int column = evt.getColumn();
                 int row = evt.getFirstRow();

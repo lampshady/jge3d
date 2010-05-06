@@ -40,4 +40,8 @@ public class EntityView extends JPanel {
 	public String getComboValue() {
 		return (String)combo_box.getValue();
 	}
+	
+	public void updateComboBox() {
+		combo_box.update();
+	}
 }

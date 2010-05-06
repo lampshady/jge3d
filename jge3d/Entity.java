@@ -17,7 +17,7 @@ public class Entity {
 	private Physics physics;
 	private boolean transparent = false;
 	private float alpha=1.0f;
-	private static String[] keys = {"name","type","postionX","positionY","positionZ","transparent","alpha","texture_name","collidable","size","ttl"};
+	private static String[] keys = {"name","type","positionX","positionY","positionZ","transparent","alpha","texture_name","collidable","size","ttl"};
 	protected static int num_entities=0;
 	
 	public Entity() {
