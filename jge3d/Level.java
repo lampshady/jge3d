@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 
 import jge3d.GUI.Window;
+import jge3d.render.Renderer;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;

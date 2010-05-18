@@ -1,4 +1,4 @@
-package jge3d;
+package jge3d.render;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,6 +8,13 @@ import java.nio.FloatBuffer;
 
 import javax.vecmath.Vector3f;
 
+import jge3d.Camera;
+import jge3d.Editor;
+import jge3d.Entity;
+import jge3d.EntityList;
+import jge3d.Level;
+import jge3d.Physics;
+import jge3d.TextureList;
 import jge3d.GUI.Window;
 
 import org.lwjgl.BufferUtils;
@@ -22,7 +29,7 @@ import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
-class Renderer {
+public class Renderer {
 	private Editor editor;
 	private Physics physics;
 	private Camera camera;
@@ -250,6 +257,7 @@ class Renderer {
 		//Check if level has been altered since last frame
 		if(entity.getListChanged()) {
 			addToLevelList(entity.getLatestEntity());
+			Window.getEntityView().updateComboBox();
 		}
 		
         //render level

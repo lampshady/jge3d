@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import jge3d.Level;
 
 public class LevelView extends JPanel {
-	private static final long serialVersionUID = -6074813268227221065L;
+	private static final long serialVersionUID = 1L;
 	
 	//Level controls
 	private JLabel levelLabel;

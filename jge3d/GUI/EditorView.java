@@ -16,6 +16,8 @@ import javax.vecmath.Vector3f;
 import jge3d.Camera;
 
 public class EditorView extends JPanel{
+	private static final long serialVersionUID = 1L;
+	
 	//EditorView
 	private JButton editorLayerNext;
 	private JButton editorLayerPrev;
@@ -52,6 +54,14 @@ public class EditorView extends JPanel{
             }
         });  
         
+		editorLayerField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	System.out.print("something is happening");
+            	current_layer = Integer.valueOf(editorLayerField.getText());
+            	editorLayerField.setText(String.valueOf(current_layer));
+            }
+		});
+		
 		editorLayerNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	current_layer++;

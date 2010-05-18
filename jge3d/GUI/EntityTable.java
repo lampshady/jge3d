@@ -9,7 +9,9 @@ import javax.swing.JTable;
 import jge3d.EntityList;
 
 public class EntityTable extends JTable {
-    protected EntityTableModel tableModel;
+	private static final long serialVersionUID = 1L;
+	
+	protected EntityTableModel tableModel;
     protected EntityList entity;
     
     public EntityTable(EntityList _entity) {
@@ -18,7 +20,9 @@ public class EntityTable extends JTable {
     }
     
     class InteractiveRenderer extends DefaultTableCellRenderer {
-        protected int interactiveColumn;
+		private static final long serialVersionUID = 1L;
+		
+		protected int interactiveColumn;
 
         public InteractiveRenderer(int interactiveColumn) {
             this.interactiveColumn = interactiveColumn;
@@ -32,7 +36,7 @@ public class EntityTable extends JTable {
             if (column == interactiveColumn && hasFocus) {
                 if ((EntityTable.this.tableModel.getRowCount() - 1) == row)
                 {
-                	EntityTable.this.tableModel.addEmptyRow();
+                	//EntityTable.this.tableModel.addEmptyRow();
                 }
 
                 highlightLastRow(row);
@@ -62,6 +66,7 @@ public class EntityTable extends JTable {
 
     public class InteractiveTableModelListener implements TableModelListener {
         public void tableChanged(TableModelEvent evt) {
+        	revalidate();
             if (evt.getType() == TableModelEvent.UPDATE) {
                 int column = evt.getColumn();
                 int row = evt.getFirstRow();

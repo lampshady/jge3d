@@ -9,6 +9,8 @@ import javax.swing.JScrollPane;
 import jge3d.EntityList;
 
 public class EntityView extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
 	private EntityList entity;
 	private EntityComboBox combo_box;
 	private EntityTable table;
@@ -39,5 +41,9 @@ public class EntityView extends JPanel {
 	
 	public String getComboValue() {
 		return (String)combo_box.getValue();
+	}
+	
+	public void updateComboBox() {
+		combo_box.update();
 	}
 }
