@@ -24,6 +24,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 public class Window extends JFrame{
+	private static final long serialVersionUID = 1L;
+	
 	//window components
 	private Canvas GLView;
 	private JPanel RightPane;

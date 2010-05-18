@@ -9,7 +9,9 @@ import javax.swing.JTable;
 import jge3d.EntityList;
 
 public class EntityTable extends JTable {
-    protected EntityTableModel tableModel;
+	private static final long serialVersionUID = 1L;
+	
+	protected EntityTableModel tableModel;
     protected EntityList entity;
     
     public EntityTable(EntityList _entity) {
@@ -18,7 +20,9 @@ public class EntityTable extends JTable {
     }
     
     class InteractiveRenderer extends DefaultTableCellRenderer {
-        protected int interactiveColumn;
+		private static final long serialVersionUID = 1L;
+		
+		protected int interactiveColumn;
 
         public InteractiveRenderer(int interactiveColumn) {
             this.interactiveColumn = interactiveColumn;

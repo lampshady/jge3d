@@ -3,6 +3,7 @@ package jge3d;
 import javax.vecmath.Vector3f;
 
 import jge3d.GUI.Window;
+import jge3d.render.Renderer;
 
 import org.lwjgl.LWJGLException;
 

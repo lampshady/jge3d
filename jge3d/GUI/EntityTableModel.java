@@ -7,7 +7,9 @@ import jge3d.Entity;
 import jge3d.EntityList;
 
 public class EntityTableModel extends AbstractTableModel {
-    public static final int KEY = 0;
+	private static final long serialVersionUID = 1L;
+	
+	public static final int KEY = 0;
     public static final int VALUE = 1;
     private static final String[] columnNames = {"Key", "Value"};
     protected Vector<Object> dataVector;
@@ -110,6 +112,10 @@ public class EntityTableModel extends AbstractTableModel {
     			dataVector.size()-1
     		);
     	}
+    }
+    
+    public void setEntity() {
+    	
     }
    
     //public void addEmptyRow() {

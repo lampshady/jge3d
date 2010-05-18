@@ -1,7 +1,6 @@
 package jge3d.GUI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -14,6 +13,8 @@ import javax.swing.JPanel;
 import jge3d.Level;
 
 public class LevelView extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
 	//Level controls
 	private JLabel levelLabel;
 	private JButton levelLoadButton;

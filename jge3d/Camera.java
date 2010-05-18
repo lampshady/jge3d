@@ -54,52 +54,52 @@ public class Camera {
 		updatePosition();
 	}
 	
-	float getPositionX()
+	public float getPositionX()
 	{
 		return position.x + focus.x;
 	}
 	
-	float getPositionY()
+	public float getPositionY()
 	{
 		return position.y + focus.y;
 	}
 	
-	float getPositionZ()
+	public float getPositionZ()
 	{
 		return position.z + focus.z;
 	}
 	
-	Vector3f getUp()
+	public Vector3f getUp()
 	{
 		return up_vector;
 	}
 	
-	float getUpVectorX()
+	public float getUpVectorX()
 	{
 		return up_vector.x;
 	}
 	
-	float getUpVectorY()
+	public float getUpVectorY()
 	{
 		return up_vector.y;
 	}
 	
-	float getUpVectorZ()
+	public float getUpVectorZ()
 	{
 		return up_vector.z;
 	}
 	
-	float getFocusX()
+	public float getFocusX()
 	{
 		return focus.x;
 	}
 	
-	float getFocusY()
+	public float getFocusY()
 	{
 		return focus.y;
 	}
 	
-	float getFocusZ()
+	public float getFocusZ()
 	{
 		return focus.z;
 	}

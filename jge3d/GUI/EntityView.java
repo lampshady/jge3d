@@ -9,6 +9,8 @@ import javax.swing.JScrollPane;
 import jge3d.EntityList;
 
 public class EntityView extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
 	private EntityList entity;
 	private EntityComboBox combo_box;
 	private EntityTable table;

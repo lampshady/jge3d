@@ -16,6 +16,8 @@ import javax.vecmath.Vector3f;
 import jge3d.Camera;
 
 public class EditorView extends JPanel{
+	private static final long serialVersionUID = 1L;
+	
 	//EditorView
 	private JButton editorLayerNext;
 	private JButton editorLayerPrev;

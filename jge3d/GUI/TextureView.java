@@ -26,6 +26,8 @@ import javax.swing.tree.TreeSelectionModel;
 import jge3d.TextureList;
 
 public class TextureView extends JPanel{
+	private static final long serialVersionUID = 1L;
+	
 	JLabel textureLabel;
 	JLabel preview;
 	JScrollPane treeScroll;

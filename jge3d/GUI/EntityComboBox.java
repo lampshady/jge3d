@@ -8,6 +8,8 @@ import javax.swing.JComboBox;
 import jge3d.EntityList;
 
 public class EntityComboBox extends JComboBox {
+	private static final long serialVersionUID = 1L;
+	
 	private EntityList entity;
 	
 	public EntityComboBox(EntityList _entity) {
