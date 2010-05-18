@@ -25,9 +25,10 @@ public class Camera {
 	Vector3f max_window_bounds;
 	
 	//Don't flip over, its confusing.
-	private float maximum_declination = 89.9f;
-
-	private float minimum_declination = 0.1f;
+	private float maximum_declination = (float) (Math.PI/2.0f) - 0.01f;
+	private float minimum_declination = (float) ((float) -1.0f*((Math.PI/2.0f) - 0.01f));
+	private float minimum_distance = 0.001f;
+	private float maximum_distance = 100.0f;
 	
 	public Camera(float height, float width, Window _window){
 		//initial setup (float about 0,0,0 I guess?
@@ -114,7 +115,20 @@ public class Camera {
 	
 	public void incrementDistance( float change )
 	{
-		distance += change;
+		float temp = distance + change;
+		if( temp > maximum_distance)
+		{
+			distance = maximum_distance;
+		}else
+		{
+			if(temp < minimum_distance)
+			{
+				distance = minimum_distance;
+			}else
+			{
+				distance = temp;
+			}
+		}
 		updatePosition();
 	}
 	
@@ -133,6 +147,7 @@ public class Camera {
 	public void incrementRotation(float angle)
 	{
 		rotation += angle;
+		updatePosition();
 	}
 	
 	public void moveFocus( Vector3f vector3f )

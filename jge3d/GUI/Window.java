@@ -14,6 +14,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import jge3d.Entity;
 import jge3d.EntityList;
 import jge3d.Level;
 import jge3d.TextureList;
@@ -31,9 +32,9 @@ public class Window extends JFrame{
 	private JPanel RightPane;
 	
 	//Panels that we're going to use for the right pane
-	private TextureView textureView;
-	private EditorView editorView;
-	private LevelView levelView;
+	private static TextureView textureView;
+	private static EditorView editorView;
+	private static LevelView levelView;
 	private static EntityView entityView;
 	
 	//holds the current monitor sizing mode
@@ -177,6 +178,10 @@ public class Window extends JFrame{
 			return true;
 		else
 			return false;
+	}
+	
+	public static void setTableEntity(Entity ent) {
+		entityView.table.tableModel.setEntity(ent);
 	}
 	
 	//Window Component Getters

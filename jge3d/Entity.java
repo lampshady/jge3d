@@ -35,7 +35,6 @@ public class Entity {
 		created_at=System.currentTimeMillis();
 	}
 
-	
 	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, Physics _physics, RigidBody rb, int _ttl) {
 		physics=_physics;
 		type=_type;

@@ -1,14 +1,24 @@
 package jge3d;
 
 //LWJGL input
+import java.applet.Applet;
+import java.lang.reflect.Field;
+
 import jge3d.GUI.Window;
 import jge3d.render.Renderer;
 
-import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
-public class Main {
-	public static void main(String[] args) throws LWJGLException {
+public class Main extends Applet {
+	private static final long serialVersionUID = 1L;
+
+	public static void main(String args[])
+	{
+		Applet applet = new Main();
+		applet.init();
+	}
+	
+	public void init() {
 		try{
 			//the game always runs (except when it doesn't)
 			boolean isRunning = true;
@@ -36,6 +46,11 @@ public class Main {
 			
 			//Create an empty  level
 			level = new Level(texture, entity);
+			
+			for (Field field : entity.getClass().getDeclaredFields())
+			{
+				System.out.print(field + "\n");
+			}
 			
 			//Renderer for drawing stuff
 			render = new Renderer(level, physics, texture, entity);

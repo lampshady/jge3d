@@ -21,6 +21,7 @@ public class EntityComboBox extends JComboBox {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setSelectedItem(getSelectedItem());
+				//Window.setTableEntity(entity.getByName(getSelectedItem().toString()));
 			}
 		});
 	}
