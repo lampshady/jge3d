@@ -71,7 +71,7 @@ public class EntityTableModel extends AbstractTableModel {
         else if(column == 1) {
 	        if(dataVector.get(row).equals("type"))
 	        	ent.setType((String)value);
-	        else if(dataVector.get(row).equals("positionX") || dataVector.get(row).equals("positionY") || dataVector.get(row).equals("positionZ"))
+	        else if(dataVector.get(row).equals("positionX"))
 	        	ent.setPositionX((Float)value);
 	    	else if(dataVector.get(row).equals("positionY"))
 	    		ent.setPositionY((Float)value);
