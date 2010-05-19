@@ -21,7 +21,10 @@ public class EntityComboBox extends JComboBox {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setSelectedItem(getSelectedItem());
-				//Window.setTableEntity(entity.getByName(getSelectedItem().toString()));
+				//getParent().getParent().getParent().updateTable(entity.getByName(getSelectedItem().toString()));
+				//System.out.print(e.getSource().getClass().toString());
+				updateTable();
+				
 			}
 		});
 	}
@@ -36,5 +39,10 @@ public class EntityComboBox extends JComboBox {
 		for(int i=0; i<entity.getListSize();i++) {
 			this.addItem(entity.get(i).getName());
 		}
+	}
+	
+	private void updateTable() {
+		//getParent().setTableEntity(entity.getByName(getSelectedItem().toString()));
+		System.out.print(getParent().getClass().toString());
 	}
 }

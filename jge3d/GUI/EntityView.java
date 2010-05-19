@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import jge3d.Entity;
 import jge3d.EntityList;
 
 public class EntityView extends JPanel {
@@ -45,5 +46,9 @@ public class EntityView extends JPanel {
 	
 	public void updateComboBox() {
 		combo_box.update();
+	}
+	
+	public void setTableEntity(Entity ent) {
+		table.tableModel.setEntity(ent);
 	}
 }
