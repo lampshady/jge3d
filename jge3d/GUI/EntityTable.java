@@ -11,7 +11,7 @@ import jge3d.EntityList;
 public class EntityTable extends JTable {
 	private static final long serialVersionUID = 1L;
 	
-	protected EntityTableModel tableModel;
+	public EntityTableModel tableModel;
     protected EntityList entity;
     
     public EntityTable(EntityList _entity) {
@@ -47,7 +47,7 @@ public class EntityTable extends JTable {
     }
     
     public void initComponent() {
-        tableModel = new EntityTableModel(entity);
+        tableModel = new EntityTableModel();
         tableModel.addTableModelListener(new EntityTable.InteractiveTableModelListener());
         this.setModel(tableModel);
         this.setSurrendersFocusOnKeystroke(true);

@@ -4,7 +4,6 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 import jge3d.Entity;
-import jge3d.EntityList;
 
 public class EntityTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
@@ -13,12 +12,10 @@ public class EntityTableModel extends AbstractTableModel {
     public static final int VALUE = 1;
     private static final String[] columnNames = {"Key", "Value"};
     protected Vector<Object> dataVector;
-    protected Entity ent;
-    protected EntityList ent_list;
+    public static Entity ent;
 
-    public EntityTableModel(EntityList entity) {
+    public EntityTableModel() {
         dataVector = new Vector<Object>();
-        ent_list=entity;
         //preFill();
     }
 
@@ -27,8 +24,6 @@ public class EntityTableModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int row, int column) {
-        ent = ent_list.getByName(Window.getEntityView().getComboValue());
-        
         if(column == 0)
         	return dataVector.get(row);
         else if(column == 1) {
@@ -64,8 +59,6 @@ public class EntityTableModel extends AbstractTableModel {
     }
 
     public void setValueAt(Object value, int row, int column) {
-    	ent = ent_list.getByName(Window.getEntityView().getComboValue());
-    	
     	if(column == 0)
         	System.out.print("You can't set that dumbass\n");
         else if(column == 1) {
@@ -114,8 +107,12 @@ public class EntityTableModel extends AbstractTableModel {
     	}
     }
     
-    public void setEntity() {
-    	
+    public void setEntity(Entity _entity) {
+    	ent =_entity;
+		fireTableRowsInserted(
+			0,
+			dataVector.size()-1
+    	);
     }
    
     //public void addEmptyRow() {
