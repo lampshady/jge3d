@@ -10,7 +10,7 @@ import jge3d.EntityList;
 
 public class EntityTable extends JTable {
 	private static final long serialVersionUID = 1L;
-	
+	public static EntityTable uniqueInstance= new EntityTable();
 	public EntityTableModel tableModel;
     protected EntityList entity;
     

@@ -7,16 +7,21 @@ import jge3d.Entity;
 
 public class EntityTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	
+	public static EntityTableModel uniqueInstance= new EntityTableModel();
 	public static final int KEY = 0;
     public static final int VALUE = 1;
     private static final String[] columnNames = {"Key", "Value"};
     protected Vector<Object> dataVector;
     public static Entity ent;
 
-    public EntityTableModel() {
+    private EntityTableModel() {
         dataVector = new Vector<Object>();
         //preFill();
+    }
+    
+    public static EntityTableModel getInstance()
+    {
+    	return uniqueInstance;
     }
 
     public String getColumnName(int column) {

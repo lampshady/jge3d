@@ -23,8 +23,8 @@ public class EntityComboBox extends JComboBox {
 				setSelectedItem(getSelectedItem());
 				//getParent().getParent().getParent().updateTable(entity.getByName(getSelectedItem().toString()));
 				//System.out.print(e.getSource().getClass().toString());
-				updateTable();
 				
+				updateTable();
 			}
 		});
 	}
