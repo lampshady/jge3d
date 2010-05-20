@@ -14,7 +14,7 @@ public class Entity {
 	private RigidBody phys_body;
 	private int ttl;
 	private long created_at;
-	private Physics physics;
+	//private Physics physics;
 	private boolean transparent = false;
 	private float alpha=1.0f;
 	private static String[] keys = {"name","type","positionX","positionY","positionZ","transparent","alpha","texture_name","collidable","size","ttl"};
@@ -35,8 +35,7 @@ public class Entity {
 		created_at=System.currentTimeMillis();
 	}
 
-	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, Physics _physics, RigidBody rb, int _ttl) {
-		physics=_physics;
+	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
 		type=_type;
 		position=_pos;
 		texture_name=_texture_name;
@@ -113,7 +112,7 @@ public class Entity {
 	}
 	
 	public void deletePhysics() {
-		physics.getDynamicsWorld().removeRigidBody(phys_body);
+		Physics.getInstance().getDynamicsWorld().removeRigidBody(phys_body);
 	}
 	
 	public boolean isDead() {

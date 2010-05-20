@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.vecmath.Vector3f;
 
+import jge3d.GUI.EditorView;
 import jge3d.GUI.Window;
 
 import org.lwjgl.LWJGLException;
@@ -12,20 +13,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 class Input {
+	private static Input uniqueInstance = new Input();
 	private int deltaX, deltaY;	
-	private Camera camera;
-	private Window window;
-	private Physics physics;
-	private Editor editor;
-	private Level level;
 	private Player player;
 	private EntityList entity;
 	
-	public Input(Camera _camera, Window _window, Physics _physics, Editor _editor, EntityList _entity, Player _player) throws LWJGLException {
-		camera=_camera;
-		window=_window;
-		physics=_physics;
-		editor=_editor;
+	public Input(EntityList _entity, Player _player) throws LWJGLException {
 		entity=_entity;
 		player=_player;
 		
@@ -48,13 +41,13 @@ class Input {
 			switch(Mouse.getEventButton()) {
 				case -1://Mouse Movement
 					if(Mouse.isInsideWindow()) {
-						editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getEditorView().getLayer(), camera);
+						Editor.getInstance().setCurrentBlock(Mouse.getX(), Mouse.getY(), EditorView.getInstance().getLayer());
 						if(Mouse.isButtonDown(0)) {
 							//Pan camera Z
 							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ) {
-								camera.incrementDistance(-1.0f*deltaY);	
+								Camera.getInstance().incrementDistance(-1.0f*deltaY);	
 							} else {
-								camera.moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
+								Camera.getInstance().moveFocus( new Vector3f(-0.1f*deltaX, -0.1f*deltaY, 0.0f) );
 							}
 						}
 						
@@ -65,8 +58,8 @@ class Input {
 						
 						if(Mouse.isButtonDown(2)) {
 							//Change Perspective
-							camera.incrementDeclination(-deltaY*.01f);
-							camera.incrementRotation(-deltaX*.01f);
+							Camera.getInstance().incrementDeclination(-deltaY*.01f);
+							Camera.getInstance().incrementRotation(-deltaX*.01f);
 						}
 					}
 					break;
@@ -79,7 +72,7 @@ class Input {
 					break;
 				case 1://Right Button
 					if( !(Mouse.isButtonDown(1)) ) {
-						entity.addEntity(editor.getCurrentBlock());
+						entity.addEntity(Editor.getInstance().getCurrentBlock());
 					}
 					break;
 				case 2://Middle Button
@@ -94,14 +87,14 @@ class Input {
 					//move focus
 					
 					//update current layer
-					window.getEditorView().incrementLayer(-1, camera);
-					editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getEditorView().getLayer(), camera);
+					EditorView.getInstance().incrementLayer(-1);
+					Editor.getInstance().setCurrentBlock(Mouse.getX(), Mouse.getY(), EditorView.getInstance().getLayer());
 					
 					break;
 				case  120: 
 					//update current layer
-					window.getEditorView().incrementLayer(1, camera);
-					editor.setCurrentBlock(Mouse.getX(), Mouse.getY(), window.getEditorView().getLayer(), camera);
+					EditorView.getInstance().incrementLayer(1);
+					Editor.getInstance().setCurrentBlock(Mouse.getX(), Mouse.getY(), EditorView.getInstance().getLayer());
 					break;
 			}
 		}

@@ -4,6 +4,7 @@ package jge3d;
 import java.applet.Applet;
 import java.lang.reflect.Field;
 
+import jge3d.GUI.LevelView;
 import jge3d.GUI.Window;
 import jge3d.render.Renderer;
 
@@ -24,28 +25,27 @@ public class Main extends Applet {
 			boolean isRunning = true;
 			
 			//Make game "pieces"
+			/*
 			Camera camera;
 			Editor editor;
 			Window window;
 			Physics physics;
 			Input input;
+			Renderer render;*/
 			Level level;
-			Renderer render;
+			
 			TextureList texture;
 			EntityList entity;
 			Player player;
-
-			//Make some physics
-			physics = new Physics();
 			
 			//Create a texture holder
 			texture = new TextureList();
 			
 			//A list for storing all the entities
-			entity = new EntityList(physics);
+			entity = new EntityList();
 			
 			//Create an empty  level
-			level = new Level(texture, entity);
+			level = new Level();
 			
 			for (Field field : entity.getClass().getDeclaredFields())
 			{
@@ -53,36 +53,36 @@ public class Main extends Applet {
 			}
 			
 			//Renderer for drawing stuff
-			render = new Renderer(level, physics, texture, entity);
+			//render = new Renderer(level, physics, texture, entity);
 			
 			//create the window and all that jazz
- 			window = new Window(level, texture, entity);
+ 			//window = new Window(level, texture, entity);
 
 			//setup the initial perspective
-			render.initGL(window);
+			Renderer.getInstance().initGL();
 		
 			//Camera
-			camera = new Camera(level.getHeight(), level.getWidth(), window);
+			//camera = new Camera(level.getHeight(), level.getWidth(), window);
 			
 			//Make an editor
-			editor = new Editor(render, window);
+			//editor = new Editor(render, window);
 			
 			//Make a player
-			player = new Player(physics);
+			player = new Player();
 			
 			//Create inputs
-			input = new Input(camera, window, physics, editor, entity, player);
+			//input = new Input(camera, window, physics, editor, entity, player);
 
 			//Renderer also needs references to the editor and camera
-			render.addReferences(editor, camera);
+			//render.addReferences(editor, camera);
 			
 			//Read in a level 
 			Display.makeCurrent();
-			level.setLevel(render, window);
+			level.setLevel();
 			Display.releaseContext();
 
 			while (isRunning) {
-				if(window.getLevelView().getLoadLevel()) {
+				if(LevelView.getInstance().getLoadLevel()) {
 					level.load();
 					System.out.println("You loaded the level\n");
 				}
@@ -93,23 +93,23 @@ public class Main extends Applet {
 				}
 				
 				//read keyboard and mouse
-				input.handleMouse();
-				input.handleKeyboard();
+				Input.getInstance().handleMouse();
+				Input.getInstance().handleKeyboard();
 
 				//Check to make sure none of the entities are marked as dead
 				entity.pruneEntities();
 				
 				//Update the world's physical layout
-				physics.clientUpdate();
+				Physics.getInstance().clientUpdate();
 
 				//Camera check versus player position
-				camera.moveToPlayerLocation(player);
+				Camera.getInstance().moveToPlayerLocation(player);
 				
 				//Draw world
-				render.draw();
+				Renderer.getInstance().draw();
 
 				//Print FPS to title bar
-				window.updateFPS();
+				Window.getInstance().updateFPS();
 				
 				//Check if it's time to close
 				if (Display.isCloseRequested()) {

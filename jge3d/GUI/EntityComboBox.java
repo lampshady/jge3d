@@ -9,11 +9,17 @@ import jge3d.EntityList;
 
 public class EntityComboBox extends JComboBox {
 	private static final long serialVersionUID = 1L;
-	
+	private static EntityComboBox uniqueInstance = new EntityComboBox();
 	private EntityList entity;
 	
-	public EntityComboBox(EntityList _entity) {
-		entity=_entity;
+	
+	public static EntityComboBox getInstance()
+	{
+		return uniqueInstance;
+	}
+	
+	private EntityComboBox() {
+		entity= new EntityList();
 
 		this.addItem("None Selected");
 		

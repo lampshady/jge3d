@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
+import jge3d.GUI.TextureView;
 import jge3d.GUI.Window;
 import jge3d.render.Renderer;
 
@@ -18,26 +19,20 @@ public class Level {
 	private int row_length=0;
 	private int col_length=0;
 	private String nextline;
-	private Window window;
-	private Renderer render;
+	//private Window window;
+	//private Renderer render;
 	private TextureList texture;
 	private EntityList entity;
 
 	//private static String newline = System.getProperty("line.separator");
 	
-	public Level(TextureList _texture, EntityList _entity) {
-		texture = _texture;
-		entity = _entity;
-	}
+	public Level() {}
 
-	public void setLevel(Renderer _render, Window _window) throws IOException, LWJGLException {
-		render = _render;
-		window = _window;
-
+	public void setLevel() throws IOException, LWJGLException {
 		BufferedReader levelfile;
 		levelfile = new BufferedReader(new FileReader("lib/Levels/newformattest.map"));
 		loadlevel(levelfile);
-		render.makeLevelList();
+		Renderer.getInstance().makeLevelList();
 		cleanup();
 	}
 	
@@ -66,7 +61,7 @@ public class Level {
 				if(type.equals("T")) {
 					if(texture.hasKey(splitString[1]) == false) {
 						texture.set(splitString[1], splitString[2], splitString[3]);
-						window.getTextureView().insertTexture(splitString[2]);
+						TextureView.getInstance().insertTexture(splitString[2]);
 					} else {
 						//this is for when we implement texture groups
 					}
@@ -121,17 +116,17 @@ public class Level {
 
 	public void load() throws IOException, LWJGLException {
 		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
-		fc_level.showOpenDialog(window.getWindow());
+		fc_level.showOpenDialog(Window.getInstance());
 		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
 		//BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
 		
 		entity.clear();
-		window.getTextureView().clear();
+		TextureView.getInstance().clear();
 
 		loadlevel(levelfile);
 		
 		Display.makeCurrent();
-		render.makeLevelList();
+		Renderer.getInstance().makeLevelList();
 		Display.releaseContext();
 		
 		cleanup();
@@ -140,7 +135,7 @@ public class Level {
 	public void save() throws IOException {
 		//Open a file
 		final JFileChooser fc_level = new JFileChooser("lib/Levels/");
-		fc_level.showOpenDialog(window.getWindow());
+		fc_level.showOpenDialog(Window.getInstance());
 		BufferedWriter bw = new BufferedWriter(new FileWriter(fc_level.getSelectedFile()));
 		
 		//Create header consisting of textures and stuff

@@ -14,6 +14,7 @@ import jge3d.Level;
 
 public class LevelView extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private static LevelView uniqueInstance = new LevelView();
 	
 	//Level controls
 	private JLabel levelLabel;
@@ -26,13 +27,18 @@ public class LevelView extends JPanel {
 	//Holds the reference to the level (for saving and loading)
 	Level level;
 	
-	public LevelView(Level _level) {
+	
+	public static LevelView getInstance(){ 
+		return uniqueInstance; 
+	}
+	
+	private LevelView() {
 		//LevelView
 		levelLabel = new JLabel("Level Options");
 		levelLoadButton = new JButton("Load");
 		levelSaveButton = new JButton("Save");
 		
-		level = _level;
+		level = new Level();
 		
 		//layout the Level panel
 		setupLevelView();

@@ -13,11 +13,10 @@ public class EntityList {
 	//private int level_size = 0;
 	//private boolean level_changed;
 	private boolean list_changed;
-	private Physics physics;
+	//private Physics physics;
 	
-	public EntityList(Physics _physics) {
-		entities = new ArrayList<Entity>();
-		physics = _physics;
+	public EntityList() {
+		entities = new ArrayList<Entity>();;
 	}
 
 	public void clear() {
@@ -25,7 +24,7 @@ public class EntityList {
 	}
 
 	public Entity addEntityByParams(String _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
-		latest_ent = new Entity(_type,_pos,_texture_name,_collidable,physics,rb,_ttl);
+		latest_ent = new Entity(_type,_pos,_texture_name,_collidable,rb,_ttl);
 		entities.add(latest_ent);
 		list_changed=true;
 
@@ -104,10 +103,6 @@ public class EntityList {
 				list_changed = true;
 			}
 		}
-	}
-	
-	public Physics getPhysics() {
-		return physics;
 	}
 	
 	public void pruneEntities() {

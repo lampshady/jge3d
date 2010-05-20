@@ -17,6 +17,7 @@ import jge3d.Camera;
 
 public class EditorView extends JPanel{
 	private static final long serialVersionUID = 1L;
+	private static EditorView uniqueInstance = new EditorView();
 	
 	//EditorView
 	private JButton editorLayerNext;
@@ -25,7 +26,12 @@ public class EditorView extends JPanel{
 	private JLabel editorLabel;
 	private int current_layer=0;
 	
-	public EditorView() {
+	public static EditorView getInstance()
+	{
+		return uniqueInstance;
+	}
+	
+	private EditorView() {
 		//EditorView
 		editorLayerNext = new JButton("=>");
 		editorLayerPrev = new JButton("<=");
@@ -74,7 +80,7 @@ public class EditorView extends JPanel{
 		return current_layer;
 	}
 	
-	public void incrementLayer(int inc, Camera camera)
+	public void incrementLayer(int inc)
 	{
 		current_layer += inc;
 		editorLayerField.setText(String.valueOf(current_layer));

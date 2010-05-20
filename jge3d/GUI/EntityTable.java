@@ -11,13 +11,18 @@ import jge3d.EntityList;
 public class EntityTable extends JTable {
 	private static final long serialVersionUID = 1L;
 	public static EntityTable uniqueInstance= new EntityTable();
-	public EntityTableModel tableModel;
+	//public EntityTableModel tableModel;
     protected EntityList entity;
     
-    public EntityTable(EntityList _entity) {
+    public static EntityTable getInstance()
+    {
+    	return uniqueInstance;
+    }
+    
+    /*public EntityTable(EntityList _entity) {
     	entity = _entity;
     	initComponent();
-    }
+    }*/
     
     class InteractiveRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
@@ -34,7 +39,7 @@ public class EntityTable extends JTable {
         {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if (column == interactiveColumn && hasFocus) {
-                if ((EntityTable.this.tableModel.getRowCount() - 1) == row)
+                if ((EntityTableModel.getInstance().getRowCount() - 1) == row)
                 {
                 	//EntityTable.this.tableModel.addEmptyRow();
                 }
@@ -47,14 +52,14 @@ public class EntityTable extends JTable {
     }
     
     public void initComponent() {
-        tableModel = new EntityTableModel();
+        EntityTableModel tableModel = EntityTableModel.getInstance();
         tableModel.addTableModelListener(new EntityTable.InteractiveTableModelListener());
         this.setModel(tableModel);
         this.setSurrendersFocusOnKeystroke(true);
     }
 
     public void highlightLastRow(int row) {
-        int lastrow = tableModel.getRowCount();
+        int lastrow = EntityTableModel.getInstance().getRowCount();
         if (row == lastrow - 1) {
             this.setRowSelectionInterval(lastrow - 1, lastrow - 1);
         } else {

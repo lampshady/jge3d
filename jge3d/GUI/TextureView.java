@@ -27,6 +27,7 @@ import jge3d.TextureList;
 
 public class TextureView extends JPanel{
 	private static final long serialVersionUID = 1L;
+	private static TextureView uniqueInstance = new TextureView();
 	
 	JLabel textureLabel;
 	JLabel preview;
@@ -42,13 +43,15 @@ public class TextureView extends JPanel{
 	private int texture_index=0;
 	private String textureTreeCurrentSelection="cube1";
 		
-	public void clear()	{
-		textureRootNode.removeAllChildren();
-		texture_index = 0;
-	}
 	
-	TextureView(TextureList tlist) {
-		textureList = tlist;
+	
+	public static TextureView getInstance()
+	{
+		return uniqueInstance;
+	}
+
+	private TextureView() {
+		textureList = new TextureList();
 		
 		//TextureView
 		textureLabel = new JLabel("Texture Viewer");
@@ -59,7 +62,10 @@ public class TextureView extends JPanel{
 		
 		setupTextureView();
 	}
-	
+	public void changeTextureList(TextureList t)
+	{
+		textureList = t;
+	}
 	public void setupTextureView() {
 		this.setBorder(BorderFactory.createLineBorder(Color.green));
 		//textureView.setPreferredSize(new Dimension(RightPane.getWidth(), 500));
@@ -177,5 +183,8 @@ public class TextureView extends JPanel{
 	    }
 	}
 	
-
+	public void clear()	{
+		textureRootNode.removeAllChildren();
+		texture_index = 0;
+	}
 }

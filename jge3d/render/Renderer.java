@@ -15,6 +15,7 @@ import jge3d.EntityList;
 import jge3d.Level;
 import jge3d.Physics;
 import jge3d.TextureList;
+import jge3d.GUI.EntityView;
 import jge3d.GUI.Window;
 
 import org.lwjgl.BufferUtils;
@@ -30,6 +31,8 @@ import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
 public class Renderer {
+	public static Renderer uniqueInstance = new Renderer();
+	
 	private Editor editor;
 	private Physics physics;
 	private Camera camera;
@@ -45,7 +48,13 @@ public class Renderer {
     private float lightDiffuse[]={ 1.0f, 1.0f, 1.0f, 1.0f };    // Diffuse Light Values ( NEW )
     private float lightPosition[]={ 0.0f, 0.0f, 2.0f, 1.0f };   // Light Position ( NEW )
 	
-	public Renderer(Level _level, Physics _physics, TextureList _texture, EntityList _entity) {
+    private Renderer(){};
+    
+    public static Renderer getInstance(){
+    	return uniqueInstance;
+    }
+    
+	private Renderer(Level _level, Physics _physics, TextureList _texture, EntityList _entity) {
 		physics = _physics;
 		texture = _texture;
 		entity = _entity;
@@ -257,7 +266,7 @@ public class Renderer {
 		//Check if level has been altered since last frame
 		if(entity.getListChanged()) {
 			addToLevelList(entity.getLatestEntity());
-			Window.getEntityView().updateComboBox();
+			EntityView.getInstance().updateComboBox();
 		}
 		
         //render level
@@ -275,11 +284,11 @@ public class Renderer {
 		Display.releaseContext();
 	}
 
-	public void initGL(Window window) throws LWJGLException {
+	public void initGL() throws LWJGLException {
 		Display.makeCurrent();
 		
 		//initialize the view
-		setPerspective(window);
+		setPerspective();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);     
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glClearColor(0.0f, 0.0f, 1.0f, 0.5f);
@@ -300,11 +309,15 @@ public class Renderer {
 		Display.releaseContext();
 	}
 	
-	public void setPerspective(Window window) {
+	public void setPerspective() {
 		//Calculate the shape of the screen and notify OpenGL
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(45.0f, (float) window.getGLWidth() / (float) window.getGLHeight(), 1f, 10000.0f);
+		GLU.gluPerspective(
+				45.0f, 
+				(float) Window.getInstance().getGLWidth() / (float) Window.getInstance().getGLHeight(), 
+				1f, 
+				10000.0f);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	

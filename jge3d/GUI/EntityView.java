@@ -11,19 +11,26 @@ import jge3d.EntityList;
 
 public class EntityView extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private static EntityView uniqueInstance = new EntityView();
+	
 	
 	public static EntityList entity;
-	public static EntityComboBox combo_box;
-	public EntityTable table;
+	//public static EntityComboBox combo_box;
+	//public EntityTable table;
 	
     protected JScrollPane table_scroller;
     protected JScrollPane combo_scroller;
 	
-	public EntityView(EntityList _entity){
-		entity = _entity;
+    public static EntityView getInstance()
+    {
+    	return uniqueInstance;
+    }
+    
+	private EntityView(){
+		entity = new EntityList();
 		
-		combo_box = new EntityComboBox(entity);
-		table = new EntityTable(entity);
+		EntityComboBox  combo_box = EntityComboBox.getInstance();
+		EntityTable table = EntityTable.getInstance();
 		
 		this.add(combo_box, BorderLayout.PAGE_START);
 		this.add(table);
@@ -41,14 +48,14 @@ public class EntityView extends JPanel {
 	}
 	
 	public String getComboValue() {
-		return (String)combo_box.getValue();
+		return (String)EntityComboBox.getInstance().getValue();
 	}
 	
 	public void updateComboBox() {
-		combo_box.update();
+		EntityComboBox.getInstance().update();
 	}
 	
 	public void setTableEntity(Entity ent) {
-		table.tableModel.setEntity(ent);
+		EntityTableModel.getInstance().setEntity(ent);
 	}
 }

@@ -21,6 +21,8 @@ import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
 public class Physics {
+	private static Physics uniqueInstance = new Physics();
+	
 	//World Definitions
 	private DefaultCollisionConfiguration collisionConfiguration;
 	private CollisionDispatcher dispatcher;
@@ -32,10 +34,16 @@ public class Physics {
 	private List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
 	float deltaT;
 
+	
+	public static Physics getInstance()
+	{
+		return uniqueInstance;
+	}
+	
 	//For holding the previous time in microseconds to calculate deltaT
 	private long prev_time;
 	
-	public Physics() {		
+	private Physics() {		
 		//Default collision constructor
 		collisionConfiguration = new DefaultCollisionConfiguration();
 		
@@ -124,7 +132,7 @@ public class Physics {
 		//body.setLinearVelocity(initial_velocity);
 		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
 		
-		return new Entity("C",new Vector3f(),"cube1",true,this,body,5000);
+		return new Entity("C",new Vector3f(),"cube1",true,body,5000);
 	}
 		
 	public RigidBody createPlayer(float x, float y, float z, float cube_size){

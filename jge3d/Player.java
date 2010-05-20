@@ -12,9 +12,9 @@ public class Player extends Character {
 	Vector3f current_velocity;
 	Vector3f position;
 	
-	public Player(Physics _physics) {
+	public Player() {
 		//player = new Entity('P',new Vector3f(17,15,0), "cube1", true);
-		player_physics = _physics.createPlayer((int)10, (int)5, (int)0, 1.0f);
+		player_physics = Physics.getInstance().createPlayer((int)10, (int)5, (int)0, 1.0f);
 		current_velocity = new Vector3f();
 		position = new Vector3f();
 	}

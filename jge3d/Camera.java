@@ -14,13 +14,13 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 
 public class Camera {
+	private static Camera uniqueInstance = new Camera();
 	private Vector3f position;					//x, y, z
 	private float declination;					//Angle up and down
 	private float rotation;						//Angle left and right
 	private Vector3f focus;						//x, y, z of target
 	private float distance;						//distance from focus
 	private Vector3f up_vector;					//vector pointing up
-	private Window window;
 	Vector3f min_window_bounds;
 	Vector3f max_window_bounds;
 	
@@ -30,9 +30,14 @@ public class Camera {
 	private float minimum_distance = 0.001f;
 	private float maximum_distance = 100.0f;
 	
-	public Camera(float height, float width, Window _window){
+	private Camera(){};
+	
+	public Camera getInstance(){
+		return uniqueInstance;
+	};
+	
+	private Camera (float height, float width, Window _window){
 		//initial setup (float about 0,0,0 I guess?
-		window = _window;
 		position = new Vector3f(0,0,0);
 		focus = new Vector3f(0,0,0);
 		declination = 0;
@@ -43,7 +48,7 @@ public class Camera {
 		updatePosition();
 	}
 	
-	public Camera(float x, float y, float z, float height, float width)
+	private Camera (float x, float y, float z, float height, float width)
 	{
 		position = new Vector3f(0,0,0);
 		focus = new Vector3f(x, y, z);
