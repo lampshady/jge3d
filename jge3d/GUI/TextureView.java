@@ -35,7 +35,7 @@ public class TextureView extends JPanel{
 	JTree textureTree;
 	JButton textureAddButton;
 	JButton textureDelButton;
-	private TextureList textureList;
+	//private TextureList textureList;
 	
 	//JTree controls
 	private DefaultMutableTreeNode textureRootNode;
@@ -51,7 +51,6 @@ public class TextureView extends JPanel{
 	}
 
 	private TextureView() {
-		textureList = new TextureList();
 		
 		//TextureView
 		textureLabel = new JLabel("Texture Viewer");
@@ -62,10 +61,10 @@ public class TextureView extends JPanel{
 		
 		setupTextureView();
 	}
-	public void changeTextureList(TextureList t)
+	/*public void changeTextureList(TextureList t)
 	{
 		textureList = t;
-	}
+	}*/
 	public void setupTextureView() {
 		this.setBorder(BorderFactory.createLineBorder(Color.green));
 		//textureView.setPreferredSize(new Dimension(RightPane.getWidth(), 500));
@@ -95,7 +94,7 @@ public class TextureView extends JPanel{
                 filename_noextension = filename.split("\\.")[0];
                 insertTexture(filename_noextension);
 
-                textureList.queueTextureForLoading(
+                TextureList.getInstance().queueTextureForLoading(
                 	"group" + "," +
                 	filename_noextension +
                 	",lib/Textures/" + filename
@@ -121,7 +120,7 @@ public class TextureView extends JPanel{
     	        
     	    /* retrieve the node that was selected */ 
     	        //Object nodeInfo = node.getUserObject();
-    	        preview.setIcon(new ImageIcon(textureList.getDataByName(node.toString()).getPath()));
+    	        preview.setIcon(new ImageIcon(TextureList.getInstance().getDataByName(node.toString()).getPath()));
     	        textureTreeCurrentSelection = node.toString();
     	    }
     	});

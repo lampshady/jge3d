@@ -4,8 +4,10 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 import jge3d.Entity;
+import jge3d.EntityList;
+import jge3d.monitoring.Observer;
 
-public class EntityTableModel extends AbstractTableModel {
+public class EntityTableModel extends AbstractTableModel implements Observer{
 	private static final long serialVersionUID = 1L;
 	public static EntityTableModel uniqueInstance= new EntityTableModel();
 	public static final int KEY = 0;
@@ -17,6 +19,7 @@ public class EntityTableModel extends AbstractTableModel {
     private EntityTableModel() {
         dataVector = new Vector<Object>();
         //preFill();
+        EntityComboBox.getInstance().registerObserver(this);
     }
     
     public static EntityTableModel getInstance()
@@ -55,7 +58,7 @@ public class EntityTableModel extends AbstractTableModel {
 			else if(dataVector.get(row).equals("ttl"))
 				return ent.getTTL();
 			else {
-				System.out.print("SSHHIIITTTTT!!!! EntityTable value getting error(row not found)\n");
+				System.out.print("EntityTable value error(row not found)\n");
 				return "?";
 			}
         } else {
@@ -88,7 +91,7 @@ public class EntityTableModel extends AbstractTableModel {
 			else if(dataVector.get(row).equals("ttl"))
 				ent.setTTL((Integer)value);
 			else {
-				System.out.print("SSHHIIITTTTT!!!! EntityTable value setting error(row not found)\n");
+				System.out.print("EntityTable value error(row not found)\n");
 			}
         }
         fireTableCellUpdated(row, column);
@@ -119,6 +122,13 @@ public class EntityTableModel extends AbstractTableModel {
 			dataVector.size()-1
     	);
     }
+
+	@Override
+	public void update(String s) {
+		// TODO Auto-generated method stub
+		setEntity( EntityList.getInstance().getByName(s));
+		System.out.print("Table found out that Combo changed");
+	}
    
     //public void addEmptyRow() {
     //    dataVector.add(new String());

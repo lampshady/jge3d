@@ -21,12 +21,13 @@ public class Level {
 	private String nextline;
 	//private Window window;
 	//private Renderer render;
-	private TextureList texture;
-	private EntityList entity;
+	//private EntityList entity;
 
 	//private static String newline = System.getProperty("line.separator");
 	
-	public Level() {}
+	public Level() {
+		
+	}
 
 	public void setLevel() throws IOException, LWJGLException {
 		BufferedReader levelfile;
@@ -59,8 +60,9 @@ public class Level {
 				splitString = nextline.split(";");
 				type = (nextline.substring(0, 1));
 				if(type.equals("T")) {
-					if(texture.hasKey(splitString[1]) == false) {
-						texture.set(splitString[1], splitString[2], splitString[3]);
+					if(TextureList.getInstance().hasKey(splitString[1]) == false) {
+						TextureList.getInstance().set(splitString[1], splitString[2], splitString[3]);
+						
 						TextureView.getInstance().insertTexture(splitString[2]);
 					} else {
 						//this is for when we implement texture groups
@@ -89,7 +91,7 @@ public class Level {
 				value = splitString[1];
 				
 				if(key.equals("Entity")) {
-					current_entity = entity.addEntity(new Entity());
+					current_entity = EntityList.getInstance().addEntity(new Entity());
 					while ((nextline = br.readLine()).compareToIgnoreCase("/Entity") != 0) {
 						nextline = nextline.trim();
 						splitString = nextline.split("=");
@@ -120,7 +122,7 @@ public class Level {
 		BufferedReader levelfile = new BufferedReader(new FileReader(fc_level.getSelectedFile()));
 		//BufferedReader levelfile = new BufferedReader(new FileReader("lib/Levels/temp.map"));
 		
-		entity.clear();
+		EntityList.getInstance().clear();
 		TextureView.getInstance().clear();
 
 		loadlevel(levelfile);
@@ -140,15 +142,15 @@ public class Level {
 		
 		//Create header consisting of textures and stuff
 		bw.write("header\n");
-		for(String key: texture.getHash().keySet())
-			bw.write("\t" + texture.getHash().get(key) + "\n");
+		for(String key: TextureList.getInstance().getHash().keySet())
+			bw.write("\t" + TextureList.getInstance().getHash().get(key) + "\n");
 		bw.write("/header\n");
 		bw.newLine();
 		
 		//Create level body defining block positions
 		bw.write(("level\n"));
-		for(int i=0; i<entity.getListSize();i++)
-			bw.write(entity.getByIndex(i).toString() + "\n");
+		for(int i=0; i<EntityList.getInstance().getListSize();i++)
+			bw.write(EntityList.getInstance().getByIndex(i).toString() + "\n");
 		bw.write(("/level\n"));
 		
 		//Close buffers

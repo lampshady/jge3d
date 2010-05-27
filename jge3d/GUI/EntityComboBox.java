@@ -2,15 +2,21 @@ package jge3d.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 
 import javax.swing.JComboBox;
 
 import jge3d.EntityList;
+import jge3d.monitoring.Observer;
+import jge3d.monitoring.Subject;
 
-public class EntityComboBox extends JComboBox {
+public class EntityComboBox extends JComboBox implements Subject{
 	private static final long serialVersionUID = 1L;
 	private static EntityComboBox uniqueInstance = new EntityComboBox();
-	private EntityList entity;
+	
+	ArrayList<Observer> listOfObservers = new ArrayList<Observer>();
+	//private EntityList entity;
 	
 	
 	public static EntityComboBox getInstance()
@@ -19,7 +25,6 @@ public class EntityComboBox extends JComboBox {
 	}
 	
 	private EntityComboBox() {
-		entity= new EntityList();
 
 		this.addItem("None Selected");
 		
@@ -30,7 +35,7 @@ public class EntityComboBox extends JComboBox {
 				//getParent().getParent().getParent().updateTable(entity.getByName(getSelectedItem().toString()));
 				//System.out.print(e.getSource().getClass().toString());
 				
-				updateTable();
+				notifyObservers();
 			}
 		});
 	}
@@ -42,13 +47,32 @@ public class EntityComboBox extends JComboBox {
 	public void update() {
 		this.removeAllItems();
 		
-		for(int i=0; i<entity.getListSize();i++) {
-			this.addItem(entity.get(i).getName());
+		for(int i=0; i<EntityList.getInstance().getListSize();i++) {
+			this.addItem(EntityList.getInstance().get(i).getName());
 		}
 	}
 	
-	private void updateTable() {
+	/*private void updateTable() {
 		//getParent().setTableEntity(entity.getByName(getSelectedItem().toString()));
+		notifyObservers();
 		System.out.print(getParent().getClass().toString());
+	}*/
+
+	@Override
+	public void notifyObservers() {
+		for(Observer o : listOfObservers)
+		{
+			o.update(this.getValue());
+		}
+	}
+
+	@Override
+	public void registerObserver(Observer o) {
+		listOfObservers.add(o);
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		listOfObservers.remove(o);
 	}
 }

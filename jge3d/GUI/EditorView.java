@@ -84,7 +84,7 @@ public class EditorView extends JPanel{
 	{
 		current_layer += inc;
 		editorLayerField.setText(String.valueOf(current_layer));
-		camera.moveFocus(new Vector3f(0,0, -1.0f * (float)inc));
+		Camera.getInstance().moveFocus(new Vector3f(0,0, -1.0f * (float)inc));
 	}
 	
 	public Vector3f getLayerNormal()

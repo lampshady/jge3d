@@ -6,23 +6,18 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JTable;
 
-import jge3d.EntityList;
-
-public class EntityTable extends JTable {
+public class EntityTable extends JTable{
 	private static final long serialVersionUID = 1L;
 	public static EntityTable uniqueInstance= new EntityTable();
-	//public EntityTableModel tableModel;
-    protected EntityList entity;
     
     public static EntityTable getInstance()
     {
     	return uniqueInstance;
     }
     
-    /*public EntityTable(EntityList _entity) {
-    	entity = _entity;
+    public EntityTable() {
     	initComponent();
-    }*/
+    }
     
     class InteractiveRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;

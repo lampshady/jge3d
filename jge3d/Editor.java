@@ -2,22 +2,25 @@ package jge3d;
 
 import javax.vecmath.Vector3f;
 
-import jge3d.GUI.Window;
-import jge3d.render.Renderer;
+import jge3d.GUI.TextureView;
 
 import org.lwjgl.LWJGLException;
 
 public class Editor {
 	private Vector3f current_position_vector;
-	private Window window;
+	private static Editor uniqueInstance = new Editor();
 	
-	public Editor(Renderer _render, Window _window) {
-		current_position_vector = new Vector3f();
-		window = _window;
+	public static Editor getInstance()
+	{
+		return uniqueInstance;
 	}
 	
-	public void setCurrentBlock(int mouseX, int mouseY, float zPlane, Camera camera) throws LWJGLException {
-		 current_position_vector = camera.getRayToPlane(mouseX, mouseY, new Vector3f(0,0,1), new Vector3f(0,0,0));
+	private Editor(){
+		current_position_vector = new Vector3f();
+	}
+	
+	public void setCurrentBlock(int mouseX, int mouseY, float zPlane) throws LWJGLException {
+		 current_position_vector = Camera.getInstance().getRayToPlane(mouseX, mouseY, new Vector3f(0,0,1), new Vector3f(0,0,0));
 				// window.getEditorView().getLayerNormal(), window.getEditorView().getLayerPoint()); 
 	}
 	
@@ -28,7 +31,7 @@ public class Editor {
 	public Entity getCurrentBlock() {
 		return new Entity("level",
 			current_position_vector,
-			window.getTextureView().getSelectedTexture(),
+			TextureView.getInstance().getSelectedTexture(),
 			true,
 			0	//replace with TTL from ent browser
 		);

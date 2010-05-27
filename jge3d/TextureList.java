@@ -8,14 +8,21 @@ import org.lwjgl.LWJGLException;
 import org.newdawn.slick.opengl.Texture;
 
 public class TextureList {
+	private static TextureList uniqueInstance = new TextureList();
+	
 	private HashMap<String, TextureData> textures;
 	
 	//Queue for texture loading
 	String texture_load_string = "";
 	boolean textures_changed;
 	
-	public TextureList() {
+	private TextureList() {
 		textures = new HashMap<String, TextureData>();
+	}
+	
+	public static TextureList getInstance()
+	{
+		return uniqueInstance;
 	}
 	
 	public Texture getByName(String key) {

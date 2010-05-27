@@ -33,11 +33,11 @@ import com.bulletphysics.linearmath.Transform;
 public class Renderer {
 	public static Renderer uniqueInstance = new Renderer();
 	
-	private Editor editor;
-	private Physics physics;
-	private Camera camera;
-	private TextureList texture;
-	private EntityList entity;
+	//private Editor editor;
+	//private Physics physics;
+	//private Camera camera;
+	//private TextureList texture;
+	//private EntityList entity;
 	private int objectlist;
 	
 	//Notifier for adding textures
@@ -48,26 +48,27 @@ public class Renderer {
     private float lightDiffuse[]={ 1.0f, 1.0f, 1.0f, 1.0f };    // Diffuse Light Values ( NEW )
     private float lightPosition[]={ 0.0f, 0.0f, 2.0f, 1.0f };   // Light Position ( NEW )
 	
-    private Renderer(){};
+    private Renderer(){
+    	try {
+			initGL();
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    };
     
     public static Renderer getInstance(){
     	return uniqueInstance;
     }
     
 	private Renderer(Level _level, Physics _physics, TextureList _texture, EntityList _entity) {
-		physics = _physics;
-		texture = _texture;
-		entity = _entity;
+		//physics = _physics;
+		//texture = _texture;
+		//entity = _entity;
 		
 		//Buffer to hold LWJGL matrix transformations (for physics rendering)
 		buf = BufferUtils.createFloatBuffer(16);
 	}
-	
-	public void addReferences(Editor _editor, Camera _camera) throws LWJGLException {
-		editor=_editor;
-		camera=_camera;
-	}
-
 	public void drawcube(Entity ent) throws FileNotFoundException, IOException {		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
@@ -85,7 +86,7 @@ public class Renderer {
 		}
 
 		//bind a texture for drawing
-		texture.getByName(ent.getTextureName()).bind();
+		TextureList.getInstance().getByName(ent.getTextureName()).bind();
 		
         GL11.glBegin(GL11.GL_QUADS);
         	// Front Face
@@ -144,7 +145,7 @@ public class Renderer {
 		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		//bind a texture for drawing
-		texture.getByName(name).bind();
+		TextureList.getInstance().getByName(name).bind();
 		
         GL11.glBegin(GL11.GL_QUADS);
         	// Front Face
@@ -258,14 +259,14 @@ public class Renderer {
 		
 		//Place the camera
 		GLU.gluLookAt(
-				camera.getPositionX()	, camera.getPositionY()	,	camera.getPositionZ(),
-				camera.getFocusX()		, camera.getFocusY()	,	camera.getFocusZ(),
-				camera.getUpVectorX()	, camera.getUpVectorY()	,	camera.getUpVectorZ()
+				Camera.getInstance().getPositionX()	, Camera.getInstance().getPositionY()	,	Camera.getInstance().getPositionZ(),
+				Camera.getInstance().getFocusX(), Camera.getInstance().getFocusY()	,	Camera.getInstance().getFocusZ(),
+				Camera.getInstance().getUpVectorX()	, Camera.getInstance().getUpVectorY()	,	Camera.getInstance().getUpVectorZ()
 		);
 		
 		//Check if level has been altered since last frame
-		if(entity.getListChanged()) {
-			addToLevelList(entity.getLatestEntity());
+		if(EntityList.getInstance().getListChanged()) {
+			addToLevelList(EntityList.getInstance().getLatestEntity());
 			EntityView.getInstance().updateComboBox();
 		}
 		
@@ -322,7 +323,7 @@ public class Renderer {
 	}
 	
 	public void renderEditorBlock() throws FileNotFoundException, IOException {
-		Vector3f current_position_vector=editor.getCurrentPosition();
+		Vector3f current_position_vector=Editor.getInstance().getCurrentPosition();
 		GL11.glPushMatrix();
 			current_position_vector.x = (float)Math.floor(current_position_vector.x);
 			current_position_vector.y = (float)Math.floor(current_position_vector.y);
@@ -342,21 +343,21 @@ public class Renderer {
 
 		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-			for(int i=0;i<entity.getListSize();i++) {
+			for(int i=0;i<EntityList.getInstance().getListSize();i++) {
 				GL11.glPushMatrix();
-				position=entity.getEntityPosition(i);
+				position=EntityList.getInstance().getEntityPosition(i);
 
-				if(entity.getEntityCollidable(i) == true) {
-					physics.addLevelBlock(position.x,position.y,-position.z,entity.getEntitySize(i));
+				if(EntityList.getInstance().getEntityCollidable(i) == true) {
+					Physics.getInstance().addLevelBlock(position.x,position.y,-position.z,EntityList.getInstance().getEntitySize(i));
 				}
 				
 				GL11.glTranslatef(
-					position.x*entity.getEntitySize(i),
-					position.y*entity.getEntitySize(i),
-					-position.z*entity.getEntitySize(i)
+					position.x*EntityList.getInstance().getEntitySize(i),
+					position.y*EntityList.getInstance().getEntitySize(i),
+					-position.z*EntityList.getInstance().getEntitySize(i)
 				);
 				
-				drawcube(entity.get(i));
+				drawcube(EntityList.getInstance().get(i));
 				GL11.glPopMatrix();
 			}
 		GL11.glEndList();
@@ -368,23 +369,23 @@ public class Renderer {
 
 		//Replace old display list with new one containing new level object
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-		for(int i=0;i<entity.getListSize();i++) {
+		for(int i=0;i<EntityList.getInstance().getListSize();i++) {
 			GL11.glPushMatrix();
-			position=entity.getEntityPosition(i);
+			position=EntityList.getInstance().getEntityPosition(i);
 			
 			GL11.glTranslatef(
-				position.x*entity.getEntitySize(i),
-				position.y*entity.getEntitySize(i),
-				-position.z*entity.getEntitySize(i)
+				position.x*EntityList.getInstance().getEntitySize(i),
+				position.y*EntityList.getInstance().getEntitySize(i),
+				-position.z*EntityList.getInstance().getEntitySize(i)
 			);
-			drawcube(entity.get(i));
+			drawcube(EntityList.getInstance().get(i));
 			GL11.glPopMatrix();
 		}
 		GL11.glEndList();
 
 		//Add physics just for the new object
 		if(newEnt.getCollidable() == true) {
-			physics.addLevelBlock(position.x,position.y,-position.z,newEnt.getSize());
+			Physics.getInstance().addLevelBlock(position.x,position.y,-position.z,newEnt.getSize());
 		}
 	}
 	
@@ -394,13 +395,13 @@ public class Renderer {
 
 	//Physics transforms
 	float[] body_matrix = new float[16];	//hold matrix of box
-	FloatBuffer buf;
+	FloatBuffer buf = BufferUtils.createFloatBuffer(16);
 	private final Transform m = new Transform();	//wtf is this for
 	public void renderPhysics() throws FileNotFoundException, IOException {
-		if (physics.getDynamicsWorld() != null) {
-			int numObjects = physics.getDynamicsWorld().getNumCollisionObjects();
+		if (Physics.getInstance().getDynamicsWorld() != null) {
+			int numObjects = Physics.getInstance().getDynamicsWorld().getNumCollisionObjects();
 			for (int i = 0; i < numObjects; i++) {
-				CollisionObject colObj = physics.getDynamicsWorld().getCollisionObjectArray().get(i);
+				CollisionObject colObj = Physics.getInstance().getDynamicsWorld().getCollisionObjectArray().get(i);
 				RigidBody body = RigidBody.upcast(colObj);
 				
 				if(body.getInvMass() != 0) {

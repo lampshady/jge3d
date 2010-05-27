@@ -30,9 +30,17 @@ public class Camera {
 	private float minimum_distance = 0.001f;
 	private float maximum_distance = 100.0f;
 	
-	private Camera(){};
+	private Camera(){
+		position = new Vector3f(0,0,0);
+		focus = new Vector3f(0,0,0);
+		declination = 0;
+		rotation = 0;
+		distance = 45.0f;
+		setUpVector( 0, 1, 0 );
+		updatePosition();
+	};
 	
-	public Camera getInstance(){
+	public static Camera getInstance(){
 		return uniqueInstance;
 	};
 	
@@ -268,7 +276,7 @@ public class Camera {
 	
 	public void moveToPlayerLocation(Player player) throws LWJGLException {
 		min_window_bounds = getRayToPlane(0, 0, new Vector3f(0,0,1), new Vector3f(0,0,0));
-		max_window_bounds = getRayToPlane(window.getGLWidth(), window.getGLHeight(), new Vector3f(0,0,1), new Vector3f(0,0,0));
+		max_window_bounds = getRayToPlane(Window.getInstance().getGLWidth(), Window.getInstance().getGLHeight(), new Vector3f(0,0,1), new Vector3f(0,0,0));
 		
 		if(player.getLocation().x > -10+max_window_bounds.x)
 			focus.x += 0.05;

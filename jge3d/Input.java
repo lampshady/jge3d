@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.vecmath.Vector3f;
 
 import jge3d.GUI.EditorView;
-import jge3d.GUI.Window;
+import jge3d.GUI.LevelView;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -16,10 +16,32 @@ class Input {
 	private static Input uniqueInstance = new Input();
 	private int deltaX, deltaY;	
 	private Player player;
-	private EntityList entity;
+	//private EntityList entity;
+	private Level level;
 	
-	public Input(EntityList _entity, Player _player) throws LWJGLException {
-		entity=_entity;
+	public static Input getInstance()
+	{
+		return uniqueInstance;
+	}
+	
+	private Input()
+	{
+		player = new Player();
+		
+		
+		try {
+			Mouse.create();
+			Mouse.setNativeCursor(null);
+			Keyboard.create();
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private Input(EntityList _entity, Player _player) throws LWJGLException {
+		//entity=_entity;
 		player=_player;
 		
 		Mouse.create();
@@ -72,7 +94,7 @@ class Input {
 					break;
 				case 1://Right Button
 					if( !(Mouse.isButtonDown(1)) ) {
-						entity.addEntity(Editor.getInstance().getCurrentBlock());
+						EntityList.getInstance().addEntity(Editor.getInstance().getCurrentBlock());
 					}
 					break;
 				case 2://Middle Button
@@ -135,17 +157,17 @@ class Input {
 					//player.slow(new Vector3f(-1,0,0),20); 
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_X)) {
-					entity.deleteByPosition(editor.getCurrentPosition());
+					EntityList.getInstance().deleteByPosition(Editor.getInstance().getCurrentPosition());
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
-					entity.addEntity(physics.dropBox(ray.x,ray.y,ray.z,1));
+					Vector3f ray = Camera.getInstance().getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
+					EntityList.getInstance().addEntity(Physics.getInstance().dropBox(ray.x,ray.y,ray.z,1));
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {
 					level.save();
 				}   
 				if(Keyboard.isKeyDown(Keyboard.KEY_F2)) {
-					window.getLevelView().setLoadLevel(true);
+					LevelView.getInstance().setLoadLevel(true);
 				}
 			}
 			/*

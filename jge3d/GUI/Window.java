@@ -29,14 +29,6 @@ public class Window extends JFrame{
 	private Canvas GLView;
 	private JPanel RightPane;
 	
-	//Panels that we're going to use for the right pane
-	/*
-	private static TextureView textureView;
-	private static EditorView editorView;
-	private static LevelView levelView;
-	private static EntityView entityView;
-	*/
-	
 	//holds the current monitor sizing mode
 	private DisplayMode chosenMode = null;
 
@@ -44,15 +36,8 @@ public class Window extends JFrame{
 	private long prev_time=0;
 	private int frames=0;
 	
-	//local references to other classes
-	/*
-	private Level level;
-	private TextureList texture;
-	private EntityList entity;
-	*/
-	
 	private Window()
-	{
+	{	
 		createAndShowGUI();
 	}
 	
@@ -60,21 +45,6 @@ public class Window extends JFrame{
 	{
 		return uniqueInstance;
 	}
-	
-	
-	/*public Window(Level _level, TextureList _texture, EntityList _entity) {
-		level = _level;
-		texture = _texture;
-		entity = _entity;
-		
-		//One of these days we'll get this thing running in the correct
-		//thread so we don't need all those stupid hooks to avoid makeCurrent errors 
-		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
-        //    public void run() {
-                createAndShowGUI();
-        //    }
-        //});
-	}*/
 	
 	public void createAndShowGUI() {
 		// Set the target size of the window.
@@ -85,13 +55,6 @@ public class Window extends JFrame{
 		GLView = new Canvas();
 		RightPane = new JPanel();
 		
-		//Construct panels for right pane
-		/*
-		textureView = new TextureView(texture);
-		editorView = new EditorView();
-		levelView = new LevelView(level);
-		entityView = new EntityView(entity);
-		*/
 		
 		//layout the window
 		chosenMode = new DisplayMode(targetWidth, targetHeight);
@@ -198,18 +161,4 @@ public class Window extends JFrame{
 	public static void setTableEntity(Entity ent) {
 		EntityTableModel.getInstance().setEntity(ent);
 	}
-	
-	//Window Component Getters
-	/*
-	//main window
-	public JFrame getWindow() {	return this; }
-	//Texture panel
-	public TextureView getTextureView() { return textureView; }
-	//Editor panel
-	public EditorView getEditorView() {	return editorView; }
-	//Level panel
-	public LevelView getLevelView() {	return levelView; }
-	//Entity panel
-	public static EntityView getEntityView() {	return entityView;	}
-	*/
 }

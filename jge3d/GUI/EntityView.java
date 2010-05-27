@@ -7,14 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import jge3d.Entity;
-import jge3d.EntityList;
 
 public class EntityView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static EntityView uniqueInstance = new EntityView();
 	
 	
-	public static EntityList entity;
+	//public static EntityList entity;
 	//public static EntityComboBox combo_box;
 	//public EntityTable table;
 	
@@ -27,7 +26,6 @@ public class EntityView extends JPanel {
     }
     
 	private EntityView(){
-		entity = new EntityList();
 		
 		EntityComboBox  combo_box = EntityComboBox.getInstance();
 		EntityTable table = EntityTable.getInstance();

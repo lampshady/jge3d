@@ -21,75 +21,42 @@ public class Main extends Applet {
 	
 	public void init() {
 		try{
+			
 			//the game always runs (except when it doesn't)
 			boolean isRunning = true;
-			
-			//Make game "pieces"
-			/*
-			Camera camera;
-			Editor editor;
-			Window window;
-			Physics physics;
-			Input input;
-			Renderer render;*/
+		
 			Level level;
-			
-			TextureList texture;
-			EntityList entity;
+
 			Player player;
 			
-			//Create a texture holder
-			texture = new TextureList();
-			
-			//A list for storing all the entities
-			entity = new EntityList();
+			loadModules();
 			
 			//Create an empty  level
 			level = new Level();
 			
-			for (Field field : entity.getClass().getDeclaredFields())
+			for (Field field : EntityList.getInstance().getClass().getDeclaredFields())
 			{
 				System.out.print(field + "\n");
 			}
 			
-			//Renderer for drawing stuff
-			//render = new Renderer(level, physics, texture, entity);
-			
-			//create the window and all that jazz
- 			//window = new Window(level, texture, entity);
-
-			//setup the initial perspective
-			Renderer.getInstance().initGL();
-		
-			//Camera
-			//camera = new Camera(level.getHeight(), level.getWidth(), window);
-			
-			//Make an editor
-			//editor = new Editor(render, window);
-			
-			//Make a player
-			player = new Player();
-			
-			//Create inputs
-			//input = new Input(camera, window, physics, editor, entity, player);
-
-			//Renderer also needs references to the editor and camera
-			//render.addReferences(editor, camera);
-			
-			//Read in a level 
+			//Read in a level
 			Display.makeCurrent();
 			level.setLevel();
 			Display.releaseContext();
+			
+			//Make a player
+			player = new Player();
 
-			while (isRunning) {
+			while (isRunning) 
+			{
 				if(LevelView.getInstance().getLoadLevel()) {
 					level.load();
 					System.out.println("You loaded the level\n");
 				}
 				
 				//Check if textureList has been altered since last frame
-				if(texture.hasChanged()) {
-					texture.loadQueuedTexture();
+				if(TextureList.getInstance().hasChanged()) {
+					TextureList.getInstance().loadQueuedTexture();
 				}
 				
 				//read keyboard and mouse
@@ -97,7 +64,7 @@ public class Main extends Applet {
 				Input.getInstance().handleKeyboard();
 
 				//Check to make sure none of the entities are marked as dead
-				entity.pruneEntities();
+				EntityList.getInstance().pruneEntities();
 				
 				//Update the world's physical layout
 				Physics.getInstance().clientUpdate();
@@ -124,5 +91,16 @@ public class Main extends Applet {
 			System.exit(-1);
 		}
 	}
-
+	
+	public void loadModules()
+	{
+		EntityList.getInstance();
+		Window.getInstance();
+		Renderer.getInstance();
+		Physics.getInstance();
+		TextureList.getInstance();
+		Input.getInstance();
+		Editor.getInstance();
+		Camera.getInstance();
+	}
 }

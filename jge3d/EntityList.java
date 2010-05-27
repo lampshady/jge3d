@@ -9,13 +9,20 @@ import com.bulletphysics.dynamics.RigidBody;
 
 public class EntityList {
 	private List<Entity> entities;
+	private static EntityList  uniqueInstance = new EntityList();
+	
 	private Entity latest_ent;
 	//private int level_size = 0;
 	//private boolean level_changed;
 	private boolean list_changed;
 	//private Physics physics;
 	
-	public EntityList() {
+	public static EntityList getInstance()
+	{
+		return uniqueInstance;
+	}
+	
+	private EntityList() {
 		entities = new ArrayList<Entity>();;
 	}
 
