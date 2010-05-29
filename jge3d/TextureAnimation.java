@@ -1,6 +1,7 @@
 package jge3d;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TextureAnimation {
 	private HashMap<String, TextureList> animations;
@@ -11,5 +12,12 @@ public class TextureAnimation {
 	
 	public TextureAnimation() {
 		animations = new HashMap<String, TextureList>();
+	}
+	
+	public void getNextFrame() {
+		for(Map.Entry<String,TextureList> entry: animations.entrySet()) {
+			//Really busted; don't trust it
+			entry.getValue().getByName("");
+		}
 	}
 }

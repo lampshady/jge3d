@@ -40,15 +40,10 @@ class Input {
 		
 	}
 	
-	private Input(EntityList _entity, Player _player) throws LWJGLException {
-		//entity=_entity;
-		player=_player;
-		
-		Mouse.create();
-		Mouse.setNativeCursor(null);
-		Keyboard.create();
-		//Keyboard.enableRepeatEvents(true);
+	public void setPlayer(Player _player) {
+		player = _player;
 	}
+	
 
 	public void handleMouse() throws LWJGLException, FileNotFoundException, IOException {
 		//Handle Mouse Events here

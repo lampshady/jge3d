@@ -18,7 +18,6 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 
     private EntityTableModel() {
         dataVector = new Vector<Object>();
-        //preFill();
         EntityComboBox.getInstance().registerObserver(this);
     }
     
@@ -45,6 +44,14 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 	    		return ent.getPositionY();
 			else if(dataVector.get(row).equals("positionZ"))
 				return ent.getPositionZ();
+	        else if(dataVector.get(row).equals("gravityX"))
+	        	return ent.getGravityX();
+	    	else if(dataVector.get(row).equals("gravityY"))
+	    		return ent.getGravityY();
+			else if(dataVector.get(row).equals("gravityZ"))
+				return ent.getGravityZ();
+			else if(dataVector.get(row).equals("mass"))
+				return ent.getMass();
 			else if(dataVector.get(row).equals("transparent"))
 				return ent.getTransparent();
 			else if(dataVector.get(row).equals("alpha"))
@@ -70,26 +77,36 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
     	if(column == 0)
         	System.out.print("You can't set that dumbass\n");
         else if(column == 1) {
-	        if(dataVector.get(row).equals("type"))
+        	if(dataVector.get(row).equals("name"))
+        		ent.setName((String)value);
+        	else if(dataVector.get(row).equals("type"))
 	        	ent.setType((String)value);
 	        else if(dataVector.get(row).equals("positionX"))
-	        	ent.setPositionX((Float)value);
+	        	ent.setPositionX(Float.valueOf(value.toString()));
 	    	else if(dataVector.get(row).equals("positionY"))
-	    		ent.setPositionY((Float)value);
+	    		ent.setPositionY(Float.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("positionZ"))
-				ent.setPositionZ((Float)value);
+				ent.setPositionZ(Float.valueOf(value.toString()));
+			else if(dataVector.get(row).equals("gravityX"))
+	        	ent.setGravityX(Float.valueOf(value.toString()));
+	    	else if(dataVector.get(row).equals("gravityY"))
+	    		ent.setGravityY(Float.valueOf(value.toString()));
+			else if(dataVector.get(row).equals("gravityZ"))
+				ent.setGravityZ(Float.valueOf(value.toString()));
+			else if(dataVector.get(row).equals("mass"))
+				ent.setMass(Float.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("transparent"))
-				ent.setTransparent((Boolean)value);
+				ent.setTransparent(Boolean.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("alpha"))
-				ent.setAlpha((Float)value);
+				ent.setAlpha(Float.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("texture_name"))
 				ent.setTextureName((String)value);
 			else if(dataVector.get(row).equals("collidable"))		
-				ent.setCollidable((Boolean)value);
+				ent.setCollidable(Boolean.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("size"))
-				ent.setSize((Float)value);
+				ent.setSize(Float.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("ttl"))
-				ent.setTTL((Integer)value);
+				ent.setTTL(Integer.valueOf(value.toString()));
 			else {
 				System.out.print("EntityTable value error(row not found)\n");
 			}
@@ -105,37 +122,33 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
         return columnNames.length;
     }
 
-    public void preFill() {
-    	for(String key: Entity.getKeys()) {
-    		dataVector.add(key);
-    		fireTableRowsInserted(
-    			0,
-    			dataVector.size()-1
-    		);
-    	}
-    }
     
     public void setEntity(Entity _entity) {
     	ent =_entity;
-		fireTableRowsInserted(
-			0,
-			dataVector.size()-1
-    	);
+    	dataVector.clear();
+    	for(String key: Entity.getKeys()) {
+    		dataVector.add(key);
+    	}
+    	fireTableRowsInserted(
+    			0,
+    			dataVector.size()-1
+    		);
     }
 
+    public boolean isCellEditable(int row, int column) {
+        if (column == VALUE) 
+        	return true;
+        else {
+        	System.out.print("You can't edit that dumbass\n");
+        	return false;
+        }
+    }
+
+    
 	@Override
 	public void update(String s) {
-		// TODO Auto-generated method stub
-		setEntity( EntityList.getInstance().getByName(s));
-		System.out.print("Table found out that Combo changed");
+		if(s != null)
+			setEntity( EntityList.getInstance().getByName(s));
 	}
-   
-    //public void addEmptyRow() {
-    //    dataVector.add(new String());
-    //    fireTableRowsInserted(
-    //       dataVector.size() - 1,
-    //       dataVector.size() - 1
-    //	);
-    //}
 }
 

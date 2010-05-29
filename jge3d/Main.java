@@ -46,6 +46,7 @@ public class Main extends Applet {
 			
 			//Make a player
 			player = new Player();
+			Input.getInstance().setPlayer(player);
 
 			while (isRunning) 
 			{

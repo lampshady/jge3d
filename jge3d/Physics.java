@@ -34,7 +34,6 @@ public class Physics {
 	private List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
 	float deltaT;
 
-	
 	public static Physics getInstance()
 	{
 		return uniqueInstance;

@@ -7,7 +7,9 @@ import com.bulletphysics.dynamics.RigidBody;
 public class Entity {
 	private String name;
 	private String type;
-	private Vector3f position = new Vector3f();
+	private float mass;
+	private Vector3f position;
+	private Vector3f gravity;
 	private String texture_name;
 	private boolean collidable;
 	private float size;
@@ -17,11 +19,13 @@ public class Entity {
 	//private Physics physics;
 	private boolean transparent = false;
 	private float alpha=1.0f;
-	private static String[] keys = {"name","type","positionX","positionY","positionZ","transparent","alpha","texture_name","collidable","size","ttl"};
+	private static String[] keys = {"name","type","positionX","positionY","positionZ","gravityX","gravityY","gravityZ","mass","transparent","alpha","texture_name","collidable","size","ttl"};
 	protected static int num_entities=0;
 	
 	public Entity() {
 		name="ent" + num_entities++;
+		position = new Vector3f();
+		gravity = new Vector3f();
 	}
 	
 	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
@@ -33,6 +37,7 @@ public class Entity {
 		size=1.0f;
 		ttl=_ttl;
 		created_at=System.currentTimeMillis();
+		gravity = new Vector3f();
 	}
 
 	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
@@ -44,8 +49,12 @@ public class Entity {
 		phys_body=rb;
 		ttl=_ttl;
 		created_at=System.currentTimeMillis();
+		gravity = new Vector3f();
 	}
 
+	public String getName() {
+		return name;
+	}
 	public Vector3f getPosition() {
 		return position;
 	}
@@ -58,7 +67,18 @@ public class Entity {
 	public float getPositionZ() {
 		return position.z;
 	}
-	
+	public float getGravityX() {
+		return gravity.x;
+	}
+	public float getGravityY() {
+		return gravity.y;
+	}
+	public float getGravityZ() {
+		return gravity.z;
+	}
+	public float getMass() {
+		return mass;
+	}
 	public boolean getCollidable() {
 		return collidable;
 	}
@@ -102,11 +122,7 @@ public class Entity {
 	public int getTTL() {
 		return ttl;
 	}
-	
-	public String getName() {
-		return name;
-	}
-	
+
 	public void setName(String _name) {
 		name=_name;
 	}
@@ -138,6 +154,21 @@ public class Entity {
 		position.z = z;
 	}
 	
+	public void setGravityX(Float x) {
+		gravity.x = x;
+		phys_body.setGravity(gravity);
+	}
+	
+	public void setGravityY(Float y) {
+		gravity.y = y;
+		phys_body.setGravity(gravity);
+	}
+	
+	public void setGravityZ(Float z) {
+		gravity.z = z;
+		phys_body.setGravity(gravity);
+	}
+	
 	public void setTextureName(String name) {
 		texture_name = name;
 	}
@@ -150,8 +181,9 @@ public class Entity {
 		type=_type;
 	}
 	
-	public void setMass(float mass) {
-		phys_body.setMassProps(mass, new Vector3f(0,0,0));
+	public void setMass(float _mass) {
+		mass = _mass;
+		phys_body.setMassProps(_mass, new Vector3f(0,0,0));
 	}
 	
 	public void setDamping(float lin_damping, float ang_damping) {
@@ -177,35 +209,7 @@ public class Entity {
 	public void setAlpha(Float _alpha) {
 		alpha=_alpha;
 	}
-	/*
-	public void set(String key, Object value) {
-		if(key.equals("name"))
-			setName((String)name);
-		else if(key.equals("type"))
-        	setType((String)value);
-        else if(key.equals("positionX"))
-        	setPositionX((Float)value);
-    	else if(key.equals("positionY"))
-    		setPositionY((Float)value);
-		else if(key.equals("positionZ"))
-			setPositionZ((Float)value);
-		else if(key.equals("transparent"))
-			setTransparent((Boolean)value);
-		else if(key.equals("alpha"))
-			setAlpha((Float)value);
-		else if(key.equals("texture_name"))
-			setTextureName((String)value);
-		else if(key.equals("collidable"))		
-			setCollidable((Boolean)value);
-		else if(key.equals("size"))
-			setSize((Float)value);
-		else if(key.equals("ttl"))
-			setTTL((Integer)value);
-		else {
-			System.out.print("SSHHIIITTTTT!!!! Entity parsing error");
-		}
-	}
-	*/
+
 	public void set(String key, String value) {
 		if(key.equals("name"))
 			setName(name);
