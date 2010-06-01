@@ -88,6 +88,10 @@ public class EntityList {
 		return entities.get(index).toString();
 	}
 	
+	public void setRigidBodyByID(int index, RigidBody rb) {
+		entities.get(index).setRigidBody(rb);
+	}
+	
 	public boolean getListChanged() {
 		if(list_changed) {
 			list_changed=false;

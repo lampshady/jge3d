@@ -2,7 +2,6 @@ package jge3d;
 
 //LWJGL input
 import java.applet.Applet;
-import java.lang.reflect.Field;
 
 import jge3d.GUI.LevelView;
 import jge3d.GUI.Window;
@@ -34,10 +33,9 @@ public class Main extends Applet {
 			//Create an empty  level
 			level = new Level();
 			
-			for (Field field : EntityList.getInstance().getClass().getDeclaredFields())
-			{
-				System.out.print(field + "\n");
-			}
+			//for (Field field : EntityList.getInstance().getClass().getDeclaredFields()) {
+			//	System.out.print(field + "\n");
+			//}
 			
 			//Read in a level
 			Display.makeCurrent();

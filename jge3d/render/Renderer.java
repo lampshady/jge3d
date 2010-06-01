@@ -343,14 +343,25 @@ public class Renderer {
 
 		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
+		//for each level entity 
 			for(int i=0;i<EntityList.getInstance().getListSize();i++) {
 				GL11.glPushMatrix();
 				position=EntityList.getInstance().getEntityPosition(i);
 
+				//Only add the entity to the physics list if it's collidable
 				if(EntityList.getInstance().getEntityCollidable(i) == true) {
-					Physics.getInstance().addLevelBlock(position.x,position.y,-position.z,EntityList.getInstance().getEntitySize(i));
+					//Add newly created level entity to entitylist
+					EntityList.getInstance().setRigidBodyByID(i,
+						//Create a physics object for the entity
+						Physics.getInstance().addLevelBlock(
+							position.x,
+							position.y,-position.z,
+							EntityList.getInstance().getEntitySize(i)
+						)
+					);
 				}
 				
+				//Shift object to correct position
 				GL11.glTranslatef(
 					position.x*EntityList.getInstance().getEntitySize(i),
 					position.y*EntityList.getInstance().getEntitySize(i),

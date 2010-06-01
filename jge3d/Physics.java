@@ -68,7 +68,7 @@ public class Physics {
 		prev_time = System.nanoTime();
 	}
 		
-	public void addLevelBlock(float x, float y, float z, float cube_size) {
+	public RigidBody addLevelBlock(float x, float y, float z, float cube_size) {
 		//Levels are static since we don't want them moving due to interactions with
 		//other physics objects; Static objects must have a mass of 0 and no inertia
 		int mass=0;
@@ -89,6 +89,8 @@ public class Physics {
 		RigidBody body = new RigidBody(rbInfo);
 	
 		dynamicsWorld.addRigidBody(body);
+		
+		return body;
 	}
 	
 	public Entity dropBox(float x, float y, float z, float cube_size){

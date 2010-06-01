@@ -86,6 +86,10 @@ public class Entity {
 	public String getTextureName() {
 		return texture_name;
 	}
+	
+	public void setRigidBody(RigidBody rb) {
+		phys_body = rb;
+	}
 
 	public String toString() {
 		String out = 
