@@ -1,5 +1,7 @@
 package jge3d;
 
+import java.lang.reflect.Method;
+
 import javax.vecmath.Vector3f;
 
 import com.bulletphysics.dynamics.RigidBody;
@@ -240,6 +242,33 @@ public class Entity {
 		else {
 			System.out.print("SSHHIIITTTTT!!!! Entity parsing error");
 		}
+	}
+	
+	public Method[] getGetterMethod(String member) {
+		Class<?> c;
+		Method[] allMethods = null;
+		try {
+			c = Class.forName("jge3d.Entity");
+			Object t = c.newInstance();
+
+			allMethods = c.getDeclaredMethods();
+			for (Method m : allMethods) {
+				String mname = m.getName();
+				if(mname.equals(member)) {
+					System.out.print(mname + "\n");
+				}
+			}
+
+			
+		
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return allMethods;
 	}
 	
 	public static String[] getKeys() {

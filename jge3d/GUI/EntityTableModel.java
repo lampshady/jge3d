@@ -34,6 +34,12 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
         if(column == 0)
         	return dataVector.get(row);
         else if(column == 1) {
+			ent.getGetterMethod(
+    			"get" + 
+    			dataVector.get(row).toString().substring(0,1).toUpperCase() + 
+    			dataVector.get(row).toString().substring(1)   			
+			);
+    		
 	    	if(dataVector.get(row).equals("name"))
 	        	return ent.getName();
 	    	else if(dataVector.get(row).equals("type"))
@@ -68,6 +74,8 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 				System.out.print("EntityTable value error(row not found)\n");
 				return "?";
 			}
+		    	
+        	//}
         } else {
         	return "null";
         }
@@ -112,6 +120,7 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 			}
         }
         fireTableCellUpdated(row, column);
+        EntityList.getInstance().setListChanged(true);
     }
 
     public int getRowCount() {

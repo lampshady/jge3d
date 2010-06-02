@@ -23,7 +23,7 @@ public class EntityList {
 	}
 	
 	private EntityList() {
-		entities = new ArrayList<Entity>();;
+		entities = new ArrayList<Entity>();
 	}
 
 	public void clear() {
@@ -99,6 +99,10 @@ public class EntityList {
 		} else {
 			return list_changed;
 		}
+	}
+	
+	public void setListChanged(boolean changed) {
+		list_changed = changed;
 	}
 	
 	public float getEntitySize(int index) {
