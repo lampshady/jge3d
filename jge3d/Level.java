@@ -91,7 +91,7 @@ public class Level {
 				value = splitString[1];
 				
 				if(key.equals("Entity")) {
-					current_entity = EntityList.getInstance().addEntity(new Entity());
+					current_entity = EntityList.getInstance().addEntity(new Entity(value));
 					while ((nextline = br.readLine()).compareToIgnoreCase("/Entity") != 0) {
 						nextline = nextline.trim();
 						splitString = nextline.split("=");
