@@ -1,5 +1,6 @@
 package jge3d;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.vecmath.Vector3f;
@@ -21,7 +22,7 @@ public class Entity {
 	//private Physics physics;
 	private boolean transparent = false;
 	private float alpha=1.0f;
-	private static String[] keys = {"name","type","positionX","positionY","positionZ","gravityX","gravityY","gravityZ","mass","transparent","alpha","texture_name","collidable","size","ttl"};
+	private static String[] keys = {"name","type","positionX","positionY","positionZ","gravityX","gravityY","gravityZ","mass","transparent","alpha","texture_name","collidable","size","TTL"};
 	protected static int num_entities=0;
 	
 	public Entity() {
@@ -85,7 +86,7 @@ public class Entity {
 		return collidable;
 	}
 	
-	public String getTextureName() {
+	public String getTexture_name() {
 		return texture_name;
 	}
 	
@@ -93,22 +94,6 @@ public class Entity {
 		phys_body = rb;
 	}
 
-	public String toString() {
-		String out = 
-			"Entity=" + name + "\n" +
-				"\t" + "positionX=" + position.x + "\n" +
-				"\t" + "positionY=" + position.y + "\n" +
-				"\t" + "positionZ=" + position.z + "\n" +
-				"\t" + "transparent=" + transparent + "\n" +
-				"\t" + "alpha=" + alpha + "\n" +
-				"\t" + "texture_name=" + texture_name + "\n" +
-				"\t" + "collidable=" + collidable + "\n" +
-				"\t" + "size=" + size + "\n" +
-			"/Entity\n";
-			
-		return out;
-	}
-	
 	public Boolean getTransparent() {
 		return transparent;
 	}
@@ -128,14 +113,6 @@ public class Entity {
 	public int getTTL() {
 		return ttl;
 	}
-
-	public void setName(String _name) {
-		name=_name;
-	}
-	
-	public void deletePhysics() {
-		Physics.getInstance().getDynamicsWorld().removeRigidBody(phys_body);
-	}
 	
 	public boolean isDead() {
 		if( (System.currentTimeMillis() >= (created_at+ttl)) && (ttl != 0) ) {
@@ -147,73 +124,142 @@ public class Entity {
 			return false;
 		}
 	}
-	
-	public void setPositionX(Float x) {
-		position.x = x;
+
+	public void setName(String _name) {
+		name=_name;
 	}
 	
-	public void setPositionY(Float y) {
-		position.y = y;
+	public void setPositionX(Object x) {
+		try {
+			position.x = Float.parseFloat(x.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setPositionZ(Float z) {
-		position.z = z;
+	public void setPositionY(Object y) {
+		try {
+			position.y = Float.parseFloat(y.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setGravityX(Float x) {
-		gravity.x = x;
-		phys_body.setGravity(gravity);
+	public void setPositionZ(Object z) {
+		try {
+			position.z = Float.parseFloat(z.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setGravityY(Float y) {
-		gravity.y = y;
-		phys_body.setGravity(gravity);
+	public void setGravityX(Object x) {
+		try {
+			gravity.x = Float.parseFloat(x.toString());
+			phys_body.setGravity(gravity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
-	public void setGravityZ(Float z) {
-		gravity.z = z;
-		phys_body.setGravity(gravity);
+	public void setGravityY(Object y) {
+		try {
+			gravity.y = Float.parseFloat(y.toString());
+			phys_body.setGravity(gravity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setTextureName(String name) {
-		texture_name = name;
+	public void setGravityZ(Object z) {
+		try {
+			gravity.z = Float.parseFloat(z.toString());
+			phys_body.setGravity(gravity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setCollidable(Boolean _collidable) {
-		collidable = _collidable;
+	public void setTexture_name(Object name) {
+		try {
+			texture_name = name.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setType(String _type) {
-		type=_type;
+	public void setCollidable(Object _collidable) {
+		try {
+			collidable = Boolean.parseBoolean(_collidable.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setMass(float _mass) {
-		mass = _mass;
-		phys_body.setMassProps(_mass, new Vector3f(0,0,0));
+	public void setType(Object _type) {
+		try {
+			type=_type.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setMass(Object _mass) {
+		try {
+			mass = Float.parseFloat(_mass.toString());
+			phys_body.setMassProps(mass, new Vector3f(0,0,0));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setDamping(float lin_damping, float ang_damping) {
-		phys_body.setDamping(lin_damping, ang_damping);
+		try {
+			phys_body.setDamping(lin_damping, ang_damping);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setFriction(float friction) {
-		phys_body.setFriction(friction);
+	public void setFriction(Object friction) {
+		try {
+			phys_body.setFriction(Float.valueOf(friction.toString()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setSize(float _size) {
-		size = _size;
+	public void setSize(Object _size) {
+		try {
+			size = Float.valueOf(_size.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setTTL(Integer _ttl) {
-		ttl=_ttl;
+		try {
+			ttl=Integer.valueOf(_ttl.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setTransparent(Boolean _transparent) {
-		transparent=_transparent;
+		try {
+			transparent=Boolean.parseBoolean(_transparent.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setAlpha(Float _alpha) {
-		alpha=_alpha;
+		try {
+			alpha=Float.parseFloat(_alpha.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void set(String key, String value) {
@@ -232,7 +278,7 @@ public class Entity {
 		else if(key.equals("alpha"))
 			setAlpha(Float.valueOf(value));
 		else if(key.equals("texture_name"))
-			setTextureName(value);
+			setTexture_name(value);
 		else if(key.equals("collidable"))		
 			setCollidable(Boolean.valueOf(value));
 		else if(key.equals("size"))
@@ -244,31 +290,73 @@ public class Entity {
 		}
 	}
 	
-	public Method[] getGetterMethod(String member) {
+	public void deletePhysics() {
+		Physics.getInstance().getDynamicsWorld().removeRigidBody(phys_body);
+	}
+	
+	public Object getFromMethod(String member, Entity ent) throws IllegalArgumentException, InvocationTargetException {
 		Class<?> c;
 		Method[] allMethods = null;
+		String mname;
+		Object o = null;
 		try {
 			c = Class.forName("jge3d.Entity");
-			Object t = c.newInstance();
-
 			allMethods = c.getDeclaredMethods();
 			for (Method m : allMethods) {
-				String mname = m.getName();
+				mname = m.getName();
+				
 				if(mname.equals(member)) {
-					System.out.print(mname + "\n");
+					o = m.invoke(ent);
 				}
 			}
-
-			
-		
-		} catch (InstantiationException e) {
-			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return allMethods;
+		return o;
+	}
+	
+	public Object setFromMethod(String member, Entity ent, Object value) throws IllegalArgumentException, InvocationTargetException {
+		Class<?> c;
+		Method[] allMethods = null;
+		String mname;
+		Object o = null;
+		try {
+			c = Class.forName("jge3d.Entity");
+			allMethods = c.getDeclaredMethods();
+			for (Method m : allMethods) {
+				mname = m.getName();
+				
+				if(mname.equals(member)) {
+					System.out.print(mname + ": " + value + "\n");
+					Object[] val_array = new Object[1];
+					val_array[0] = value;
+					o = m.invoke(ent,val_array);
+				}
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
+	
+	public String toString() {
+		String out = 
+			"Entity=" + name + "\n" +
+				"\t" + "positionX=" + position.x + "\n" +
+				"\t" + "positionY=" + position.y + "\n" +
+				"\t" + "positionZ=" + position.z + "\n" +
+				"\t" + "transparent=" + transparent + "\n" +
+				"\t" + "alpha=" + alpha + "\n" +
+				"\t" + "texture_name=" + texture_name + "\n" +
+				"\t" + "collidable=" + collidable + "\n" +
+				"\t" + "size=" + size + "\n" +
+			"/Entity\n";
+			
+		return out;
 	}
 	
 	public static String[] getKeys() {

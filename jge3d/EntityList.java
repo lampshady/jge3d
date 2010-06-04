@@ -60,7 +60,7 @@ public class EntityList {
 	}
 	
 	public String getEntityTextureName(int index) {
-		return entities.get(index).getTextureName();
+		return entities.get(index).getTexture_name();
 	}
 	
 	public float getListSize() {

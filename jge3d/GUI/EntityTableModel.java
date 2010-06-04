@@ -1,5 +1,6 @@
 package jge3d.GUI;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
@@ -31,58 +32,47 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
     }
 
     public Object getValueAt(int row, int column) {
+    	Object o = null;
         if(column == 0)
         	return dataVector.get(row);
-        else if(column == 1) {
-			ent.getGetterMethod(
-    			"get" + 
-    			dataVector.get(row).toString().substring(0,1).toUpperCase() + 
-    			dataVector.get(row).toString().substring(1)   			
-			);
-    		
-	    	if(dataVector.get(row).equals("name"))
-	        	return ent.getName();
-	    	else if(dataVector.get(row).equals("type"))
-	        	return ent.getType();
-	        else if(dataVector.get(row).equals("positionX"))
-	        	return ent.getPositionX();
-	    	else if(dataVector.get(row).equals("positionY"))
-	    		return ent.getPositionY();
-			else if(dataVector.get(row).equals("positionZ"))
-				return ent.getPositionZ();
-	        else if(dataVector.get(row).equals("gravityX"))
-	        	return ent.getGravityX();
-	    	else if(dataVector.get(row).equals("gravityY"))
-	    		return ent.getGravityY();
-			else if(dataVector.get(row).equals("gravityZ"))
-				return ent.getGravityZ();
-			else if(dataVector.get(row).equals("mass"))
-				return ent.getMass();
-			else if(dataVector.get(row).equals("transparent"))
-				return ent.getTransparent();
-			else if(dataVector.get(row).equals("alpha"))
-				return ent.getAlpha();
-			else if(dataVector.get(row).equals("texture_name"))
-				return ent.getTextureName();
-			else if(dataVector.get(row).equals("collidable"))		
-				return ent.getCollidable();
-			else if(dataVector.get(row).equals("size"))
-				return ent.getSize();
-			else if(dataVector.get(row).equals("ttl"))
-				return ent.getTTL();
-			else {
-				System.out.print("EntityTable value error(row not found)\n");
-				return "?";
+        else {
+			try {
+				o = ent.getFromMethod(
+					"get" + 
+					dataVector.get(row).toString().substring(0,1).toUpperCase() + 
+					dataVector.get(row).toString().substring(1), ent	
+				);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
 			}
-		    	
-        	//}
-        } else {
-        	return "null";
+			return o;
         }
     }
 
     public void setValueAt(Object value, int row, int column) {
-    	if(column == 0)
+        if(column == 0)
+        	System.out.print("You can't set that dumbass\n");
+        else if(column == 1) {
+			try {
+				ent.setFromMethod(
+					"set" + 
+					dataVector.get(row).toString().substring(0,1).toUpperCase() + 
+					dataVector.get(row).toString().substring(1),
+					ent,
+					value
+				);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+        } else {
+        	System.out.print("EntityTable value error(row not found)\n");
+        }
+    	/*
+    	 if(column == 0)
         	System.out.print("You can't set that dumbass\n");
         else if(column == 1) {
         	if(dataVector.get(row).equals("name"))
@@ -108,7 +98,7 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 			else if(dataVector.get(row).equals("alpha"))
 				ent.setAlpha(Float.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("texture_name"))
-				ent.setTextureName((String)value);
+				ent.setTexture_name((String)value);
 			else if(dataVector.get(row).equals("collidable"))		
 				ent.setCollidable(Boolean.valueOf(value.toString()));
 			else if(dataVector.get(row).equals("size"))
@@ -118,7 +108,7 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 			else {
 				System.out.print("EntityTable value error(row not found)\n");
 			}
-        }
+			*/
         fireTableCellUpdated(row, column);
         EntityList.getInstance().setListChanged(true);
     }
@@ -139,9 +129,9 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
     		dataVector.add(key);
     	}
     	fireTableRowsInserted(
-    			0,
-    			dataVector.size()-1
-    		);
+			0,
+			dataVector.size()-1
+    	);
     }
 
     public boolean isCellEditable(int row, int column) {

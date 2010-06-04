@@ -52,7 +52,6 @@ public class Renderer {
     	try {
 			initGL();
 		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     };
@@ -86,7 +85,7 @@ public class Renderer {
 		}
 
 		//bind a texture for drawing
-		TextureList.getInstance().getByName(ent.getTextureName()).bind();
+		TextureList.getInstance().getByName(ent.getTexture_name()).bind();
 		
         GL11.glBegin(GL11.GL_QUADS);
         	// Front Face
@@ -355,7 +354,8 @@ public class Renderer {
 						//Create a physics object for the entity
 						Physics.getInstance().addLevelBlock(
 							position.x,
-							position.y,-position.z,
+							position.y,
+							position.z,
 							EntityList.getInstance().getEntitySize(i)
 						)
 					);
@@ -365,7 +365,7 @@ public class Renderer {
 				GL11.glTranslatef(
 					position.x*EntityList.getInstance().getEntitySize(i),
 					position.y*EntityList.getInstance().getEntitySize(i),
-					-position.z*EntityList.getInstance().getEntitySize(i)
+					position.z*EntityList.getInstance().getEntitySize(i)
 				);
 				
 				drawcube(EntityList.getInstance().get(i));
@@ -387,7 +387,7 @@ public class Renderer {
 			GL11.glTranslatef(
 				position.x*EntityList.getInstance().getEntitySize(i),
 				position.y*EntityList.getInstance().getEntitySize(i),
-				-position.z*EntityList.getInstance().getEntitySize(i)
+				position.z*EntityList.getInstance().getEntitySize(i)
 			);
 			drawcube(EntityList.getInstance().get(i));
 			GL11.glPopMatrix();
@@ -396,7 +396,7 @@ public class Renderer {
 
 		//Add physics just for the new object
 		if(newEnt.getCollidable() == true) {
-			Physics.getInstance().addLevelBlock(position.x,position.y,-position.z,newEnt.getSize());
+			Physics.getInstance().addLevelBlock(position.x,position.y,position.z,newEnt.getSize());
 		}
 	}
 	
