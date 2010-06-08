@@ -19,9 +19,6 @@ public class Level {
 	private int row_length=0;
 	private int col_length=0;
 	private String nextline;
-	//private Window window;
-	//private Renderer render;
-	//private EntityList entity;
 
 	//private static String newline = System.getProperty("line.separator");
 	

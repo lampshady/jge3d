@@ -270,7 +270,7 @@ public class Renderer {
 		}
 		
         //render level
-        renderLevelList();
+        //renderLevelList();
         
         //render physics
         renderPhysics();
@@ -316,8 +316,8 @@ public class Renderer {
 		GLU.gluPerspective(
 				45.0f, 
 				(float) Window.getInstance().getGLWidth() / (float) Window.getInstance().getGLHeight(), 
-				1f, 
-				10000.0f);
+				0.1f, 
+				1000.0f);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
@@ -343,34 +343,34 @@ public class Renderer {
 		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 		//for each level entity 
-			for(int i=0;i<EntityList.getInstance().getListSize();i++) {
-				GL11.glPushMatrix();
-				position=EntityList.getInstance().getEntityPosition(i);
-
-				//Only add the entity to the physics list if it's collidable
-				if(EntityList.getInstance().getEntityCollidable(i) == true) {
-					//Add newly created level entity to entitylist
-					EntityList.getInstance().setRigidBodyByID(i,
-						//Create a physics object for the entity
-						Physics.getInstance().addLevelBlock(
-							position.x,
-							position.y,
-							position.z,
-							EntityList.getInstance().getEntitySize(i)
-						)
-					);
-				}
-				
-				//Shift object to correct position
-				GL11.glTranslatef(
-					position.x*EntityList.getInstance().getEntitySize(i),
-					position.y*EntityList.getInstance().getEntitySize(i),
-					position.z*EntityList.getInstance().getEntitySize(i)
+		for(int i=0;i<EntityList.getInstance().getListSize();i++) {
+			GL11.glPushMatrix();
+			position=EntityList.getInstance().getEntityPosition(i);
+			/*
+			//Only add the entity to the physics list if it's collidable
+			if(EntityList.getInstance().getEntityCollidable(i) == true) {
+				//Add newly created level entity to entitylist
+				EntityList.getInstance().setRigidBodyByID(i,
+					//Create a physics object for the entity
+					Physics.getInstance().addLevelBlock(
+						position.x,
+						position.y,
+						position.z,
+						EntityList.getInstance().getEntitySize(i)
+					)
 				);
-				
-				drawcube(EntityList.getInstance().get(i));
-				GL11.glPopMatrix();
 			}
+			*/
+			//Shift object to correct position
+			GL11.glTranslatef(
+				position.x*EntityList.getInstance().getEntitySize(i),
+				position.y*EntityList.getInstance().getEntitySize(i),
+				position.z*EntityList.getInstance().getEntitySize(i)
+			);
+			
+			drawcube(EntityList.getInstance().get(i));
+			GL11.glPopMatrix();
+		}
 		GL11.glEndList();
 	}
 
@@ -395,9 +395,9 @@ public class Renderer {
 		GL11.glEndList();
 
 		//Add physics just for the new object
-		if(newEnt.getCollidable() == true) {
-			Physics.getInstance().addLevelBlock(position.x,position.y,position.z,newEnt.getSize());
-		}
+		//if(newEnt.getCollidable() == true) {
+		//	Physics.getInstance().addLevelBlock(position.x,position.y,position.z,newEnt.getSize());
+		//}
 	}
 	
 	public void renderLevelList() {
@@ -405,9 +405,9 @@ public class Renderer {
 	}
 
 	//Physics transforms
-	float[] body_matrix = new float[16];	//hold matrix of box
+	float[] body_matrix = new float[16];	//hold matrix of object
 	FloatBuffer buf = BufferUtils.createFloatBuffer(16);
-	private final Transform m = new Transform();	//wtf is this for
+	private final Transform transformMatrix = new Transform();
 	public void renderPhysics() throws FileNotFoundException, IOException {
 		if (Physics.getInstance().getDynamicsWorld() != null) {
 			int numObjects = Physics.getInstance().getDynamicsWorld().getNumCollisionObjects();
@@ -415,25 +415,33 @@ public class Renderer {
 				CollisionObject colObj = Physics.getInstance().getDynamicsWorld().getCollisionObjectArray().get(i);
 				RigidBody body = RigidBody.upcast(colObj);
 				
-				if(body.getInvMass() != 0) {
+				//if(body.getInvMass() != 0) {
 					if (body != null && body.getMotionState() != null) {
 						DefaultMotionState myMotionState = (DefaultMotionState) body.getMotionState();
-						m.set(myMotionState.graphicsWorldTrans);
+						transformMatrix.set(myMotionState.graphicsWorldTrans);
 					}
 					else {
-						colObj.getWorldTransform(m);
+						colObj.getWorldTransform(transformMatrix);
 					}
 	
 					GL11.glPushMatrix();
-						m.getOpenGLMatrix(body_matrix);
+						transformMatrix.getOpenGLMatrix(body_matrix);
 						
 						//Put all this matrix shit in a float buffer
 						buf.put(body_matrix);
 						buf.flip();
-						
+
+						/*
+						System.out.print("Rendering physics: " + i + "\n[");
+						for(int j=0; j < 16; j++){
+							System.out.print(buf.get(j) + ","); 
+						}
+						System.out.print("]\n\n");
+						*/
+
 						GL11.glMultMatrix(buf);
 						buf.clear();
-		
+						
 						//Testing code
 						//ObjectPool<Vector3f> vectorsPool = ObjectPool.get(Vector3f.class);
 						//BoxShape boxShape = (BoxShape) body.getCollisionShape();
@@ -446,7 +454,7 @@ public class Renderer {
 						//More testing code
 						//vectorsPool.release(halfExtent);
 					GL11.glPopMatrix();
-				}
+				//}
 			}
 		}
 	}

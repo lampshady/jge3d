@@ -33,10 +33,6 @@ public class Main extends Applet {
 			//Create an empty  level
 			level = new Level();
 			
-			//for (Field field : EntityList.getInstance().getClass().getDeclaredFields()) {
-			//	System.out.print(field + "\n");
-			//}
-			
 			//Read in a level
 			Display.makeCurrent();
 			level.setLevel();

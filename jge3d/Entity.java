@@ -1,7 +1,10 @@
 package jge3d;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import javax.vecmath.Vector3f;
 
@@ -20,10 +23,9 @@ public class Entity {
 	private RigidBody phys_body;
 	private int ttl;
 	private long created_at;
-	//private Physics physics;
 	private boolean transparent = false;
 	private float alpha=1.0f;
-	private static String[] keys = {"name","type","positionX","positionY","positionZ","gravityX","gravityY","gravityZ","mass","transparent","alpha","texture_name","collidable","size","TTL"};
+	protected static String[] keys = {"name","type","positionX","positionY","positionZ","gravityX","gravityY","gravityZ","mass","transparent","alpha","texture_name","collidable","size","TTL"};
 	protected static int num_entities=0;
 	
 	public Entity() {
@@ -31,6 +33,10 @@ public class Entity {
 		name="ent" + num_entities;
 		position = new Vector3f();
 		gravity = new Vector3f();
+		collidable=true;
+		size=1.0f;
+		ttl=0;
+		addToPhysics();
 	}
 	
 	public Entity(String _name) {
@@ -38,6 +44,10 @@ public class Entity {
 		name=_name;
 		position = new Vector3f();
 		gravity = new Vector3f();
+		collidable=true;
+		size=1.0f;
+		ttl=0;
+		addToPhysics();
 	}
 	
 	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
@@ -51,6 +61,7 @@ public class Entity {
 		ttl=_ttl;
 		created_at=System.currentTimeMillis();
 		gravity = new Vector3f();
+		addToPhysics();
 	}
 
 	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
@@ -64,8 +75,25 @@ public class Entity {
 		ttl=_ttl;
 		created_at=System.currentTimeMillis();
 		gravity = new Vector3f();
+		addToPhysics();
 	}
 
+	public void addToPhysics() {
+		//Only add the entity to the physics list if it's collidable
+		if(collidable == true) {
+			//Set rigidbody with the one returned from the physics engine
+			setRigidBody(
+				//Create a physics object for the entity
+				Physics.getInstance().addLevelBlock(
+					position.x,
+					position.y,
+					position.z,
+					size
+				)
+			);
+		}
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -377,16 +405,50 @@ public class Entity {
 	}
 
 	public String toString() {
+		Class<?> c;
+		Field[] allFields = null;
+		String fname;
+		String output = new String(); 
+		try {
+			c = Class.forName("jge3d.Entity");
+			allFields = c.getDeclaredFields();
+			for (Field f : allFields) {
+				if(f.getModifiers()==Modifier.PRIVATE) {
+					fname = f.getName();
+					String method_string = 
+						"get" + 
+						fname.substring(0,1).toUpperCase() + 
+						fname.substring(1);
+					Method m = c.getDeclaredMethod(method_string);
+					output = m.invoke(this).toString();				
+				}
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+		
+		return output;
+		/*
 		String out = 
 			"\tEntity=" + name + "\n" +
 				"\t\t" + "type=" + type + "\n" +
 				"\t\t" + "positionX=" + position.x + "\n" +
 				"\t\t" + "positionY=" + position.y + "\n" +
 				"\t\t" + "positionZ=" + position.z + "\n" +
-				"\t\t" + "gravityX=" + alpha + "\n" +
-				"\t\t" + "gravityY=" + alpha + "\n" +
-				"\t\t" + "gravityZ=" + alpha + "\n" +
-				"\t\t" + "mass=" + alpha + "\n" +
+				"\t\t" + "gravityX=" + gravity.x + "\n" +
+				"\t\t" + "gravityY=" + gravity.y + "\n" +
+				"\t\t" + "gravityZ=" + gravity.z + "\n" +
+				"\t\t" + "mass=" + mass + "\n" +
 				"\t\t" + "transparent=" + transparent + "\n" +
 				"\t\t" + "alpha=" + alpha + "\n" +
 				"\t\t" + "texture_name=" + texture_name + "\n" +
@@ -396,11 +458,14 @@ public class Entity {
 			"\t/Entity\n";
 			
 		return out;
+		*/
 	}
+	
 	public void updatePosition() {
 		Transform temp = new Transform();
+		temp.setIdentity();
 		temp.origin.set(position);
-		phys_body.setWorldTransform(temp);	
+		phys_body.getMotionState().setWorldTransform(temp);
 	}
 	
 	public static String[] getKeys() {
