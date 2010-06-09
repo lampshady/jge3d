@@ -132,8 +132,23 @@ public class Physics {
 		
 		//body.setLinearVelocity(initial_velocity);
 		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+		Entity ent = new Entity();
+		ent.setType(null);
+		ent.setPositionX(x);
+		ent.setPositionY(y);
+		ent.setPositionZ(z);
+		ent.setGravityX(0.0);
+		ent.setGravityY(0.0);
+		ent.setGravityZ(0.0);
+		ent.setMass(1.0);
+		ent.setTransparent(false);
+		ent.setAlpha(1.0f);
+		ent.setTexture_name("brick1");
+		ent.setCollidable(true);
+		ent.setSize(1.0);
+		ent.setTTL(5);
 		
-		return new Entity("C",new Vector3f(),"cube1",true,body,5000);
+		return ent;
 	}
 		
 	public RigidBody createPlayer(float x, float y, float z, float cube_size){

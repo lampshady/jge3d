@@ -34,7 +34,6 @@ class Input {
 			Mouse.setNativeCursor(null);
 			Keyboard.create();
 		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

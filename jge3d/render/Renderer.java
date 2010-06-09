@@ -431,14 +431,6 @@ public class Renderer {
 						buf.put(body_matrix);
 						buf.flip();
 
-						/*
-						System.out.print("Rendering physics: " + i + "\n[");
-						for(int j=0; j < 16; j++){
-							System.out.print(buf.get(j) + ","); 
-						}
-						System.out.print("]\n\n");
-						*/
-
 						GL11.glMultMatrix(buf);
 						buf.clear();
 						

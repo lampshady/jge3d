@@ -2,7 +2,6 @@ package jge3d;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -12,17 +11,17 @@ import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.Transform;
 
 public class Entity {
-	private String name;
-	private String type;
-	private float mass;
-	private Vector3f position;
-	private Vector3f gravity;
-	private String texture_name;
-	private boolean collidable;
-	private float size;
-	private RigidBody phys_body;
-	private int ttl;
-	private long created_at;
+	private String name = "";
+	private String type = "";
+	private float mass = 0.0f;
+	private Vector3f position = new Vector3f(0,0,0);
+	private Vector3f gravity = new Vector3f(0,0,0);
+	private String texture_name = "";
+	private boolean collidable=true;
+	private float size=1.0f;
+	protected RigidBody phys_body;
+	private int ttl=0;
+	private long created_at = 0;
 	private boolean transparent = false;
 	private float alpha=1.0f;
 	protected static String[] keys = {"name","type","positionX","positionY","positionZ","gravityX","gravityY","gravityZ","mass","transparent","alpha","texture_name","collidable","size","TTL"};
@@ -31,50 +30,14 @@ public class Entity {
 	public Entity() {
 		num_entities++;
 		name="ent" + num_entities;
-		position = new Vector3f();
-		gravity = new Vector3f();
-		collidable=true;
-		size=1.0f;
-		ttl=0;
+		created_at = System.nanoTime();
 		addToPhysics();
 	}
 	
 	public Entity(String _name) {
 		num_entities++;
 		name=_name;
-		position = new Vector3f();
-		gravity = new Vector3f();
-		collidable=true;
-		size=1.0f;
-		ttl=0;
-		addToPhysics();
-	}
-	
-	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, int _ttl) {
-		num_entities++;
-		name="ent" + num_entities;
-		type=_type;
-		position=_pos;
-		texture_name=_texture_name;
-		collidable=_collidable;
-		size=1.0f;
-		ttl=_ttl;
-		created_at=System.currentTimeMillis();
-		gravity = new Vector3f();
-		addToPhysics();
-	}
-
-	public Entity(String _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
-		num_entities++;
-		type=_type;
-		position=_pos;
-		texture_name=_texture_name;
-		collidable=_collidable;
-		size=1.0f;
-		phys_body=rb;
-		ttl=_ttl;
-		created_at=System.currentTimeMillis();
-		gravity = new Vector3f();
+		created_at = System.nanoTime();
 		addToPhysics();
 	}
 
@@ -96,6 +59,9 @@ public class Entity {
 	
 	public String getName() {
 		return name;
+	}
+	public String getType() {
+		return type;
 	}
 	public Vector3f getPosition() {
 		return position;
@@ -124,33 +90,166 @@ public class Entity {
 	public boolean getCollidable() {
 		return collidable;
 	}
-	
 	public String getTexture_name() {
 		return texture_name;
 	}
-	
-	public void setRigidBody(RigidBody rb) {
-		phys_body = rb;
-	}
-
 	public Boolean getTransparent() {
 		return transparent;
 	}
-	
 	public float getAlpha() {
 		return alpha;
 	}
-	
 	public float getSize() {
 		return size;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
+	}	
 	public int getTTL() {
 		return ttl;
+	}
+
+	public void setName(String _name) {
+		try {
+			name=_name;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for name, must be String\n");
+		}
+	}
+	public void setPositionX(Object x) {
+		try {
+			position.x = Float.parseFloat(x.toString());
+			updatePosition();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.print("Incorrect data type for positionX, must be Float\n");
+		}
+	}
+	public void setPositionY(Object y) {
+		try {
+			position.y = Float.parseFloat(y.toString());
+			updatePosition();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.print("Incorrect data type for positionY, must be Float\n");
+		}
+	}
+	public void setPositionZ(Object z) {
+		try {
+			position.z = Float.parseFloat(z.toString());
+			updatePosition();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.print("Incorrect data type for positionZ, must be Float\n");
+		}
+	}
+	public void setGravityX(Object x) {
+		try {
+			gravity.x = Float.parseFloat(x.toString());
+			phys_body.setGravity(gravity);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for gravityX, must be Float\n");
+		}
+		
+	}
+	public void setGravityY(Object y) {
+		try {
+			gravity.y = Float.parseFloat(y.toString());
+			phys_body.setGravity(gravity);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for gravityY, must be Float\n");
+		}
+	}
+	public void setGravityZ(Object z) {
+		try {
+			gravity.z = Float.parseFloat(z.toString());
+			phys_body.setGravity(gravity);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for gravityZ, must be Float\n");
+		}
+	}
+	public void setTexture_name(Object name) {
+		try {
+			texture_name = name.toString();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for name, must be String\n");
+		}
+	}
+	public void setCollidable(Object _collidable) {
+		try {
+			collidable = Boolean.parseBoolean(_collidable.toString());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for collidable, must be Boolean\n");
+		}
+	}
+	public void setType(Object _type) {
+		try {
+			type=_type.toString();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for type, must be String\n");
+		}
+	}
+	public void setMass(Object _mass) {
+		try {
+			mass = Float.parseFloat(_mass.toString());
+			phys_body.setMassProps(mass, new Vector3f(0,0,0));
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for mass, must be Float\n");
+		}
+	}
+	public void setDamping(float lin_damping, float ang_damping) {
+		try {
+			phys_body.setDamping(lin_damping, ang_damping);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for damping, must be Float,Float\n");
+		}
+	}
+	public void setFriction(Object friction) {
+		try {
+			phys_body.setFriction(Float.valueOf(friction.toString()));
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for friction, must be Float\n");
+		}
+	}
+	public void setRigidBody(RigidBody rb) {
+		phys_body = rb;
+	}
+	public void setSize(Object _size) {
+		try {
+			size = Float.valueOf(_size.toString());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for size, must be Float\n");
+		}
+	}
+	public void setTTL(Integer _ttl) {
+		try {
+			ttl=Integer.valueOf(_ttl.toString());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for TTL, must be Integer(seconds)\n");
+		}
+	}
+	public void setTransparent(Boolean _transparent) {
+		try {
+			transparent=Boolean.parseBoolean(_transparent.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void setAlpha(Float _alpha) {
+		try {
+			alpha=Float.parseFloat(_alpha.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean isDead() {
@@ -164,165 +263,8 @@ public class Entity {
 		}
 	}
 
-	public void setName(String _name) {
-		try {
-			name=_name;
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for name, must be String\n");
-		}
-	}
-	
-	public void setPositionX(Object x) {
-		try {
-			position.x = Float.parseFloat(x.toString());
-			updatePosition();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.print("Incorrect data type for positionX, must be Float\n");
-		}
-	}
-	
-	public void setPositionY(Object y) {
-		try {
-			position.y = Float.parseFloat(y.toString());
-			updatePosition();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.print("Incorrect data type for positionY, must be Float\n");
-		}
-	}
-	
-	public void setPositionZ(Object z) {
-		try {
-			position.z = Float.parseFloat(z.toString());
-			updatePosition();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.print("Incorrect data type for positionZ, must be Float\n");
-		}
-	}
-	
-	public void setGravityX(Object x) {
-		try {
-			gravity.x = Float.parseFloat(x.toString());
-			phys_body.setGravity(gravity);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for gravityX, must be Float\n");
-		}
-		
-	}
-	
-	public void setGravityY(Object y) {
-		try {
-			gravity.y = Float.parseFloat(y.toString());
-			phys_body.setGravity(gravity);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for gravityY, must be Float\n");
-		}
-	}
-	
-	public void setGravityZ(Object z) {
-		try {
-			gravity.z = Float.parseFloat(z.toString());
-			phys_body.setGravity(gravity);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for gravityZ, must be Float\n");
-		}
-	}
-	
-	public void setTexture_name(Object name) {
-		try {
-			texture_name = name.toString();
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for name, must be String\n");
-		}
-	}
-	
-	public void setCollidable(Object _collidable) {
-		try {
-			collidable = Boolean.parseBoolean(_collidable.toString());
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for collidable, must be Boolean\n");
-		}
-	}
-	
-	public void setType(Object _type) {
-		try {
-			type=_type.toString();
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for type, must be String\n");
-		}
-	}
-	
-	public void setMass(Object _mass) {
-		try {
-			mass = Float.parseFloat(_mass.toString());
-			phys_body.setMassProps(mass, new Vector3f(0,0,0));
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for mass, must be Float\n");
-		}
-	}
-	
-	public void setDamping(float lin_damping, float ang_damping) {
-		try {
-			phys_body.setDamping(lin_damping, ang_damping);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for damping, must be Float,Float\n");
-		}
-	}
-	
-	public void setFriction(Object friction) {
-		try {
-			phys_body.setFriction(Float.valueOf(friction.toString()));
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for friction, must be Float\n");
-		}
-	}
-	
-	public void setSize(Object _size) {
-		try {
-			size = Float.valueOf(_size.toString());
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for size, must be Float\n");
-		}
-	}
-	
-	public void setTTL(Integer _ttl) {
-		try {
-			ttl=Integer.valueOf(_ttl.toString());
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for TTL, must be Integer(seconds)\n");
-		}
-	}
-	
-	public void setTransparent(Boolean _transparent) {
-		try {
-			transparent=Boolean.parseBoolean(_transparent.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void setAlpha(Float _alpha) {
-		try {
-			alpha=Float.parseFloat(_alpha.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	//Arbitrary functions
+	//Needs replaced.
 	public void set(String key, String value) {
 		if(key.equals("name"))
 			setName(name);
@@ -419,6 +361,7 @@ public class Entity {
 						"get" + 
 						fname.substring(0,1).toUpperCase() + 
 						fname.substring(1);
+					System.out.print(method_string + "\n");
 					Method m = c.getDeclaredMethod(method_string);
 					output = m.invoke(this).toString();				
 				}

@@ -2,8 +2,6 @@ package jge3d;
 
 import javax.vecmath.Vector3f;
 
-import jge3d.GUI.TextureView;
-
 import org.lwjgl.LWJGLException;
 
 public class Editor {
@@ -29,11 +27,15 @@ public class Editor {
 	}
 	
 	public Entity getCurrentBlock() {
-		return new Entity("level",
-			current_position_vector,
-			TextureView.getInstance().getSelectedTexture(),
-			true,
-			0	//replace with TTL from ent browser
-		);
+		Entity ent = new Entity();
+		ent.setPositionX(current_position_vector.x);
+		ent.setPositionY(current_position_vector.y);
+		ent.setPositionZ(current_position_vector.z);
+		ent.setType("level");
+		ent.setTexture_name("dirt2");
+		ent.setCollidable(true);
+		ent.setTTL(0);
+		
+		return ent;
 	}
 }
