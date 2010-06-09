@@ -270,7 +270,7 @@ public class Renderer {
 		}
 		
         //render level
-        //renderLevelList();
+        renderLevelList();
         
         //render physics
         renderPhysics();
@@ -346,21 +346,7 @@ public class Renderer {
 		for(int i=0;i<EntityList.getInstance().getListSize();i++) {
 			GL11.glPushMatrix();
 			position=EntityList.getInstance().getEntityPosition(i);
-			/*
-			//Only add the entity to the physics list if it's collidable
-			if(EntityList.getInstance().getEntityCollidable(i) == true) {
-				//Add newly created level entity to entitylist
-				EntityList.getInstance().setRigidBodyByID(i,
-					//Create a physics object for the entity
-					Physics.getInstance().addLevelBlock(
-						position.x,
-						position.y,
-						position.z,
-						EntityList.getInstance().getEntitySize(i)
-					)
-				);
-			}
-			*/
+
 			//Shift object to correct position
 			GL11.glTranslatef(
 				position.x*EntityList.getInstance().getEntitySize(i),
@@ -393,11 +379,6 @@ public class Renderer {
 			GL11.glPopMatrix();
 		}
 		GL11.glEndList();
-
-		//Add physics just for the new object
-		//if(newEnt.getCollidable() == true) {
-		//	Physics.getInstance().addLevelBlock(position.x,position.y,position.z,newEnt.getSize());
-		//}
 	}
 	
 	public void renderLevelList() {
@@ -415,7 +396,7 @@ public class Renderer {
 				CollisionObject colObj = Physics.getInstance().getDynamicsWorld().getCollisionObjectArray().get(i);
 				RigidBody body = RigidBody.upcast(colObj);
 				
-				//if(body.getInvMass() != 0) {
+				if(body.getInvMass() != 0) {
 					if (body != null && body.getMotionState() != null) {
 						DefaultMotionState myMotionState = (DefaultMotionState) body.getMotionState();
 						transformMatrix.set(myMotionState.graphicsWorldTrans);
@@ -446,7 +427,7 @@ public class Renderer {
 						//More testing code
 						//vectorsPool.release(halfExtent);
 					GL11.glPopMatrix();
-				//}
+				}
 			}
 		}
 	}

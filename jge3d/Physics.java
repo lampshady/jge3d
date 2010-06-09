@@ -71,8 +71,7 @@ public class Physics {
 	public RigidBody addLevelBlock(float x, float y, float z, float cube_size) {
 		//Levels are static since we don't want them moving due to interactions with
 		//other physics objects; Static objects must have a mass of 0 and no inertia
-		int mass=0;
-		Vector3f localInertia = new Vector3f(0, 0, 0);
+		float mass=0.0f;
 		
 		//Collision shape is a box since a level is just a bunch of boxes
 		CollisionShape colShape = new BoxShape(new Vector3f(cube_size, cube_size, cube_size));
@@ -83,10 +82,8 @@ public class Physics {
 		startTransform.setIdentity();
 		startTransform.origin.set(cube_size*x, cube_size*y, cube_size*z);
 
-		//provides interpolation capabilities and only synchronizes 'active' objects
-		DefaultMotionState motion_state = new DefaultMotionState(startTransform);
-		RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, motion_state, colShape, localInertia);
-		RigidBody body = new RigidBody(rbInfo);
+		//Create a rigid body to represent the object
+		RigidBody body = createRigidBody(mass, startTransform, colShape);
 	
 		dynamicsWorld.addRigidBody(body);
 		

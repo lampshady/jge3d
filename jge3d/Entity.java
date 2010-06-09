@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import javax.vecmath.Vector3f;
 
 import com.bulletphysics.dynamics.RigidBody;
+import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
 public class Entity {
@@ -114,6 +115,14 @@ public class Entity {
 			System.out.print("Incorrect data type for name, must be String\n");
 		}
 	}
+	public void setType(Object _type) {
+		try {
+			type=_type.toString();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.print("Incorrect data type for type, must be String\n");
+		}
+	}
 	public void setPositionX(Object x) {
 		try {
 			position.x = Float.parseFloat(x.toString());
@@ -183,14 +192,6 @@ public class Entity {
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.print("Incorrect data type for collidable, must be Boolean\n");
-		}
-	}
-	public void setType(Object _type) {
-		try {
-			type=_type.toString();
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.print("Incorrect data type for type, must be String\n");
 		}
 	}
 	public void setMass(Object _mass) {
@@ -405,10 +406,11 @@ public class Entity {
 	}
 	
 	public void updatePosition() {
-		Transform temp = new Transform();
-		temp.setIdentity();
-		temp.origin.set(position);
-		phys_body.getMotionState().setWorldTransform(temp);
+		Transform trans = new Transform();
+		trans.setIdentity();
+		trans.origin.set(position);
+		DefaultMotionState myMotionState = new DefaultMotionState(trans);
+		phys_body.setMotionState(myMotionState);
 	}
 	
 	public static String[] getKeys() {
