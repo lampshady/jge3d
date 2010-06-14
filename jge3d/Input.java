@@ -33,6 +33,7 @@ class Input {
 			Mouse.create();
 			Mouse.setNativeCursor(null);
 			Keyboard.create();
+			Keyboard.enableRepeatEvents(false);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
@@ -116,10 +117,11 @@ class Input {
 		}
 	}
 	
+	Vector3f player_velocity = new Vector3f();
 	public void handleKeyboard() throws LWJGLException, IOException {
-
+		
 		//while(Keyboard.next()) {
-
+			
 			//get focus if mouse is inside of window
 			if(Mouse.isInsideWindow()) {
 				Keyboard.poll();
@@ -127,25 +129,25 @@ class Input {
 				player.activate();
 				
 				if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-					System.out.print("w down\n");
+					//System.out.print("w down\n");
 					player.move(new Vector3f(0,10,0),20);
 				} else {
 					//player.slow(new Vector3f(0,-10,0),20);
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-					System.out.print("a down\n");
+					//System.out.print("a down\n");
 					player.move(new Vector3f(-1,0,0),20);
 				} else {
 					//player.slow(new Vector3f(1,0,0),20);
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-					System.out.print("s down\n");
+					//System.out.print("s down\n");
 					player.move(new Vector3f(0,-1,0),20);
 				} else {
 					//player.slow(new Vector3f(0,1,0),20);
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-					System.out.print("d down\n");
+					//System.out.print("d down\n");
 					player.move(new Vector3f(1,0,0),20);
 				} else {
 					//player.slow(new Vector3f(-1,0,0),20); 
@@ -164,52 +166,9 @@ class Input {
 					LevelView.getInstance().setLoadLevel(true);
 				}
 			}
-			/*
-			switch(Keyboard.getEventCharacter()) {
-				case 'w':
-					player_velocity.y = 200;
-					break;
-				case 'a':
-					player_velocity.x = -20;
-					break;
-				case 's':
-					player_velocity.y = -10;
-					break;
-				case 'd':
-					player_velocity.x = 20;
-					break;
-				case 'x':
-					entity.deleteByPosition(editor.getCurrentPosition());
-					break;
-				case ' ':
-					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
-					entity.addEntity(physics.dropBox(ray.x,ray.y,ray.z,1));
-					break;
-				case Keyboard.KEY_F1:
-					level.save();
-					break;   
-				case Keyboard.KEY_F2:
-					window.getLevelView().setLoadLevel(true);
-					break;
-			}
-			System.out.print(player.getVelocity().x + " " + player.getVelocity().y + " " + player.getVelocity().z + "\n");
-			
-			if(player.getVelocity().x > 15 || player.getVelocity().x < -15)
-				player_velocity.x=0;
-			if(player.getVelocity().y > 15 || player.getVelocity().y < -15)
-				player_velocity.y=0;
-			if(player.getVelocity().z > 15 || player.getVelocity().z < -15)
-				player_velocity.z=0;
-			
-			player.move(
-				new Vector3f(
-					player_velocity.x,
-					player_velocity.y,
-					player_velocity.z
-				)
-				, 10
-			);
-			*/
+
+
+
 			//player_velocity.x=0;
 			//player_velocity.y=0;
 			//player_velocity.z=0;
@@ -232,18 +191,32 @@ class Input {
 					System.out.print("right\n");
 					break;
 				case Keyboard.KEY_SPACE:
-					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
-					physics.dropBox(ray.x,ray.y,ray.z,1);
+					Vector3f ray = Camera.getInstance().getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
+					EntityList.getInstance().addEntity(Physics.getInstance().dropBox(ray.x,ray.y,ray.z,1));
 					break;
 				case Keyboard.KEY_F1:
 					level.save();
 					break;
 				case Keyboard.KEY_F2:
-					window.setLoadLevel(true);
+					LevelView.getInstance().setLoadLevel(true);
 					break;
 			}
 			*/
+			if(player.getVelocity().x > 15 || player.getVelocity().x < -15)
+				player_velocity.x=0;
+			if(player.getVelocity().y > 15 || player.getVelocity().y < -15)
+				player_velocity.y=0;
+			if(player.getVelocity().z > 15 || player.getVelocity().z < -15)
+				player_velocity.z=0;
 			
-		}
-	//}
+			player.move(
+				new Vector3f(
+					player_velocity.x,
+					player_velocity.y,
+					player_velocity.z
+				)
+				, 10
+			);
+		//}
+	}
 }

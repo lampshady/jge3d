@@ -113,24 +113,10 @@ public class Physics {
 		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
 		//body.setCollisionFlags(0);
 		
-		//Find inital velocity
-		//Vector3f initial_velocity = new Vector3f(0.0f,0.0f,0.0f);	//Initial direction
-		//initial_velocity.normalize();	//transform to this position		
-		//initial_velocity.scale(0.0f);	//Initial speed
-		
-		/*
-		//Transform relative to world
-		Transform worldTrans = body.getWorldTransform(new Transform());
-		Vector3f world_pos = new Vector3f(10.0f,10.0f,0.0f);
-		worldTrans.origin.set(world_pos);
-		worldTrans.setRotation(new Quat4f(0f, 0f, 0f, 1f));
-		body.setWorldTransform(worldTrans);
-		*/
-		
 		//body.setLinearVelocity(initial_velocity);
 		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
 		Entity ent = new Entity();
-		ent.setType(null);
+		ent.setType("dropbox");
 		ent.setPositionX(x);
 		ent.setPositionY(y);
 		ent.setPositionZ(z);
@@ -138,9 +124,10 @@ public class Physics {
 		ent.setGravityY(0.0);
 		ent.setGravityZ(0.0);
 		ent.setMass(1.0);
+		ent.setRigidBody(body);
 		ent.setTransparent(false);
 		ent.setAlpha(1.0f);
-		ent.setTexture_name("brick1");
+		ent.setTexture_name("dirt2");
 		ent.setCollidable(true);
 		ent.setSize(1.0);
 		ent.setTTL(5);

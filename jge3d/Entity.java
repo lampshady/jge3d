@@ -15,12 +15,12 @@ public class Entity {
 	private String name = "";
 	private String type = "";
 	private float mass = 0.0f;
-	private Vector3f position = new Vector3f(0,0,0);
-	private Vector3f gravity = new Vector3f(0,0,0);
+	private Vector3f position = new Vector3f();
+	private Vector3f gravity = new Vector3f();
 	private String texture_name = "";
 	private boolean collidable=true;
 	private float size=1.0f;
-	protected RigidBody phys_body;
+	protected RigidBody phys_body = null;
 	private int ttl=0;
 	private long created_at = 0;
 	private boolean transparent = false;
@@ -32,14 +32,12 @@ public class Entity {
 		num_entities++;
 		name="ent" + num_entities;
 		created_at = System.nanoTime();
-		addToPhysics();
 	}
 	
 	public Entity(String _name) {
 		num_entities++;
 		name=_name;
 		created_at = System.nanoTime();
-		addToPhysics();
 	}
 
 	public void addToPhysics() {
@@ -118,6 +116,9 @@ public class Entity {
 	public void setType(Object _type) {
 		try {
 			type=_type.toString();
+			if(type.equals("level")) {
+				addToPhysics();
+			}
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.print("Incorrect data type for type, must be String\n");
@@ -125,45 +126,45 @@ public class Entity {
 	}
 	public void setPositionX(Object x) {
 		try {
-			position.x = Float.parseFloat(x.toString());
+			position.x = (float)Float.parseFloat(x.toString());
 			updatePosition();
 		} catch (Exception e) {
+			System.out.print(position.x + "<<Incorrect data type for positionX, must be Float\n");
 			e.printStackTrace();
-			System.out.print("Incorrect data type for positionX, must be Float\n");
 		}
 	}
 	public void setPositionY(Object y) {
 		try {
-			position.y = Float.parseFloat(y.toString());
+			position.y = (float)Float.parseFloat(y.toString());
 			updatePosition();
 		} catch (Exception e) {
+			System.out.print(position.y + "<<Incorrect data type for positionY, must be Float\n");
 			e.printStackTrace();
-			System.out.print("Incorrect data type for positionY, must be Float\n");
 		}
 	}
 	public void setPositionZ(Object z) {
 		try {
-			position.z = Float.parseFloat(z.toString());
+			position.z = (float)Float.parseFloat(z.toString());
 			updatePosition();
 		} catch (Exception e) {
+			System.out.print(position.z + "<<Incorrect data type for positionZ, must be Float\n");
 			e.printStackTrace();
-			System.out.print("Incorrect data type for positionZ, must be Float\n");
 		}
 	}
 	public void setGravityX(Object x) {
 		try {
-			gravity.x = Float.parseFloat(x.toString());
-			phys_body.setGravity(gravity);
+			gravity.x = (float)Float.parseFloat(x.toString());
+			updatePhysics();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			System.out.print("Incorrect data type for gravityX, must be Float\n");
 		}
 		
 	}
 	public void setGravityY(Object y) {
 		try {
-			gravity.y = Float.parseFloat(y.toString());
-			phys_body.setGravity(gravity);
+			gravity.y = (float)Float.parseFloat(y.toString());
+			updatePhysics();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.print("Incorrect data type for gravityY, must be Float\n");
@@ -171,8 +172,8 @@ public class Entity {
 	}
 	public void setGravityZ(Object z) {
 		try {
-			gravity.z = Float.parseFloat(z.toString());
-			phys_body.setGravity(gravity);
+			gravity.z = (float)Float.parseFloat(z.toString());
+			updatePhysics();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.print("Incorrect data type for gravityZ, must be Float\n");
@@ -189,6 +190,7 @@ public class Entity {
 	public void setCollidable(Object _collidable) {
 		try {
 			collidable = Boolean.parseBoolean(_collidable.toString());
+			addToPhysics();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.print("Incorrect data type for collidable, must be Boolean\n");
@@ -197,7 +199,7 @@ public class Entity {
 	public void setMass(Object _mass) {
 		try {
 			mass = Float.parseFloat(_mass.toString());
-			phys_body.setMassProps(mass, new Vector3f(0,0,0));
+			updatePhysics();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.print("Incorrect data type for mass, must be Float\n");
@@ -253,6 +255,12 @@ public class Entity {
 		}
 	}
 	
+	public void finalize() {
+		addToPhysics();
+		updatePosition();
+		addToPhysics();
+	}
+	
 	public boolean isDead() {
 		if( (System.currentTimeMillis() >= (created_at+ttl)) && (ttl != 0) ) {
 			//System.out.print("RIP\n===\nBorn: " + created_at +
@@ -268,7 +276,7 @@ public class Entity {
 	//Needs replaced.
 	public void set(String key, String value) {
 		if(key.equals("name"))
-			setName(name);
+			setName(value);
 		else if(key.equals("type"))
         	setType(value);
         else if(key.equals("positionX"))
@@ -277,6 +285,14 @@ public class Entity {
     		setPositionY(Float.valueOf(value));
 		else if(key.equals("positionZ"))
 			setPositionZ(Float.valueOf(value));
+        else if(key.equals("gravityX"))
+        	setGravityX(Float.valueOf(value));
+    	else if(key.equals("gravityY"))
+    		setGravityY(Float.valueOf(value));
+		else if(key.equals("gravityZ"))
+			setGravityZ(Float.valueOf(value));
+		else if(key.equals("mass"))
+			setMass(Float.valueOf(value));
 		else if(key.equals("transparent"))
 			setTransparent(Boolean.valueOf(value));
 		else if(key.equals("alpha"))
@@ -287,10 +303,10 @@ public class Entity {
 			setCollidable(Boolean.valueOf(value));
 		else if(key.equals("size"))
 			setSize(Float.valueOf(value));
-		else if(key.equals("ttl"))
+		else if(key.equals("TTL"))
 			setTTL(Integer.valueOf(value));
 		else {
-			System.out.print("SSHHIIITTTTT!!!! Entity parsing error");
+			System.out.print("SSHHIIITTTTT!!!! Entity parsing error [" + key + "," + value + "]\n");
 		}
 	}
 	
@@ -405,18 +421,30 @@ public class Entity {
 		*/
 	}
 	
+	public void updateAll() {
+		updatePosition();
+		updatePhysics();
+	}
+	
 	public void updatePosition() {
-		Transform trans = new Transform();
-		trans.setIdentity();
-		trans.origin.set(position);
-		DefaultMotionState myMotionState = new DefaultMotionState(trans);
-		phys_body.setMotionState(myMotionState);
+		if(phys_body != null) {
+			Transform trans = new Transform();
+			trans.setIdentity();
+			trans.origin.set(position);
+			DefaultMotionState myMotionState = new DefaultMotionState(trans);
+			if(phys_body != null) 
+				phys_body.setMotionState(myMotionState);
+		}
+	}
+	
+	public void updatePhysics() {
+		if(phys_body != null) {
+			phys_body.setGravity(gravity);
+			phys_body.setMassProps(mass, new Vector3f(0,0,0));
+		}
 	}
 	
 	public static String[] getKeys() {
 		return keys;
 	}
-	//private Vector3f axisLimits;
-	//private Vector3f angleLimits;
-	
 }

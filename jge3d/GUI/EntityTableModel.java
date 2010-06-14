@@ -63,6 +63,7 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 					ent,
 					value
 				);
+				ent.updateAll();
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {

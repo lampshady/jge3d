@@ -28,7 +28,7 @@ public class Level {
 
 	public void setLevel() throws IOException, LWJGLException {
 		BufferedReader levelfile;
-		levelfile = new BufferedReader(new FileReader("lib/Levels/newformattest.map"));
+		levelfile = new BufferedReader(new FileReader("lib/Levels/hurrdurr.map"));
 		loadlevel(levelfile);
 		Renderer.getInstance().makeLevelList();
 		cleanup();
@@ -59,7 +59,6 @@ public class Level {
 				if(type.equals("T")) {
 					if(TextureList.getInstance().hasKey(splitString[1]) == false) {
 						TextureList.getInstance().set(splitString[1], splitString[2], splitString[3]);
-						
 						TextureView.getInstance().insertTexture(splitString[2]);
 					} else {
 						//this is for when we implement texture groups
@@ -89,17 +88,23 @@ public class Level {
 				
 				if(key.equals("Entity")) {
 					current_entity = EntityList.getInstance().addEntity(new Entity(value));
-					while ((nextline = br.readLine()).compareToIgnoreCase("/Entity") != 0) {
-						nextline = nextline.trim();
+					while ((nextline = br.readLine().trim()).compareToIgnoreCase("/Entity") != 0) {
+						//nextline = nextline.trim();
 						splitString = nextline.split("=");
-						key = splitString[0];
-						value = splitString[1];
-						//System.out.print(key + "=" + value + "\n");
-						current_entity.set(key, value);
+						try {
+							key = splitString[0];
+							value = splitString[1];
+							current_entity.set(key, value);
+						} catch(Exception e) {
+							System.out.print("FUCKSHIT level parsing error:\n");
+							System.out.print(key + "=" + value + "\n\n");
+							e.printStackTrace();
+						}
 					}
+					current_entity.finalize();
 				}
 				else {
-					System.out.print("FUCKSHIT level parsing error");
+
 				}
 			}
 		}

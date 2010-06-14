@@ -17,13 +17,13 @@ import jge3d.Physics;
 import jge3d.TextureList;
 import jge3d.GUI.EntityView;
 import jge3d.GUI.Window;
+import jge3d.render.primitives.Cube;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.opengl.TextureImpl;
 
 import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.dynamics.RigidBody;
@@ -68,185 +68,6 @@ public class Renderer {
 		//Buffer to hold LWJGL matrix transformations (for physics rendering)
 		buf = BufferUtils.createFloatBuffer(16);
 	}
-	public void drawcube(Entity ent) throws FileNotFoundException, IOException {		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
-		if(ent.getTransparent()) {
-			//GL11.glEnable(GL11.GL_BLEND);
-			//GL11.glDisable(GL11.GL_DEPTH_TEST);
-			GL11.glEnable(GL11.GL_ALPHA_TEST); // allows alpha channels or transperancy
-			//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-			GL11.glAlphaFunc(GL11.GL_GREATER,0.1f); // sets alpha function
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		} else {
-			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			GL11.glDisable(GL11.GL_BLEND);
-		}
-
-		//bind a texture for drawing
-		TextureList.getInstance().getByName(ent.getTexture_name()).bind();
-		
-        GL11.glBegin(GL11.GL_QUADS);
-        	// Front Face
-        	GL11.glNormal3f( 0.0f, 0.0f, 1.0f);
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Left Of The Texture and Quad
-	
-	        // Back Face
-	        GL11.glNormal3f( 0.0f, 0.0f, -1.0f);
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
-	
-	        // Top Face
-	        GL11.glNormal3f( 0.0f, 1.0f, 0.0f);
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	
-	        // Bottom Face
-	        GL11.glNormal3f( 0.0f, -1.0f, 0.0f);
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	
-	        // Right face
-	        GL11.glNormal3f( 1.0f, 0.0f, 0.0f);
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	
-	        // Left Face
-	        GL11.glNormal3f( -1.0f, 0.0f, 0.0f);
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-        GL11.glEnd();
-
-        //This has to be run or slick caches the 
-        //texture and reuses it indefinitely
-        //The slick library doesn't mention this once
-        TextureImpl.unbind();
-	}
-	
-	public void drawPhysCube(String name, float size) throws FileNotFoundException, IOException {		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);		// Turn Blending On
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
-		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		
-		//bind a texture for drawing
-		TextureList.getInstance().getByName(name).bind();
-		
-        GL11.glBegin(GL11.GL_QUADS);
-        	// Front Face
-        	GL11.glNormal3f( 0.0f, 0.0f, 1.0f);
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Left Of The Texture and Quad
-	
-	        // Back Face
-	        GL11.glNormal3f( 0.0f, 0.0f, -1.0f);
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
-	
-	        // Top Face
-	        GL11.glNormal3f( 0.0f, 1.0f, 0.0f);
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	
-	        // Bottom Face
-	        GL11.glNormal3f( 0.0f, -1.0f, 0.0f);
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	
-	        // Right face
-	        GL11.glNormal3f( 1.0f, 0.0f, 0.0f);
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	
-	        // Left Face
-	        GL11.glNormal3f( -1.0f, 0.0f, 0.0f);
-	        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-        GL11.glEnd();
-
-        //This has to be run or slick caches the 
-        //texture and reuses it indefinitely
-        //The slick library doesn't mention this once
-        TextureImpl.unbind();
-	}
-	
-	public void transparentcube(float alpha, float cube_size) throws FileNotFoundException, IOException {		
-		GL11.glEnable(GL11.GL_BLEND);		// Turn Blending On
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
-		
-		GL11.glBegin(GL11.GL_QUADS);
-	        // Front Face
-			GL11.glNormal3f( 0.0f, 0.0f, 1.0f);
-	        GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Left Of The Texture and Quad
-	
-	        // Back Face
-	        GL11.glNormal3f( 0.0f, 0.0f, -1.0f);
-	        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
-	
-	        // Top Face
-	        GL11.glNormal3f( 0.0f, 1.0f, 0.0f);
-	        GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	
-	        // Bottom Face
-	        GL11.glNormal3f( 0.0f, -1.0f, 0.0f);
-	        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	
-	        // Right face
-	        GL11.glNormal3f( 1.0f, 0.0f, 0.0f);
-	        GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   // Top Left Of The Texture and Quad
-	        GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   // Bottom Left Of The Texture and Quad
-	
-	        // Left Face
-	        GL11.glNormal3f( -1.0f, 0.0f, 0.0f);
-	        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
-	        GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   // Bottom Right Of The Texture and Quad
-	        GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   // Top Right Of The Texture and Quad
-	        GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   // Top Left Of The Texture and Quad
-        GL11.glEnd();
-	}
-	
 	public void draw() throws LWJGLException, FileNotFoundException, IOException {
 		//Make sure that the screen is active
 		//(doing this every frame slows stuff down)
@@ -332,7 +153,7 @@ public class Renderer {
 			GL11.glTranslatef(current_position_vector.x, current_position_vector.y, current_position_vector.z);
 			
 			//Draw a transparent cube
-			transparentcube(1.0f, 1.0f);
+			Cube.transparentcube(1.0f, 1.0f);
 			
 		GL11.glPopMatrix();
 	}
@@ -344,18 +165,20 @@ public class Renderer {
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 		//for each level entity 
 		for(int i=0;i<EntityList.getInstance().getListSize();i++) {
-			GL11.glPushMatrix();
-			position=EntityList.getInstance().getEntityPosition(i);
-
-			//Shift object to correct position
-			GL11.glTranslatef(
-				position.x*EntityList.getInstance().getEntitySize(i),
-				position.y*EntityList.getInstance().getEntitySize(i),
-				position.z*EntityList.getInstance().getEntitySize(i)
-			);
-			
-			drawcube(EntityList.getInstance().get(i));
-			GL11.glPopMatrix();
+			if(EntityList.getInstance().get(i).getMass() == 0) {
+				GL11.glPushMatrix();
+				position=EntityList.getInstance().getEntityPosition(i);
+	
+				//Shift object to correct position
+				GL11.glTranslatef(
+					position.x*EntityList.getInstance().getEntitySize(i),
+					position.y*EntityList.getInstance().getEntitySize(i),
+					position.z*EntityList.getInstance().getEntitySize(i)
+				);
+				
+				Cube.drawcube(EntityList.getInstance().get(i));
+				GL11.glPopMatrix();
+			}
 		}
 		GL11.glEndList();
 	}
@@ -367,16 +190,18 @@ public class Renderer {
 		//Replace old display list with new one containing new level object
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
 		for(int i=0;i<EntityList.getInstance().getListSize();i++) {
-			GL11.glPushMatrix();
-			position=EntityList.getInstance().getEntityPosition(i);
-			
-			GL11.glTranslatef(
-				position.x*EntityList.getInstance().getEntitySize(i),
-				position.y*EntityList.getInstance().getEntitySize(i),
-				position.z*EntityList.getInstance().getEntitySize(i)
-			);
-			drawcube(EntityList.getInstance().get(i));
-			GL11.glPopMatrix();
+			if(EntityList.getInstance().get(i).getMass() == 0) {
+				GL11.glPushMatrix();
+				position=EntityList.getInstance().getEntityPosition(i);
+				
+				GL11.glTranslatef(
+					position.x*EntityList.getInstance().getEntitySize(i),
+					position.y*EntityList.getInstance().getEntitySize(i),
+					position.z*EntityList.getInstance().getEntitySize(i)
+				);
+				Cube.drawcube(EntityList.getInstance().get(i));
+				GL11.glPopMatrix();
+			}
 		}
 		GL11.glEndList();
 	}
@@ -422,7 +247,7 @@ public class Renderer {
 						//GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
 						
 						//Draw cube at matrix
-						drawPhysCube("cube1", 1.0f);
+						Cube.drawPhysCube("cube1", 1.0f);
 						
 						//More testing code
 						//vectorsPool.release(halfExtent);
