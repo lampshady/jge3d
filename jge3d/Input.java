@@ -60,7 +60,7 @@ class Input {
 			switch(Mouse.getEventButton()) {
 				case -1://Mouse Movement
 					if(Mouse.isInsideWindow()) {
-						Editor.getInstance().setCurrentBlock(Mouse.getX(), Mouse.getY(), EditorView.getInstance().getLayer());
+						//Editor.getInstance().setCurrentBlock(Mouse.getX(), Mouse.getY(), EditorView.getInstance().getLayer());
 						if(Mouse.isButtonDown(0)) {
 							//Pan camera Z
 							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ) {
@@ -107,13 +107,10 @@ class Input {
 					
 					//update current layer
 					EditorView.getInstance().incrementLayer(-1);
-					Editor.getInstance().setCurrentBlock(Mouse.getX(), Mouse.getY(), EditorView.getInstance().getLayer());
-					
 					break;
 				case  120: 
 					//update current layer
 					EditorView.getInstance().incrementLayer(1);
-					Editor.getInstance().setCurrentBlock(Mouse.getX(), Mouse.getY(), EditorView.getInstance().getLayer());
 					break;
 			}
 		}
@@ -124,7 +121,8 @@ class Input {
 		//get focus if mouse is inside of window
 		if(Mouse.isInsideWindow()) {
 			//10ms == 10000000us
-			if(last_update >= 5000000) {
+			if(last_update >= 10000000) {
+				//System.out.print((float)(last_update/1000000.0f) + "millisecs" + "\n");
 				//Reset running update counter
 				last_update = 0;
 				
@@ -189,11 +187,23 @@ class Input {
 		}
 	}
 	
+	public int getMouseX() {
+		return Mouse.getX();
+	}
+	
+	public int getMouseY() {
+		return Mouse.getY();
+	}
+	
 	public void updateInput() throws FileNotFoundException, LWJGLException, IOException {
 		updateDeltaTime();
-		System.out.print(last_update + "\n");
+		//System.out.print(last_update + "\n");
 		handleKeyboard();
 		handleMouse();
+	}
+	
+	public boolean mouseInWindow() {
+		return Mouse.isInsideWindow();
 	}
 	
 	public void updateDeltaTime() {

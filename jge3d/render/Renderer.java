@@ -148,8 +148,12 @@ public class Renderer {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
-	public void renderEditorBlock() throws FileNotFoundException, IOException {
+	public void renderEditorBlock() throws FileNotFoundException, IOException, LWJGLException {
 		Vector3f current_position_vector=Editor.getInstance().getCurrentPosition();
+		
+		//What the shit, seriously
+		Display.makeCurrent();
+		
 		GL11.glPushMatrix();
 			current_position_vector.x = (float)Math.floor(current_position_vector.x);
 			current_position_vector.y = (float)Math.floor(current_position_vector.y);
