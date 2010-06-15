@@ -20,11 +20,20 @@ public class TextureData {
 		//We should probably try to get rid of this makeCurrent()
 		Display.makeCurrent();
 		
-		texture = TextureLoader.getTexture("png", new FileInputStream(_path));
+		setTexture(TextureLoader.getTexture("png", new FileInputStream(_path)));
 
-		name = _name;
-		group = _group;
-		path = _path;
+		setName(_name);
+		setGroup(_group);
+		setPath(_path);
+	}
+	
+	public TextureData() throws FileNotFoundException, IOException, LWJGLException {
+		//We should probably try to get rid of this makeCurrent()
+		Display.makeCurrent();
+		setName("");
+		setGroup("");
+		setPath("");
+		texture = null;
 	}
 	
 	public Texture getTexture() {
@@ -44,6 +53,22 @@ public class TextureData {
 	}
 	
 	public String toString() {
-		return "T;" + group + ";" + name + ";" + path;
+		return "T;" + getGroup() + ";" + getName() + ";" + getPath();
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 }
