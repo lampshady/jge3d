@@ -8,6 +8,8 @@ import javax.swing.JScrollPane;
 
 import jge3d.Entity;
 
+
+
 public class EntityView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static EntityView uniqueInstance = new EntityView();

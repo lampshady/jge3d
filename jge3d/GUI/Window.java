@@ -16,10 +16,12 @@ import javax.swing.JPanel;
 
 import jge3d.Entity;
 
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+
 
 public class Window extends JFrame{
 	private static final long serialVersionUID = 1L;

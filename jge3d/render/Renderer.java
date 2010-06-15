@@ -13,10 +13,10 @@ import jge3d.Editor;
 import jge3d.Entity;
 import jge3d.EntityList;
 import jge3d.Level;
-import jge3d.Physics;
 import jge3d.TextureList;
 import jge3d.GUI.EntityView;
 import jge3d.GUI.Window;
+import jge3d.physics.Physics;
 import jge3d.render.primitives.Cube;
 
 import org.lwjgl.BufferUtils;
@@ -26,9 +26,12 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import com.bulletphysics.collision.dispatch.CollisionObject;
+import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
+import com.bulletphysics.util.ObjectPool;
+
 
 public class Renderer {
 	public static Renderer uniqueInstance = new Renderer();
@@ -126,6 +129,9 @@ public class Renderer {
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_POSITION,(FloatBuffer)temp.asFloatBuffer().put(lightPosition).flip());         // Position The Light
         GL11.glEnable(GL11.GL_LIGHT1);    
 		GL11.glEnable(GL11.GL_LIGHTING);
+		
+        GL11.glEnable(GL11.GL_NORMALIZE);
+        GL11.glEnable(GL11.GL_POLYGON_SMOOTH_HINT);
 		
 		Display.releaseContext();
 	}
@@ -241,10 +247,10 @@ public class Renderer {
 						buf.clear();
 						
 						//Testing code
-						//ObjectPool<Vector3f> vectorsPool = ObjectPool.get(Vector3f.class);
-						//BoxShape boxShape = (BoxShape) body.getCollisionShape();
-						//Vector3f halfExtent = boxShape.getHalfExtentsWithMargin(vectorsPool.get());
-						//GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
+						ObjectPool<Vector3f> vectorsPool = ObjectPool.get(Vector3f.class);
+						BoxShape boxShape = (BoxShape) body.getCollisionShape();
+						Vector3f halfExtent = boxShape.getHalfExtentsWithMargin(vectorsPool.get());
+						GL11.glScalef(1.0f * halfExtent.x, 1.0f * halfExtent.y, 1.0f * halfExtent.z);
 						
 						//Draw cube at matrix
 						Cube.drawPhysCube("cube1", 1.0f);

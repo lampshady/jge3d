@@ -5,9 +5,11 @@ import java.applet.Applet;
 
 import jge3d.GUI.LevelView;
 import jge3d.GUI.Window;
+import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
 import org.lwjgl.opengl.Display;
+
 
 public class Main extends Applet {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +22,6 @@ public class Main extends Applet {
 	
 	public void init() {
 		try{
-			
 			//the game always runs (except when it doesn't)
 			boolean isRunning = true;
 		
@@ -55,8 +56,7 @@ public class Main extends Applet {
 				}
 				
 				//read keyboard and mouse
-				Input.getInstance().handleMouse();
-				Input.getInstance().handleKeyboard();
+				Input.getInstance().updateInput();
 
 				//Check to make sure none of the entities are marked as dead
 				EntityList.getInstance().pruneEntities();

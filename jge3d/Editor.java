@@ -2,7 +2,9 @@ package jge3d;
 
 import javax.vecmath.Vector3f;
 
+
 import org.lwjgl.LWJGLException;
+
 
 public class Editor {
 	private Vector3f current_position_vector;

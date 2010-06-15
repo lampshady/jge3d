@@ -2,6 +2,8 @@ package jge3d;
 
 import javax.vecmath.Vector3f;
 
+import jge3d.physics.Physics;
+
 import com.bulletphysics.dynamics.RigidBody;
 
 //The player(s)' class

@@ -15,6 +15,7 @@ import jge3d.render.Renderer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
+
 public class Level {
 	private int row_length=0;
 	private int col_length=0;

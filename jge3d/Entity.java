@@ -1,11 +1,11 @@
 package jge3d;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 import javax.vecmath.Vector3f;
+
+import jge3d.physics.Physics;
 
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.DefaultMotionState;
@@ -25,7 +25,10 @@ public class Entity {
 	private long created_at = 0;
 	private boolean transparent = false;
 	private float alpha=1.0f;
+	
+	//publicly available keys
 	protected static String[] keys = {"name","type","positionX","positionY","positionZ","gravityX","gravityY","gravityZ","mass","transparent","alpha","texture_name","collidable","size","TTL"};
+	
 	protected static int num_entities=0;
 	
 	public Entity() {
@@ -365,11 +368,24 @@ public class Entity {
 
 	public String toString() {
 		Class<?> c;
-		Field[] allFields = null;
-		String fname;
+		//Field[] allFields = null;
+		//String fname;
 		String output = new String(); 
 		try {
 			c = Class.forName("jge3d.Entity");
+			output="\tEntity=" + name + "\n";
+			for(String key: keys) {
+				String method_string = 
+					"get" + 
+					key.substring(0,1).toUpperCase() + 
+					key.substring(1);
+
+				Method m = c.getDeclaredMethod(method_string);
+				output = output + "\t\t" + key + "=" + m.invoke(this).toString() + "\n";
+			}
+			output=output + "\t/Entity\n";
+			
+			/* //Skynet version
 			allFields = c.getDeclaredFields();
 			for (Field f : allFields) {
 				if(f.getModifiers()==Modifier.PRIVATE) {
@@ -382,7 +398,7 @@ public class Entity {
 					Method m = c.getDeclaredMethod(method_string);
 					output = m.invoke(this).toString();				
 				}
-			}
+			}*/
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
