@@ -1,17 +1,47 @@
 package jge3d;
 
+<<<<<<< HEAD
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+=======
 import java.util.HashMap;
 import java.util.Map;
+>>>>>>> a3603654176af9e0f313193f94137365bfc9c50e
 
-public class TextureAnimation {
-	private HashMap<String, TextureList> animations;
+import org.lwjgl.LWJGLException;
+import org.newdawn.slick.opengl.Texture;
+
+public class TextureAnimation extends TextureData{
+	private ArrayList<TextureData> animations;
 	
-	//Queue for texture loading
-	String texture_load_string = "";
-	boolean textures_changed;
+	int currentFrame;
 	
-	public TextureAnimation() {
-		animations = new HashMap<String, TextureList>();
+	public TextureAnimation(String _group, String _name) throws FileNotFoundException, IOException, LWJGLException {
+		super();
+		animations = new ArrayList<TextureData>();
+		setName(_name);
+		setGroup(_group);
+	}
+	 
+	public void addFrames(ArrayList<TextureData> textureFrames)
+	{
+		for(int i = 0; i < textureFrames.size(); i++)
+		{
+			animations.add(textureFrames.get(i));
+		}
+	}
+	
+	public void setFrames(ArrayList<TextureData> textureFrames)
+	{
+		animations.removeAll(animations);
+		animations = textureFrames;
+	}
+	
+	@Override
+	public Texture getTexture() {
+		currentFrame++;
+		return animations.get(currentFrame).getTexture();
 	}
 	
 	public void getNextFrame() {
