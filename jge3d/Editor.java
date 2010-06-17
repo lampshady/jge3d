@@ -19,12 +19,16 @@ public class Editor {
 		current_position_vector = new Vector3f();
 	}
 	
-	public void setCurrentBlock(int mouseX, int mouseY, float zPlane) throws LWJGLException {
-		 current_position_vector = Camera.getInstance().getRayToPlane(mouseX, mouseY, new Vector3f(0,0,1), new Vector3f(0,0,0));
-				// window.getEditorView().getLayerNormal(), window.getEditorView().getLayerPoint()); 
-	}
-	
-	public Vector3f getCurrentPosition() {
+	public Vector3f getCurrentPosition() throws LWJGLException {
+		if(Input.getInstance().mouseInWindow()) {
+			current_position_vector = 
+				Camera.getInstance().getRayToPlane(
+					Input.getInstance().getMouseX(), 
+					Input.getInstance().getMouseY(), 
+					new Vector3f(0,0,1), 
+					new Vector3f(0,0,0)
+				);
+		}
 		return current_position_vector;
 	}
 	

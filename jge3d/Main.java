@@ -2,12 +2,15 @@ package jge3d;
 
 //LWJGL input
 import java.applet.Applet;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import jge3d.GUI.LevelView;
 import jge3d.GUI.Window;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
 
@@ -21,10 +24,28 @@ public class Main extends Applet {
 	}
 	
 	public void init() {
-		try{
-			//the game always runs (except when it doesn't)
-			boolean isRunning = true;
+		//the game always runs (except when it doesn't)
+		boolean isRunning = true;
+		Thread render_thread = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				while (true) 
+				{
+					//read keyboard and mouse
+					try {
+						Input.getInstance().updateInput();
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (LWJGLException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		
+		try{
 			Level level;
 
 			Player player;
@@ -38,6 +59,8 @@ public class Main extends Applet {
 			Display.makeCurrent();
 			level.setLevel();
 			Display.releaseContext();
+			
+			render_thread.start();
 			
 			//Make a player
 			player = new Player();
@@ -55,8 +78,7 @@ public class Main extends Applet {
 					TextureList.getInstance().loadQueuedTexture();
 				}
 				
-				//read keyboard and mouse
-				Input.getInstance().updateInput();
+
 
 				//Check to make sure none of the entities are marked as dead
 				EntityList.getInstance().pruneEntities();
