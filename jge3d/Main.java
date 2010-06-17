@@ -2,21 +2,22 @@ package jge3d;
 
 //LWJGL input
 import java.applet.Applet;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import jge3d.GUI.LevelView;
-import jge3d.GUI.Window;
+import jge3d.controller.Controller;
+import jge3d.gui.LevelView;
+import jge3d.gui.Window;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
-import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
 
 public class Main extends Applet {
 	private static final long serialVersionUID = 1L;
 
+	//the game always runs (except when it doesn't)
+	final boolean isRunning = true;
+	
 	public static void main(String args[])
 	{
 		Applet applet = new Main();
@@ -24,30 +25,8 @@ public class Main extends Applet {
 	}
 	
 	public void init() {
-		//the game always runs (except when it doesn't)
-		boolean isRunning = true;
-		Thread render_thread = new Thread(new Runnable(){
-			@Override
-			public void run() {
-				while (true) 
-				{
-					//read keyboard and mouse
-					try {
-						Input.getInstance().updateInput();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (LWJGLException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-		
 		try{
 			Level level;
-
 			Player player;
 			
 			loadModules();
@@ -60,7 +39,7 @@ public class Main extends Applet {
 			level.setLevel();
 			Display.releaseContext();
 			
-			render_thread.start();
+			Controller.getInstance().start();
 			
 			//Make a player
 			player = new Player();
@@ -77,30 +56,25 @@ public class Main extends Applet {
 				if(TextureList.getInstance().hasChanged()) {
 					TextureList.getInstance().loadQueuedTexture();
 				}
-				
-
 
 				//Check to make sure none of the entities are marked as dead
 				EntityList.getInstance().pruneEntities();
 				
 				//Update the world's physical layout
-				Physics.getInstance().clientUpdate();
+				//Physics.getInstance().clientUpdate();
 
 				//Camera check versus player position
-				Camera.getInstance().moveToPlayerLocation(player);
+				//Camera.getInstance().moveToPlayerLocation(player);
+				
+				if(Controller.getInstance().hasQueuedItems()) {
+					Controller.getInstance().run_queue();
+				}
 				
 				//Draw world
-				Renderer.getInstance().draw();
+				//Renderer.getInstance().draw();
 
 				//Print FPS to title bar
 				Window.getInstance().updateFPS();
-				
-				//Check if it's time to close
-				if (Display.isCloseRequested()) {
-					isRunning=false;
-					//Display.destroy();
-                    //System.exit(0);
-				}
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());

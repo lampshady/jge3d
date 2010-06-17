@@ -1,4 +1,4 @@
-package jge3d.GUI;
+package jge3d.gui;
 
 import java.awt.Component;
 import javax.swing.event.TableModelEvent;

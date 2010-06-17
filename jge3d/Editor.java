@@ -2,6 +2,8 @@ package jge3d;
 
 import javax.vecmath.Vector3f;
 
+import jge3d.render.Renderer;
+
 
 import org.lwjgl.LWJGLException;
 
@@ -22,7 +24,7 @@ public class Editor {
 	public Vector3f getCurrentPosition() throws LWJGLException {
 		if(Input.getInstance().mouseInWindow()) {
 			current_position_vector = 
-				Camera.getInstance().getRayToPlane(
+				Renderer.getInstance().findRay.getRayToPlane(
 					Input.getInstance().getMouseX(), 
 					Input.getInstance().getMouseY(), 
 					new Vector3f(0,0,1), 

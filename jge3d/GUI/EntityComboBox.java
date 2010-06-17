@@ -1,4 +1,4 @@
-package jge3d.GUI;
+package jge3d.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

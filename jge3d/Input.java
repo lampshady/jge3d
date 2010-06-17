@@ -5,16 +5,17 @@ import java.io.IOException;
 
 import javax.vecmath.Vector3f;
 
-import jge3d.GUI.EditorView;
-import jge3d.GUI.LevelView;
+import jge3d.gui.EditorView;
+import jge3d.gui.LevelView;
 import jge3d.physics.Physics;
+import jge3d.render.Renderer;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 
-class Input {
+public class Input {
 	private static Input uniqueInstance = new Input();
 	private int deltaX, deltaY;	
 	private Player player;
@@ -158,7 +159,7 @@ class Input {
 					EntityList.getInstance().deleteByPosition(Editor.getInstance().getCurrentPosition());
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-					Vector3f ray = Camera.getInstance().getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
+					Vector3f ray = Renderer.getInstance().findRay.getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
 					EntityList.getInstance().addEntity(Physics.getInstance().dropBox(ray.x,ray.y,ray.z,1));
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {

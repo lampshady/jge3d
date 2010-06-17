@@ -8,8 +8,8 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
-import jge3d.GUI.TextureView;
-import jge3d.GUI.Window;
+import jge3d.gui.TextureView;
+import jge3d.gui.Window;
 import jge3d.render.Renderer;
 
 import org.lwjgl.LWJGLException;

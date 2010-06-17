@@ -14,8 +14,8 @@ import jge3d.Entity;
 import jge3d.EntityList;
 import jge3d.Level;
 import jge3d.TextureList;
-import jge3d.GUI.EntityView;
-import jge3d.GUI.Window;
+import jge3d.gui.EntityView;
+import jge3d.gui.Window;
 import jge3d.physics.Physics;
 import jge3d.render.primitives.Cube;
 
@@ -51,6 +51,8 @@ public class Renderer {
     private float lightDiffuse[]={ 1.0f, 1.0f, 1.0f, 1.0f };    // Diffuse Light Values ( NEW )
     private float lightPosition[]={ 0.0f, 0.0f, 2.0f, 1.0f };   // Light Position ( NEW )
 	
+    public Ray findRay = new Ray();
+    
     private Renderer(){
     	try {
 			initGL();

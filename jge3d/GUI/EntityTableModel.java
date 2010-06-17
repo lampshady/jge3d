@@ -1,4 +1,4 @@
-package jge3d.GUI;
+package jge3d.gui;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
