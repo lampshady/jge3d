@@ -35,6 +35,7 @@ public class Physics {
 	private DynamicsWorld dynamicsWorld;
 	private List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
 	float deltaT;
+	long frames=0;
 
 	public static Physics getInstance()
 	{
@@ -198,11 +199,19 @@ public class Physics {
 		// simple dynamics world doesn't handle fixed-time-stepping
 		deltaT = (System.nanoTime()-prev_time);
 		prev_time = System.nanoTime();
-		
+		frames++;
 		// step the simulation
 		if (dynamicsWorld != null) {
 			dynamicsWorld.stepSimulation(deltaT / 1000000000f);
 		}
+	}
+	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
 	}
 	
 	public float getDeltaT() {
