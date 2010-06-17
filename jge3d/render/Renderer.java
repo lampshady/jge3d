@@ -36,6 +36,8 @@ import com.bulletphysics.util.ObjectPool;
 public class Renderer {
 	public static Renderer uniqueInstance = new Renderer();
 	
+	long frames=0;
+	
 	//private Editor editor;
 	//private Physics physics;
 	//private Camera camera;
@@ -108,6 +110,8 @@ public class Renderer {
 		Display.update();	// now tell the screen to update
 		
 		Display.releaseContext();
+		
+		frames++;
 	}
 
 	public void initGL() throws LWJGLException {
@@ -267,5 +271,13 @@ public class Renderer {
 				}
 			}
 		}
+	}
+	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
 	}
 }

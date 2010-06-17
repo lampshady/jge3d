@@ -4,6 +4,7 @@ package jge3d;
 import java.applet.Applet;
 
 import jge3d.controller.Controller;
+import jge3d.gui.FPSView;
 import jge3d.gui.LevelView;
 import jge3d.gui.Window;
 import jge3d.physics.Physics;
@@ -74,7 +75,7 @@ public class Main extends Applet {
 				//Renderer.getInstance().draw();
 
 				//Print FPS to title bar
-				Window.getInstance().updateFPS();
+				FPSView.getInstance().updateFPS();
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
