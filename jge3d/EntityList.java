@@ -23,19 +23,11 @@ public class EntityList {
 	}
 	
 	private EntityList() {
-		entities = new ArrayList<Entity>();;
+		entities = new ArrayList<Entity>();
 	}
 
 	public void clear() {
 		entities.clear();
-	}
-
-	public Entity addEntityByParams(String _type, Vector3f _pos, String _texture_name, boolean _collidable, RigidBody rb, int _ttl) {
-		latest_ent = new Entity(_type,_pos,_texture_name,_collidable,rb,_ttl);
-		entities.add(latest_ent);
-		list_changed=true;
-
-		return latest_ent;
 	}
 	
 	public Entity addEntity(Entity ent) {
@@ -60,7 +52,7 @@ public class EntityList {
 	}
 	
 	public String getEntityTextureName(int index) {
-		return entities.get(index).getTextureName();
+		return entities.get(index).getTexture_name();
 	}
 	
 	public float getListSize() {
@@ -88,6 +80,10 @@ public class EntityList {
 		return entities.get(index).toString();
 	}
 	
+	public void setRigidBodyByID(int index, RigidBody rb) {
+		entities.get(index).setRigidBody(rb);
+	}
+	
 	public boolean getListChanged() {
 		if(list_changed) {
 			list_changed=false;
@@ -95,6 +91,10 @@ public class EntityList {
 		} else {
 			return list_changed;
 		}
+	}
+	
+	public void setListChanged(boolean changed) {
+		list_changed = changed;
 	}
 	
 	public float getEntitySize(int index) {

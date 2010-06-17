@@ -1,9 +1,11 @@
-package jge3d;
+package jge3d.physics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.vecmath.Vector3f;
+
+import jge3d.Entity;
 
 import com.bulletphysics.collision.broadphase.AxisSweep3;
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;

@@ -34,12 +34,7 @@ public class EntityTable extends JTable{
         {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if (column == interactiveColumn && hasFocus) {
-                if ((EntityTableModel.getInstance().getRowCount() - 1) == row)
-                {
-                	//EntityTable.this.tableModel.addEmptyRow();
-                }
 
-                highlightLastRow(row);
             }
 
             return c;
@@ -53,25 +48,14 @@ public class EntityTable extends JTable{
         this.setSurrendersFocusOnKeystroke(true);
     }
 
-    public void highlightLastRow(int row) {
-        int lastrow = EntityTableModel.getInstance().getRowCount();
-        if (row == lastrow - 1) {
-            this.setRowSelectionInterval(lastrow - 1, lastrow - 1);
-        } else {
-        	this.setRowSelectionInterval(row + 1, row + 1);
-        }
-
-        this.setColumnSelectionInterval(0, 0);
-    }
-
     public class InteractiveTableModelListener implements TableModelListener {
         public void tableChanged(TableModelEvent evt) {
         	revalidate();
             if (evt.getType() == TableModelEvent.UPDATE) {
                 int column = evt.getColumn();
                 int row = evt.getFirstRow();
-                System.out.println("row: " + row + " column: " + column);
-                setColumnSelectionInterval(column + 1, column + 1);
+                System.out.println("Updated Entity [row: " + row + ", column: " + column + "]\n");
+                setColumnSelectionInterval(column, column);
                 setRowSelectionInterval(row, row);
             }
         }

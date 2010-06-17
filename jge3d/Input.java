@@ -7,17 +7,19 @@ import javax.vecmath.Vector3f;
 
 import jge3d.GUI.EditorView;
 import jge3d.GUI.LevelView;
+import jge3d.physics.Physics;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+
 class Input {
 	private static Input uniqueInstance = new Input();
 	private int deltaX, deltaY;	
 	private Player player;
-	//private EntityList entity;
 	private Level level;
+	private long deltaT, prev_time, last_update;
 	
 	public static Input getInstance()
 	{
@@ -27,28 +29,23 @@ class Input {
 	private Input()
 	{
 		player = new Player();
-		
-		
+
 		try {
 			Mouse.create();
 			Mouse.setNativeCursor(null);
 			Keyboard.create();
+			Keyboard.enableRepeatEvents(false);
+			prev_time = System.nanoTime();
 		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	private Input(EntityList _entity, Player _player) throws LWJGLException {
-		//entity=_entity;
-		player=_player;
-		
-		Mouse.create();
-		Mouse.setNativeCursor(null);
-		Keyboard.create();
-		//Keyboard.enableRepeatEvents(true);
+	public void setPlayer(Player _player) {
+		player = _player;
 	}
+	
 
 	public void handleMouse() throws LWJGLException, FileNotFoundException, IOException {
 		//Handle Mouse Events here
@@ -122,36 +119,39 @@ class Input {
 		}
 	}
 	
+	Vector3f player_velocity = new Vector3f();
 	public void handleKeyboard() throws LWJGLException, IOException {
-
-		//while(Keyboard.next()) {
-
-			//get focus if mouse is inside of window
-			if(Mouse.isInsideWindow()) {
+		//get focus if mouse is inside of window
+		if(Mouse.isInsideWindow()) {
+			//10ms == 10000000us
+			if(last_update >= 5000000) {
+				//Reset running update counter
+				last_update = 0;
+				
 				Keyboard.poll();
-
+				
 				player.activate();
 				
 				if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-					System.out.print("w down\n");
+					//System.out.print("w down\n");
 					player.move(new Vector3f(0,10,0),20);
 				} else {
 					//player.slow(new Vector3f(0,-10,0),20);
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-					System.out.print("a down\n");
+					//System.out.print("a down\n");
 					player.move(new Vector3f(-1,0,0),20);
 				} else {
 					//player.slow(new Vector3f(1,0,0),20);
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-					System.out.print("s down\n");
+					//System.out.print("s down\n");
 					player.move(new Vector3f(0,-1,0),20);
 				} else {
 					//player.slow(new Vector3f(0,1,0),20);
 				}
 				if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-					System.out.print("d down\n");
+					//System.out.print("d down\n");
 					player.move(new Vector3f(1,0,0),20);
 				} else {
 					//player.slow(new Vector3f(-1,0,0),20); 
@@ -170,36 +170,7 @@ class Input {
 					LevelView.getInstance().setLoadLevel(true);
 				}
 			}
-			/*
-			switch(Keyboard.getEventCharacter()) {
-				case 'w':
-					player_velocity.y = 200;
-					break;
-				case 'a':
-					player_velocity.x = -20;
-					break;
-				case 's':
-					player_velocity.y = -10;
-					break;
-				case 'd':
-					player_velocity.x = 20;
-					break;
-				case 'x':
-					entity.deleteByPosition(editor.getCurrentPosition());
-					break;
-				case ' ':
-					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), new Vector3f(0,0,1), new Vector3f(0,0,0));
-					entity.addEntity(physics.dropBox(ray.x,ray.y,ray.z,1));
-					break;
-				case Keyboard.KEY_F1:
-					level.save();
-					break;   
-				case Keyboard.KEY_F2:
-					window.getLevelView().setLoadLevel(true);
-					break;
-			}
-			System.out.print(player.getVelocity().x + " " + player.getVelocity().y + " " + player.getVelocity().z + "\n");
-			
+	
 			if(player.getVelocity().x > 15 || player.getVelocity().x < -15)
 				player_velocity.x=0;
 			if(player.getVelocity().y > 15 || player.getVelocity().y < -15)
@@ -215,41 +186,25 @@ class Input {
 				)
 				, 10
 			);
-			*/
-			//player_velocity.x=0;
-			//player_velocity.y=0;
-			//player_velocity.z=0;
-			/*
-			switch(Keyboard.getEventKey()) {
-				case Keyboard.KEY_W:	
-					player.move(new Vector3f(0,200,0), 10);
-					System.out.print("up\n");
-					break;
-				case Keyboard.KEY_A:
-					player.move(new Vector3f(-10,0,0), 10);
-					System.out.print("left\n");
-					break;
-				case Keyboard.KEY_S:
-					player.move(new Vector3f(0,-10,0), 10);
-					System.out.print("down\n");
-					break;
-				case Keyboard.KEY_D:
-					player.move(new Vector3f(10,0,0), 10);
-					System.out.print("right\n");
-					break;
-				case Keyboard.KEY_SPACE:
-					Vector3f ray = camera.getRayToPlane(Mouse.getX(), Mouse.getY(), 0);
-					physics.dropBox(ray.x,ray.y,ray.z,1);
-					break;
-				case Keyboard.KEY_F1:
-					level.save();
-					break;
-				case Keyboard.KEY_F2:
-					window.setLoadLevel(true);
-					break;
-			}
-			*/
-			
 		}
-	//}
+	}
+	
+	public void updateInput() throws FileNotFoundException, LWJGLException, IOException {
+		updateDeltaTime();
+		//System.out.print(last_update + "\n");
+		handleKeyboard();
+		handleMouse();
+	}
+	
+	public void updateDeltaTime() {
+		deltaT = (System.nanoTime()-prev_time);
+		last_update+=deltaT;
+		prev_time = System.nanoTime();
+	}
+	
+	public float getDeltaT() {
+		return deltaT;
+	}
+	
+	
 }
