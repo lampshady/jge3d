@@ -112,7 +112,9 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 			}
 			*/
         fireTableCellUpdated(row, column);
-        EntityList.getInstance().setListChanged(true);
+        
+        //Shouldn't the controller handle this???
+        //EntityList.getInstance().setListChanged(true);
     }
 
     public int getRowCount() {
@@ -149,7 +151,7 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 	@Override
 	public void update(String s) {
 		if(s != null)
-			setEntity( EntityList.getInstance().getByName(s));
+			setEntity( EntityList.getInstance().getEntityByName(s));
 	}
 }
 
