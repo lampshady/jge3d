@@ -1,87 +1,169 @@
 package jge3d;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.vecmath.Vector3f;
 
 import com.bulletphysics.dynamics.RigidBody;
 
 public class EntityList {
-	private List<Entity> entities;
-	private static EntityList  uniqueInstance = new EntityList();
+	private HashMap<String,Entity> names;
+	private HashMap<String,ArrayList<Entity>> types;
 	
-	private Entity latest_ent;
-	//private int level_size = 0;
-	//private boolean level_changed;
-	private boolean list_changed;
-	//private Physics physics;
+	static EntityList uniqueInstance = new EntityList();
 	
 	public static EntityList getInstance()
 	{
 		return uniqueInstance;
 	}
 	
-	private EntityList() {
-		entities = new ArrayList<Entity>();
-	}
-
-	public void clear() {
-		entities.clear();
+	private EntityList()
+	{
+		names = new HashMap<String,Entity>();
+		types = new HashMap<String,ArrayList<Entity>>();
 	}
 	
-	public Entity addEntity(Entity ent) {
-		entities.add(ent);
-		latest_ent = ent;
-		list_changed=true;
-
-		return ent;
+	public Entity addEntity(Entity entityToAdd )
+	{
+		//make certain an entity with that name doesn't already exist
+		if(names.containsKey(entityToAdd.getName()) == false)
+		{
+			names.put(entityToAdd.getName(), entityToAdd);
+			if( (types.get(entityToAdd.getType())) == null)
+			{
+				types.put(entityToAdd.getType(), new ArrayList<Entity>());
+			}
+			types.get(entityToAdd.getType()).add(entityToAdd);
+			return names.get(entityToAdd.getName());
+		}else
+		{
+			System.out.println("That entity already exists.");
+			return null;
+		}
 	}
 	
-	public void removeEntity(int index) {
-		list_changed=true;
-		entities.remove(index);
+	private void removeEntity(Entity entity) {
+		removeEntity(entity.getName(), entity.getType());
 	}
 	
-	public Entity get(int index) {
-		return entities.get(index);
+	public boolean removeEntity(String entityName, String entityType)
+	{
+		if(names.get(entityName) != null)
+		{
+			//remove from types first
+			types.get(entityType).remove(names.get(entityName));
+			
+			//then from names
+			names.remove(entityName);
+		
+			//check if any entities of that type still exist
+			if(types.get(entityType).size() == 0)
+			{
+				types.remove(entityType);
+			}
+			
+			return true;
+		}else
+		{
+			System.out.println("Tried to delete a nonexistant entity");
+			return false;
+		}
 	}
 	
-	public Vector3f getEntityPosition(int index) {
-		return entities.get(index).getPosition();
+	public boolean removeEntityByName( String entityName)
+	{
+		if(names.get(entityName) != null)
+		{
+			return removeEntity(entityName, names.get(entityName).getType());
+		}else
+		{
+			System.out.println("Tried to remove a non-existant entity");
+			return false;
+		}
 	}
 	
-	public String getEntityTextureName(int index) {
-		return entities.get(index).getTexture_name();
+	public Entity getEntityByName( String entityName )
+	{
+		return names.get(entityName);
 	}
 	
-	public float getListSize() {
-		return entities.size();
+	public ArrayList<Entity> getEntitiesByType( String entityType )
+	{
+		return types.get(entityType);
 	}
 	
-	public boolean getEntityCollidable(int index) {
-		return entities.get(index).getCollidable();
-	}
-
-	public Entity getLatestEntity() {
-		return latest_ent;
+	public void clear()
+	{
+		names.clear();
+		types.clear();
 	}
 	
-	public Entity getByName(String name) {
-		for(int i=0; i<entities.size();i++) {
-			if(entities.get(i).getName().equals(name)) {
-				return entities.get(i);
+	public Vector3f getEntityPosition(String entityName)
+	{
+		return names.get(entityName).getPosition();
+	}
+	
+	public String getEntityTextureName(String entityName) {
+		return names.get(entityName).getTexture_name();
+	}
+	
+	public int getEntityCount() {
+		return names.size();
+	}
+	
+	public boolean getEntityCollidable(String entityName) {
+		return names.get(entityName).getCollidable();
+	}
+	
+	public void setRigidBodyByID(String entityName, RigidBody rigidBody) {
+		names.get(entityName).setRigidBody(rigidBody);
+	}
+	
+	public float getEntitySize(String entityName) {
+		return names.get(entityName).getSize();
+	}
+	
+	public void deleteByPosition(Vector3f position) {
+		for( Map.Entry<String, Entity> entity : names.entrySet())
+		{
+			if( entity.getValue().getPosition().equals(position))
+			{
+				
+				System.out.println("Found it: Deleting...");
+				removeEntity(entity.getValue());
+				System.out.println("Done.");
 			}
 		}
-		return new Entity();
 	}
 	
-	public String getByIndex(int index) {
-		return entities.get(index).toString();
+	public void pruneEntities() {
+		for( Map.Entry<String, Entity> entity : names.entrySet())
+		{
+			if( entity.getValue().isDead())
+			{
+				System.out.println("Found it: Deleting...");
+				removeEntity(entity.getValue());
+				System.out.println("Done.");
+			}
+		}
 	}
 	
-	public void setRigidBodyByID(int index, RigidBody rb) {
-		entities.get(index).setRigidBody(rb);
+	public String toString()
+	{
+		String listAsString = "";
+		
+		for( Map.Entry<String, Entity> entity : names.entrySet())
+		{
+			listAsString += entity.getValue().toString();
+		}
+		return listAsString;
+	}
+	
+	/*
+	public Entity getLatestEntity() {
+		return latest_ent;
 	}
 	
 	public boolean getListChanged() {
@@ -97,11 +179,7 @@ public class EntityList {
 		list_changed = changed;
 	}
 	
-	public float getEntitySize(int index) {
-		return entities.get(index).getSize();
-	}
-	
-	public void deleteByPosition(Vector3f position) {
+		public void deleteByPosition(Vector3f position) {
 		for(int i=0; i<entities.size(); i++) {
 			if( position.equals(entities.get(i).getPosition()) ) {
 				entities.get(i).deletePhysics();
@@ -111,15 +189,5 @@ public class EntityList {
 			}
 		}
 	}
-	
-	public void pruneEntities() {
-		for(int i=0; i<entities.size(); i++) {
-			if( entities.get(i).isDead() ) {
-				entities.get(i).deletePhysics();
-				entities.remove(i);
-				System.out.print("Found a dead one: Deleting...\n Done. \n");
-				list_changed = true;
-			}
-		}
-	}
-}
+	*/
+} 

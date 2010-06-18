@@ -152,8 +152,7 @@ public class Level {
 		
 		//Create level body defining block positions
 		bw.write(("level\n"));
-		for(int i=0; i<EntityList.getInstance().getListSize();i++)
-			bw.write(EntityList.getInstance().getByIndex(i).toString() + "\n");
+		bw.write(EntityList.getInstance().toString() + "\n");
 		bw.write(("/level\n"));
 		
 		//Close buffers
