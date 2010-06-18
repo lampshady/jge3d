@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import jge3d.Input;
+import jge3d.Main;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
@@ -70,10 +71,10 @@ public class FPSView extends JPanel {
 			prev_time_input=System.currentTimeMillis();
 			Input.getInstance().resetFrames();
 		}
-		//if ( (System.currentTimeMillis()-prev_time_main) >= 1000 ) {
-		//	mainFPS.setText("MainFPS:\t" + ((Main.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_main)) );
-		//	prev_time_main=System.currentTimeMillis();
-		//	frames = 0;
-		//}
+		if ( (System.currentTimeMillis()-prev_time_main) >= 1000 ) {
+			mainFPS.setText("MainFPS:\t" + ((Main.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_main)) );
+			prev_time_main=System.currentTimeMillis();
+			Main.getInstance().resetFrames();
+		}
 	}
 }

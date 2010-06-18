@@ -16,6 +16,14 @@ import org.lwjgl.opengl.Display;
 public class Main extends Applet {
 	private static final long serialVersionUID = 1L;
 
+	private static  Main uniqueInstance = new Main();
+	
+	private long frames=0;
+	
+	public static Main getInstance(){ 
+		return uniqueInstance; 
+	}
+	
 	//the game always runs (except when it doesn't)
 	final boolean isRunning = true;
 	
@@ -74,8 +82,9 @@ public class Main extends Applet {
 				//Draw world
 				//Renderer.getInstance().draw();
 
-				//Print FPS to title bar
+				frames++;
 				FPSView.getInstance().updateFPS();
+				System.out.print(frames+"\n");
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
@@ -94,5 +103,13 @@ public class Main extends Applet {
 		Input.getInstance();
 		Editor.getInstance();
 		Camera.getInstance();
+	}
+	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
 	}
 }

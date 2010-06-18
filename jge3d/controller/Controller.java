@@ -98,6 +98,9 @@ public class Controller {
 		input_thread.start();
 		physics_thread.start();
 		render_thread.start();
+		input_thread.setPriority(4);
+		physics_thread.setPriority(5);
+		render_thread.setPriority(6);
 	}
 	
 	public void run_queue() {
