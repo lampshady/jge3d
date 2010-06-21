@@ -257,7 +257,7 @@ public class Entity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void finalize() {
 		addToPhysics();
 		updatePosition();

@@ -35,15 +35,14 @@ public class Editor {
 	}
 	
 	public Entity getCurrentBlock() {
-		Entity ent = new Entity();
-		ent.setPositionX(current_position_vector.x);
-		ent.setPositionY(current_position_vector.y);
-		ent.setPositionZ(current_position_vector.z);
-		ent.setType("level");
-		ent.setTexture_name("dirt2");
-		ent.setCollidable(true);
-		ent.setTTL(0);
+		EntityList.getInstance().setPositionX("editor", current_position_vector.x);
+		EntityList.getInstance().setPositionY("editor", current_position_vector.y);
+		EntityList.getInstance().setPositionZ("editor", current_position_vector.z);
+		EntityList.getInstance().setType("editor", (String)"level");
+		EntityList.getInstance().setTexture_name("editor", "dirt2");
+		EntityList.getInstance().setCollidable("editor", true);
+		EntityList.getInstance().setTTL("editor", 0);
 		
-		return ent;
+		return EntityList.getInstance().getEntityByName("editor");
 	}
 }

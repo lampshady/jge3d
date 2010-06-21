@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import jge3d.EntityList;
 import jge3d.Input;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
@@ -99,7 +98,7 @@ public class Controller {
 		input_thread.start();
 		physics_thread.start();
 		render_thread.start();
-		input_thread.setPriority(4);
+		input_thread.setPriority(3);
 		physics_thread.setPriority(5);
 		render_thread.setPriority(6);
 	}
@@ -132,10 +131,7 @@ public class Controller {
 	}
 
 	private void check_entities() {
-		if(EntityList.getInstance().getListChanged() == true)
-		{
-			EntityList.getInstance().setListChanged(false);
-		}
+
 	}
 	
 }

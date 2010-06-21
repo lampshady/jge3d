@@ -66,6 +66,7 @@ public class Main extends Applet {
 			},"Controller");
 			
 			controller_thread.start();
+			controller_thread.setPriority(6);
 			
 			while (isRunning) 
 			{

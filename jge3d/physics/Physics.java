@@ -6,6 +6,7 @@ import java.util.List;
 import javax.vecmath.Vector3f;
 
 import jge3d.Entity;
+import jge3d.EntityList;
 
 import com.bulletphysics.collision.broadphase.AxisSweep3;
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
@@ -200,23 +201,22 @@ public class Physics {
 		
 		//body.setLinearVelocity(initial_velocity);
 		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
-		Entity ent = new Entity();
-		ent.setType("dropbox");
-		ent.setPositionX(x);
-		ent.setPositionY(y);
-		ent.setPositionZ(z);
-		ent.setGravityX(0.0);
-		ent.setGravityY(0.0);
-		ent.setGravityZ(0.0);
-		ent.setMass(1.0);
-		ent.setRigidBody(body);
-		ent.setTransparent(false);
-		ent.setAlpha(1.0f);
-		ent.setTexture_name("dirt2");
-		ent.setCollidable(true);
-		ent.setSize(1.0);
-		ent.setTTL(5);
+		EntityList.getInstance().setType("dropbox","dropbox");
+		EntityList.getInstance().setPositionX("dropbox",x);
+		EntityList.getInstance().setPositionY("dropbox",y);
+		EntityList.getInstance().setPositionZ("dropbox",z);
+		EntityList.getInstance().setGravityX("dropbox",0.0);
+		EntityList.getInstance().setGravityY("dropbox",0.0);
+		EntityList.getInstance().setGravityZ("dropbox",0.0);
+		EntityList.getInstance().setMass("dropbox",1.0);
+		EntityList.getInstance().setRigidBody("dropbox",body);
+		EntityList.getInstance().setTransparent("dropbox",false);
+		EntityList.getInstance().setAlpha("dropbox",1.0f);
+		EntityList.getInstance().setTexture_name("dropbox","dirt2");
+		EntityList.getInstance().setCollidable("dropbox",true);
+		EntityList.getInstance().setSize("dropbox",1.0);
+		EntityList.getInstance().setTTL("dropbox",5);
 		
-		return ent;
+		return EntityList.getInstance().getEntityByName("dropbox");
 	}
 }

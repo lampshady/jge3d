@@ -15,8 +15,6 @@ import jge3d.Entity;
 import jge3d.EntityList;
 import jge3d.Level;
 import jge3d.TextureList;
-import jge3d.controller.Controller;
-import jge3d.gui.EntityComboBox;
 import jge3d.gui.Window;
 import jge3d.physics.Physics;
 import jge3d.render.primitives.Cube;
