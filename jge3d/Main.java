@@ -54,6 +54,19 @@ public class Main extends Applet {
 			player = new Player();
 			Input.getInstance().setPlayer(player);
 
+			//Create the Physics Listening thread
+			Thread controller_thread = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					while (isRunning) 
+					{
+						Controller.getInstance().run_queue();
+					}
+				}
+			},"Controller");
+			
+			controller_thread.start();
+			
 			while (isRunning) 
 			{
 				if(LevelView.getInstance().getLoadLevel()) {
@@ -75,9 +88,11 @@ public class Main extends Applet {
 				//Camera check versus player position
 				//Camera.getInstance().moveToPlayerLocation(player);
 				
+				/*
 				if(Controller.getInstance().hasQueuedItems()) {
-					Controller.getInstance().run_queue();
+					//Controller.getInstance().run_queue();
 				}
+				*/
 				
 				//Draw world
 				//Renderer.getInstance().draw();

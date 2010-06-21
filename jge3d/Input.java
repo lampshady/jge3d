@@ -135,6 +135,7 @@ public class Input {
 				if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
 					//System.out.print("w down\n");
 					player.move(new Vector3f(0,10,0),20);
+					System.out.println("sth");
 				} else {
 					//player.slow(new Vector3f(0,-10,0),20);
 				}

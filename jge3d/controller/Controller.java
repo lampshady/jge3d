@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import jge3d.EntityList;
 import jge3d.Input;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
@@ -40,7 +41,7 @@ public class Controller {
 		}
 	},"Input");
 	
-	//Create the Input Listening thread
+	//Create the Physics Listening thread
 	Thread physics_thread = new Thread(new Runnable(){
 		@Override
 		public void run() {
@@ -123,4 +124,18 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	public void monitor()
+	{
+		run_queue();
+		check_entities();
+	}
+
+	private void check_entities() {
+		if(EntityList.getInstance().getListChanged() == true)
+		{
+			EntityList.getInstance().setListChanged(false);
+		}
+	}
+	
 }

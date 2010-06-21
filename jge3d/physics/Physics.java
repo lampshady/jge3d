@@ -93,50 +93,7 @@ public class Physics {
 		return body;
 	}
 	
-	public Entity dropBox(float x, float y, float z, float cube_size){
-		//Give this thing some mass
-		float mass = 10f;
-		
-		//Create a shape for the object
-		CollisionShape boxShape = new BoxShape(new Vector3f(cube_size, cube_size, cube_size));
-		collisionShapes.add(boxShape);
-		
-		//Transform relative to initial position
-		Transform startTransform = new Transform();
-		startTransform.setIdentity();
-		startTransform.origin.set(new Vector3f(x,y,z));
-
-		//Create a rigid body to represent the object
-		RigidBody body = createRigidBody(mass, startTransform, boxShape);
-		
-		//Setup objects properties [ a lot of this is probably redundant]
-		body.setFriction(0.5f);
-		//body.setDamping(0.2f, 0.2f);
-		//body.setGravity(new Vector3f(0,1,0));
-		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
-		//body.setCollisionFlags(0);
-		
-		//body.setLinearVelocity(initial_velocity);
-		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
-		Entity ent = new Entity();
-		ent.setType("dropbox");
-		ent.setPositionX(x);
-		ent.setPositionY(y);
-		ent.setPositionZ(z);
-		ent.setGravityX(0.0);
-		ent.setGravityY(0.0);
-		ent.setGravityZ(0.0);
-		ent.setMass(1.0);
-		ent.setRigidBody(body);
-		ent.setTransparent(false);
-		ent.setAlpha(1.0f);
-		ent.setTexture_name("dirt2");
-		ent.setCollidable(true);
-		ent.setSize(1.0);
-		ent.setTTL(5);
-		
-		return ent;
-	}
+	
 		
 	public RigidBody createPlayer(float x, float y, float z, float cube_size){
 		//Give this thing some mass
@@ -216,5 +173,50 @@ public class Physics {
 	
 	public float getDeltaT() {
 		return deltaT;
+	}
+	
+	public Entity dropBox(float x, float y, float z, float cube_size){
+		//Give this thing some mass
+		float mass = 10f;
+		
+		//Create a shape for the object
+		CollisionShape boxShape = new BoxShape(new Vector3f(cube_size, cube_size, cube_size));
+		collisionShapes.add(boxShape);
+		
+		//Transform relative to initial position
+		Transform startTransform = new Transform();
+		startTransform.setIdentity();
+		startTransform.origin.set(new Vector3f(x,y,z));
+
+		//Create a rigid body to represent the object
+		RigidBody body = createRigidBody(mass, startTransform, boxShape);
+		
+		//Setup objects properties [ a lot of this is probably redundant]
+		body.setFriction(0.5f);
+		//body.setDamping(0.2f, 0.2f);
+		//body.setGravity(new Vector3f(0,1,0));
+		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
+		//body.setCollisionFlags(0);
+		
+		//body.setLinearVelocity(initial_velocity);
+		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+		Entity ent = new Entity();
+		ent.setType("dropbox");
+		ent.setPositionX(x);
+		ent.setPositionY(y);
+		ent.setPositionZ(z);
+		ent.setGravityX(0.0);
+		ent.setGravityY(0.0);
+		ent.setGravityZ(0.0);
+		ent.setMass(1.0);
+		ent.setRigidBody(body);
+		ent.setTransparent(false);
+		ent.setAlpha(1.0f);
+		ent.setTexture_name("dirt2");
+		ent.setCollidable(true);
+		ent.setSize(1.0);
+		ent.setTTL(5);
+		
+		return ent;
 	}
 }
