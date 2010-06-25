@@ -1,5 +1,7 @@
 package jge3d;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -205,6 +207,34 @@ public class EntityList {
 	}
 	
 	
+	public void setValue(String entityName, String valueName, Object value) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
+	{
+		if( !valueName.equals("Type") )
+		{
+			Method methodToCall = Entity.class.getDeclaredMethod(
+				"set" + valueName.substring(0, 1).toUpperCase() + valueName.substring(1), 
+				value.getClass()
+			);
+			methodToCall.invoke(names.get(entityName), value);
+			changed.add(names.get(entityName));
+			list_changed = true;
+		}else
+		{
+			types.get(names.get(entityName).getType()).remove(names.get(entityName));
+			names.get(entityName).setType(value);
+			types.get(names.get(entityName).getType()).add(names.get(entityName));
+			changed.add(names.get(entityName));
+			list_changed = true;
+		}
+	}
+	
+	public Object getValue(String entityName, String valueName) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException 
+	{
+		Method methodToCall = Entity.class.getDeclaredMethod(
+				"get" + valueName.substring(0, 1).toUpperCase() + valueName.substring(1)
+			);
+		return methodToCall.invoke(names.get(entityName));
+	}
 	
 	public void setEntityName(String currentName, String newName) {
 		names.get(currentName).setName(newName);

@@ -316,55 +316,6 @@ public class Entity {
 	public void deletePhysics() {
 		Physics.getInstance().getDynamicsWorld().removeRigidBody(phys_body);
 	}
-	
-	public Object getFromMethod(String member, Entity ent) throws IllegalArgumentException, InvocationTargetException {
-		Class<?> c;
-		Method[] allMethods = null;
-		String mname;
-		Object o = null;
-		try {
-			c = Class.forName("jge3d.Entity");
-			allMethods = c.getDeclaredMethods();
-			for (Method m : allMethods) {
-				mname = m.getName();
-				
-				if(mname.equals(member)) {
-					o = m.invoke(ent);
-				}
-			}
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return o;
-	}
-	
-	public Object setFromMethod(String member, Entity ent, Object value) throws IllegalArgumentException, InvocationTargetException {
-		Class<?> c;
-		Method[] allMethods = null;
-		String mname;
-		Object o = null;
-		try {
-			c = Class.forName("jge3d.Entity");
-			allMethods = c.getDeclaredMethods();
-			for (Method m : allMethods) {
-				mname = m.getName();
-				
-				if(mname.equals(member)) {
-					System.out.print(mname + ": " + value + "\n");
-					Object[] val_array = new Object[1];
-					val_array[0] = value;
-					o = m.invoke(ent,val_array);
-				}
-			}
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return o;
-	}
 
 	public String toString() {
 		Class<?> c;
