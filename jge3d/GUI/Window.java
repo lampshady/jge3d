@@ -14,9 +14,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import jge3d.Entity;
-
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
@@ -145,7 +142,7 @@ public class Window extends JFrame{
 			return false;
 	}
 	
-	public static void setTableEntity(Entity ent) {
-		EntityTableModel.getInstance().setEntity(ent);
-	}
+	//public static void setTableEntity(Entity ent) {
+	//	EntityTableModel.getInstance().setEntity(ent);
+	//}
 }

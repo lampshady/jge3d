@@ -4,12 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
-
-import jge3d.Entity;
 import jge3d.EntityList;
-import jge3d.monitoring.Observer;
 
-public class EntityTableModel extends AbstractTableModel implements Observer{
+public class EntityTableModel extends AbstractTableModel{ //implements Observer{
 	private static final long serialVersionUID = 1L;
 	public static EntityTableModel uniqueInstance= new EntityTableModel();
 	public static final int KEY = 0;
@@ -19,7 +16,7 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 
     private EntityTableModel() {
         dataVector = new Vector<Object>();
-        EntityComboBox.getInstance().registerObserver(this);
+        //EntityComboBox.getInstance().registerObserver(this);
     }
     
     public static EntityTableModel getInstance()
@@ -46,6 +43,12 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
 			}
 			return o;
         }
@@ -57,7 +60,7 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
         else if(column == 1) {
 			try {
 				//name, value, object
-				o = EntityList.getInstance().setValue(
+				EntityList.getInstance().setValue(
 					EntityComboBox.getInstance().getValue(),
 					dataVector.get(row).toString(),
 					value
@@ -66,6 +69,12 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
         } else {
@@ -84,8 +93,8 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
     public int getColumnCount() {
         return columnNames.length;
     }
-
-    
+   
+    /*
     public void setEntity(Entity _entity) {
     	ent =_entity;
     	dataVector.clear();
@@ -97,7 +106,8 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
 			dataVector.size()-1
     	);
     }
-
+	*/
+    
     public boolean isCellEditable(int row, int column) {
         if (column == VALUE) 
         	return true;
@@ -108,10 +118,10 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
     }
 
     
-	@Override
-	public void update(String s) {
-		if(s != null)
-			setEntity( EntityList.getInstance().getEntityByName(s));
-	}
+	//@Override
+	//public void update(String s) {
+	//	if(s != null)
+	//		setEntity( EntityList.getInstance().getEntityByName(s));
+	//}
 }
 
