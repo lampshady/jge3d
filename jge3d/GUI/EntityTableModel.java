@@ -16,7 +16,6 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
     public static final int VALUE = 1;
     private static final String[] columnNames = {"Key", "Value"};
     protected Vector<Object> dataVector;
-    public static Entity ent;
 
     private EntityTableModel() {
         dataVector = new Vector<Object>();
@@ -38,10 +37,10 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
         	return dataVector.get(row);
         else {
 			try {
-				o = ent.getFromMethod(
-					"get" + 
-					dataVector.get(row).toString().substring(0,1).toUpperCase() + 
-					dataVector.get(row).toString().substring(1), ent	
+				//name, value, object
+				o = EntityList.getInstance().getValue(
+					EntityComboBox.getInstance().getValue(),
+					dataVector.get(row).toString()					
 				);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
@@ -57,14 +56,13 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
         	System.out.print("You can't set that dumbass\n");
         else if(column == 1) {
 			try {
-				ent.setFromMethod(
-					"set" + 
-					dataVector.get(row).toString().substring(0,1).toUpperCase() + 
-					dataVector.get(row).toString().substring(1),
-					ent,
+				//name, value, object
+				o = EntityList.getInstance().setValue(
+					EntityComboBox.getInstance().getValue(),
+					dataVector.get(row).toString(),
 					value
 				);
-				ent.updateAll();
+				//ent.updateAll();
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
@@ -73,44 +71,6 @@ public class EntityTableModel extends AbstractTableModel implements Observer{
         } else {
         	System.out.print("EntityTable value error(row not found)\n");
         }
-    	/*
-    	 if(column == 0)
-        	System.out.print("You can't set that dumbass\n");
-        else if(column == 1) {
-        	if(dataVector.get(row).equals("name"))
-        		ent.setName((String)value);
-        	else if(dataVector.get(row).equals("type"))
-	        	ent.setType((String)value);
-	        else if(dataVector.get(row).equals("positionX"))
-	        	ent.setPositionX(Float.valueOf(value.toString()));
-	    	else if(dataVector.get(row).equals("positionY"))
-	    		ent.setPositionY(Float.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("positionZ"))
-				ent.setPositionZ(Float.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("gravityX"))
-	        	ent.setGravityX(Float.valueOf(value.toString()));
-	    	else if(dataVector.get(row).equals("gravityY"))
-	    		ent.setGravityY(Float.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("gravityZ"))
-				ent.setGravityZ(Float.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("mass"))
-				ent.setMass(Float.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("transparent"))
-				ent.setTransparent(Boolean.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("alpha"))
-				ent.setAlpha(Float.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("texture_name"))
-				ent.setTexture_name((String)value);
-			else if(dataVector.get(row).equals("collidable"))		
-				ent.setCollidable(Boolean.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("size"))
-				ent.setSize(Float.valueOf(value.toString()));
-			else if(dataVector.get(row).equals("ttl"))
-				ent.setTTL(Integer.valueOf(value.toString()));
-			else {
-				System.out.print("EntityTable value error(row not found)\n");
-			}
-			*/
         fireTableCellUpdated(row, column);
         
         //Shouldn't the controller handle this???

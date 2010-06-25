@@ -317,19 +317,21 @@ public class Entity {
 		Physics.getInstance().getDynamicsWorld().removeRigidBody(phys_body);
 	}
 	
-	public Object getFromMethod(String member, Entity ent) throws IllegalArgumentException, InvocationTargetException {
+	public Object getFromMethod(String member) throws IllegalArgumentException, InvocationTargetException {
 		Class<?> c;
 		Method[] allMethods = null;
 		String mname;
 		Object o = null;
 		try {
-			c = Class.forName("jge3d.Entity");
+			c = Class.forName("jge3d.EntityList");
 			allMethods = c.getDeclaredMethods();
 			for (Method m : allMethods) {
 				mname = m.getName();
 				
 				if(mname.equals(member)) {
-					o = m.invoke(ent);
+					Object[] params = new Object[2];
+					
+					o = m.invoke(c, params);
 				}
 			}
 		} catch (IllegalAccessException e) {
