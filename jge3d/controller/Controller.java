@@ -7,7 +7,9 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import jge3d.EntityList;
 import jge3d.Input;
+import jge3d.gui.EntityComboBox;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
@@ -98,6 +100,8 @@ public class Controller {
 		input_thread.start();
 		physics_thread.start();
 		render_thread.start();
+		
+		//magic numbers go!
 		input_thread.setPriority(3);
 		physics_thread.setPriority(5);
 		render_thread.setPriority(6);
@@ -127,11 +131,34 @@ public class Controller {
 	public void monitor()
 	{
 		run_queue();
-		check_entities();
+		try {
+			check_entities();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void check_entities() {
-
+	private void check_entities() throws InterruptedException, FileNotFoundException, LWJGLException, IOException {
+		if(EntityList.getInstance().getChanged().size() != 0)
+		{
+			EntityList.getInstance().getChanged().removeAll(EntityList.getInstance().getChanged());
+			//update the entity table if necessary
+			EntityComboBox.getInstance().update();
+			
+			//notify the renderer if a level entity changed
+			render_thread.wait();
+			Renderer.getInstance().makeLevelList();
+			render_thread.notify();
+		}
 	}
 	
 }

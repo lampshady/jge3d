@@ -4,15 +4,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
+import jge3d.Entity;
 import jge3d.EntityList;
+import jge3d.monitoring.Observer;
 
-public class EntityTableModel extends AbstractTableModel{ //implements Observer{
+public class EntityTableModel extends AbstractTableModel implements Observer{
 	private static final long serialVersionUID = 1L;
 	public static EntityTableModel uniqueInstance= new EntityTableModel();
 	public static final int KEY = 0;
     public static final int VALUE = 1;
     private static final String[] columnNames = {"Key", "Value"};
     protected Vector<Object> dataVector;
+    String entityName = "";
 
     private EntityTableModel() {
         dataVector = new Vector<Object>();
@@ -94,9 +97,7 @@ public class EntityTableModel extends AbstractTableModel{ //implements Observer{
         return columnNames.length;
     }
    
-    /*
-    public void setEntity(Entity _entity) {
-    	ent =_entity;
+    public void updateTable() {
     	dataVector.clear();
     	for(String key: Entity.getKeys()) {
     		dataVector.add(key);
@@ -106,7 +107,6 @@ public class EntityTableModel extends AbstractTableModel{ //implements Observer{
 			dataVector.size()-1
     	);
     }
-	*/
     
     public boolean isCellEditable(int row, int column) {
         if (column == VALUE) 
@@ -118,10 +118,8 @@ public class EntityTableModel extends AbstractTableModel{ //implements Observer{
     }
 
     
-	//@Override
-	//public void update(String s) {
-	//	if(s != null)
-	//		setEntity( EntityList.getInstance().getEntityByName(s));
-	//}
+	public void update() {
+		updateTable();
+	}
 }
 

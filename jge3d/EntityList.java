@@ -15,7 +15,7 @@ public class EntityList {
 	private HashMap<String,ArrayList<Entity>> types;
 	
 	static EntityList uniqueInstance = new EntityList();
-	ArrayList<Entity> changed;
+	private ArrayList<Entity> changed;
 	private Entity latest_ent;
 	
 	public static EntityList getInstance()
@@ -27,7 +27,7 @@ public class EntityList {
 	{
 		names = new HashMap<String,Entity>();
 		types = new HashMap<String,ArrayList<Entity>>();
-		changed = new ArrayList<Entity>();
+		setChanged(new ArrayList<Entity>());
 	}
 	
 	public Entity addEntity(Entity entityToAdd )
@@ -182,7 +182,7 @@ public class EntityList {
 	}
 
 	public boolean getListChanged() {
-		if(changed.size()>0)
+		if(getChanged().size()>0)
 			return true;
 		else
 			return false;
@@ -197,13 +197,13 @@ public class EntityList {
 				value.getClass()
 			);
 			methodToCall.invoke(names.get(entityName), value);
-			changed.add(names.get(entityName));
+			getChanged().add(names.get(entityName));
 		}else
 		{
 			types.get(names.get(entityName).getType()).remove(names.get(entityName));
 			names.get(entityName).setType(value);
 			types.get(names.get(entityName).getType()).add(names.get(entityName));
-			changed.add(names.get(entityName));
+			getChanged().add(names.get(entityName));
 		}
 	}
 	
@@ -217,83 +217,91 @@ public class EntityList {
 
 	public void setEntityName(String currentName, String newName) {
 		names.get(currentName).setName(newName);
-		changed.add(names.get(newName));
+		getChanged().add(names.get(newName));
 	}
 	
 	public void setEntityType(String entityName, String newType) {
 		types.get(names.get(entityName).getType()).remove(names.get(entityName));
 		names.get(entityName).setType(newType);
 		types.get(names.get(entityName).getType()).add(names.get(entityName));
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	
 	public void setPositionX(String entityName, Object x) {
 		names.get(entityName).setPositionX(x);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setPositionY(String entityName, Object y) {
 		names.get(entityName).setPositionY(y);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setPositionZ(String entityName, Object z) {
 		names.get(entityName).setPositionZ(z);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setGravityX(String entityName, Object x) {
 		names.get(entityName).setGravityX(x);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setGravityY(String entityName, Object y) {
 		names.get(entityName).setGravityY(y);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setGravityZ(String entityName, Object z) {
 		names.get(entityName).setGravityZ(z);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 		
 	}
 	public void setType(String entityName, Object type) {
 		names.get(entityName).setType(type);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setTexture_name(String entityName, Object name) {
 		names.get(entityName).setTexture_name(name);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setCollidable(String entityName, Object _collidable) {
 		names.get(entityName).setCollidable(_collidable);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setMass(String entityName, Object _mass) {
 		names.get(entityName).setMass(_mass);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setDamping(String entityName, float lin_damping, float ang_damping) {
 		names.get(entityName).setDamping(lin_damping, ang_damping);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setFriction(String entityName, Object friction) {
 		names.get(entityName).setFriction(friction);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setRigidBody(String entityName, RigidBody rb) {
 		names.get(entityName).setRigidBody(rb);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setSize(String entityName, Object _size) {
 		names.get(entityName).setSize(_size);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setTTL(String entityName, Integer _ttl) {
 		names.get(entityName).setTTL(_ttl);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setTransparent(String entityName, Boolean _transparent) {
 		names.get(entityName).setTransparent(_transparent);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
 	}
 	public void setAlpha(String entityName, Float _alpha) {
 		names.get(entityName).setAlpha(_alpha);
-		changed.add(names.get(entityName));
+		getChanged().add(names.get(entityName));
+	}
+
+	public void setChanged(ArrayList<Entity> changed) {
+		this.changed = changed;
+	}
+
+	public ArrayList<Entity> getChanged() {
+		return changed;
 	}
 } 

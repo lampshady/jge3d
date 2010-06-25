@@ -63,7 +63,7 @@ public class EntityComboBox extends JComboBox implements Subject{
 	public void notifyObservers() {
 		for(Observer o : listOfObservers)
 		{
-			o.update(this.getValue());
+			o.update();
 		}
 	}
 
