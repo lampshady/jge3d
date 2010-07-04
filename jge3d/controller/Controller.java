@@ -26,11 +26,15 @@ public class Controller {
 	Thread input_thread = new Thread(new Runnable(){
 		@Override
 		public void run() {
+			//Get rid of the loop here
 			while (isRunning) 
 			{
 				//read keyboard and mouse
 				try {
+					//run this once
 					Input.getInstance().updateInput();
+					
+					//rejoin the controller thread
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (LWJGLException e) {
@@ -46,10 +50,13 @@ public class Controller {
 	Thread physics_thread = new Thread(new Runnable(){
 		@Override
 		public void run() {
+			//remove this
 			while (isRunning) 
 			{
 				//Update the physics world
 				Physics.getInstance().clientUpdate();
+				
+				//Rejoin the controller thread
 			}
 		}
 	},"Physics");
@@ -58,11 +65,15 @@ public class Controller {
 	Thread render_thread = new Thread(new Runnable(){
 		@Override
 		public void run() {
+			//remove this
 			while (isRunning) 
 			{
-				//Update the physics world
+				//Draw the next frame
 				try {
 					Renderer.getInstance().draw();
+					
+					//rejoin the controller
+					//
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (LWJGLException e) {
@@ -102,9 +113,11 @@ public class Controller {
 		render_thread.start();
 		
 		//magic numbers go!
+		
 		input_thread.setPriority(3);
 		physics_thread.setPriority(5);
 		render_thread.setPriority(6);
+		
 	}
 	
 	public void run_queue() {
@@ -130,6 +143,19 @@ public class Controller {
 	
 	public void monitor()
 	{
+		
+		//Here's the idea.  Branch out, come back together.  Input run twice for every 1 render/physics run.
+		//	The functions we call in the thread will go, any then join back. We wait for them to do so, run 
+		//	our entity checks and process the queue, then throw out the thread branches again.
+		
+		//Start the Render thread going
+		//Start the Physics thread going
+		//Start the Input thread going
+		//Wait for the input thread to rejoin
+		//Start it again
+		//wait for the input thread to rejoin
+		//wait for both the physics and render threads to rejoin
+		
 		run_queue();
 		try {
 			check_entities();
