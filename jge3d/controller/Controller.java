@@ -7,7 +7,9 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import jge3d.EntityList;
 import jge3d.Input;
+import jge3d.gui.EntityComboBox;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
@@ -24,11 +26,15 @@ public class Controller {
 	Thread input_thread = new Thread(new Runnable(){
 		@Override
 		public void run() {
+			//Get rid of the loop here
 			while (isRunning) 
 			{
 				//read keyboard and mouse
 				try {
+					//run this once
 					Input.getInstance().updateInput();
+					
+					//rejoin the controller thread
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (LWJGLException e) {
@@ -40,14 +46,17 @@ public class Controller {
 		}
 	},"Input");
 	
-	//Create the Input Listening thread
+	//Create the Physics Listening thread
 	Thread physics_thread = new Thread(new Runnable(){
 		@Override
 		public void run() {
+			//remove this
 			while (isRunning) 
 			{
 				//Update the physics world
 				Physics.getInstance().clientUpdate();
+				
+				//Rejoin the controller thread
 			}
 		}
 	},"Physics");
@@ -56,11 +65,15 @@ public class Controller {
 	Thread render_thread = new Thread(new Runnable(){
 		@Override
 		public void run() {
+			//remove this
 			while (isRunning) 
 			{
-				//Update the physics world
+				//Draw the next frame
 				try {
 					Renderer.getInstance().draw();
+					
+					//rejoin the controller
+					//
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (LWJGLException e) {
@@ -98,6 +111,13 @@ public class Controller {
 		input_thread.start();
 		physics_thread.start();
 		render_thread.start();
+		
+		//magic numbers go!
+		
+		input_thread.setPriority(3);
+		physics_thread.setPriority(5);
+		render_thread.setPriority(6);
+		
 	}
 	
 	public void run_queue() {
@@ -120,4 +140,51 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	public void monitor()
+	{
+		
+		//Here's the idea.  Branch out, come back together.  Input run twice for every 1 render/physics run.
+		//	The functions we call in the thread will go, any then join back. We wait for them to do so, run 
+		//	our entity checks and process the queue, then throw out the thread branches again.
+		
+		//Start the Render thread going
+		//Start the Physics thread going
+		//Start the Input thread going
+		//Wait for the input thread to rejoin
+		//Start it again
+		//wait for the input thread to rejoin
+		//wait for both the physics and render threads to rejoin
+		
+		run_queue();
+		try {
+			check_entities();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void check_entities() throws InterruptedException, FileNotFoundException, LWJGLException, IOException {
+		if(EntityList.getInstance().getChanged().size() != 0)
+		{
+			EntityList.getInstance().getChanged().removeAll(EntityList.getInstance().getChanged());
+			//update the entity table if necessary
+			EntityComboBox.getInstance().update();
+			
+			//notify the renderer if a level entity changed
+			render_thread.wait();
+			Renderer.getInstance().makeLevelList();
+			render_thread.notify();
+		}
+	}
+	
 }

@@ -4,6 +4,7 @@ package jge3d;
 import java.applet.Applet;
 
 import jge3d.controller.Controller;
+import jge3d.gui.FPSView;
 import jge3d.gui.LevelView;
 import jge3d.gui.Window;
 import jge3d.physics.Physics;
@@ -15,6 +16,14 @@ import org.lwjgl.opengl.Display;
 public class Main extends Applet {
 	private static final long serialVersionUID = 1L;
 
+	private static  Main uniqueInstance = new Main();
+	
+	private long frames=0;
+	
+	public static Main getInstance(){ 
+		return uniqueInstance; 
+	}
+	
 	//the game always runs (except when it doesn't)
 	final boolean isRunning = true;
 	
@@ -45,6 +54,20 @@ public class Main extends Applet {
 			player = new Player();
 			Input.getInstance().setPlayer(player);
 
+			//Create the Physics Listening thread
+			Thread controller_thread = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					while (isRunning) 
+					{
+						Controller.getInstance().run_queue();
+					}
+				}
+			},"Controller");
+			
+			controller_thread.start();
+			controller_thread.setPriority(6);
+			
 			while (isRunning) 
 			{
 				if(LevelView.getInstance().getLoadLevel()) {
@@ -66,15 +89,18 @@ public class Main extends Applet {
 				//Camera check versus player position
 				//Camera.getInstance().moveToPlayerLocation(player);
 				
+				/*
 				if(Controller.getInstance().hasQueuedItems()) {
-					Controller.getInstance().run_queue();
+					//Controller.getInstance().run_queue();
 				}
+				*/
 				
 				//Draw world
 				//Renderer.getInstance().draw();
 
-				//Print FPS to title bar
-				Window.getInstance().updateFPS();
+				frames++;
+				FPSView.getInstance().updateFPS();
+				System.out.print(frames+"\n");
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
@@ -93,5 +119,13 @@ public class Main extends Applet {
 		Input.getInstance();
 		Editor.getInstance();
 		Camera.getInstance();
+	}
+	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
 	}
 }

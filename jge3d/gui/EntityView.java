@@ -6,10 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import jge3d.Entity;
-
-
-
 public class EntityView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static EntityView uniqueInstance = new EntityView();
@@ -55,7 +51,7 @@ public class EntityView extends JPanel {
 		EntityComboBox.getInstance().update();
 	}
 	
-	public void setTableEntity(Entity ent) {
-		EntityTableModel.getInstance().setEntity(ent);
-	}
+	//public void setTableEntity(Entity ent) {
+	//	EntityTableModel.getInstance().setEntity(ent);
+	//}
 }

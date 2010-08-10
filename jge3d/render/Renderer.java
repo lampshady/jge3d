@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 import javax.vecmath.Vector3f;
 
@@ -14,7 +15,6 @@ import jge3d.Entity;
 import jge3d.EntityList;
 import jge3d.Level;
 import jge3d.TextureList;
-import jge3d.gui.EntityView;
 import jge3d.gui.Window;
 import jge3d.physics.Physics;
 import jge3d.render.primitives.Cube;
@@ -35,6 +35,8 @@ import com.bulletphysics.util.ObjectPool;
 
 public class Renderer {
 	public static Renderer uniqueInstance = new Renderer();
+	
+	long frames=0;
 	
 	//private Editor editor;
 	//private Physics physics;
@@ -88,12 +90,15 @@ public class Renderer {
 				Camera.getInstance().getFocusX(), Camera.getInstance().getFocusY()	,	Camera.getInstance().getFocusZ(),
 				Camera.getInstance().getUpVectorX()	, Camera.getInstance().getUpVectorY()	,	Camera.getInstance().getUpVectorZ()
 		);
-		
+
 		//Check if level has been altered since last frame
+		/*
 		if(EntityList.getInstance().getListChanged()) {
 			addToLevelList(EntityList.getInstance().getLatestEntity());
 			EntityView.getInstance().updateComboBox();
-		}
+		}*/
+		
+		//
 		
         //render level
         renderLevelList();
@@ -108,6 +113,8 @@ public class Renderer {
 		Display.update();	// now tell the screen to update
 		
 		Display.releaseContext();
+		
+		frames++;
 	}
 
 	public void initGL() throws LWJGLException {
@@ -175,23 +182,36 @@ public class Renderer {
 
 		objectlist = GL11.glGenLists(1);
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
+		
 		//for each level entity 
-		for(int i=0;i<EntityList.getInstance().getListSize();i++) {
-			if(EntityList.getInstance().get(i).getMass() == 0) {
-				GL11.glPushMatrix();
-				position=EntityList.getInstance().getEntityPosition(i);
-	
-				//Shift object to correct position
-				GL11.glTranslatef(
-					position.x*EntityList.getInstance().getEntitySize(i),
-					position.y*EntityList.getInstance().getEntitySize(i),
-					position.z*EntityList.getInstance().getEntitySize(i)
-				);
-				
-				Cube.drawcube(EntityList.getInstance().get(i));
-				GL11.glPopMatrix();
+		String[] levelTypes = {"Player", "Camera", "World", "Triggers"};
+		
+		for(String type : levelTypes)
+		{
+			ArrayList<Entity> entities = EntityList.getInstance().getEntitiesByType(type);
+			if(entities != null)
+			{
+				for(int i=0;i<entities.size();i++) {
+					if(entities.get(i).getMass() == 0) {
+						GL11.glPushMatrix();
+						position=entities.get(i).getPosition();
+			
+						//Shift object to correct position
+						GL11.glTranslatef(
+							position.x*entities.get(i).getSize(),
+							position.y*entities.get(i).getSize(),
+							position.z*entities.get(i).getSize()
+						);
+						
+						Cube.drawcube(entities.get(i));
+						GL11.glPopMatrix();
+					}
+				}
 			}
 		}
+
+		
+
 		GL11.glEndList();
 	}
 
@@ -200,18 +220,23 @@ public class Renderer {
 		Vector3f position=newEnt.getPosition();
 
 		//Replace old display list with new one containing new level object
+		String[] levelTypes = {"Player", "Camera", "World", "Triggers"};
+		
 		GL11.glNewList(objectlist,GL11.GL_COMPILE);
-		for(int i=0;i<EntityList.getInstance().getListSize();i++) {
-			if(EntityList.getInstance().get(i).getMass() == 0) {
+		for(String type : levelTypes)
+		{
+			ArrayList<Entity> entities = EntityList.getInstance().getEntitiesByType(type);
+			
+			for(int i=0;i<entities.size();i++) {
 				GL11.glPushMatrix();
-				position=EntityList.getInstance().getEntityPosition(i);
+				position=entities.get(i).getPosition();
 				
 				GL11.glTranslatef(
-					position.x*EntityList.getInstance().getEntitySize(i),
-					position.y*EntityList.getInstance().getEntitySize(i),
-					position.z*EntityList.getInstance().getEntitySize(i)
+					position.x*entities.get(i).getSize(),
+					position.y*entities.get(i).getSize(),
+					position.z*entities.get(i).getSize()
 				);
-				Cube.drawcube(EntityList.getInstance().get(i));
+				Cube.drawcube(entities.get(i));
 				GL11.glPopMatrix();
 			}
 		}
@@ -267,5 +292,13 @@ public class Renderer {
 				}
 			}
 		}
+	}
+	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
 	}
 }

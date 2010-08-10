@@ -4,10 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
 import javax.swing.JComboBox;
 
-
+import jge3d.Entity;
 import jge3d.EntityList;
 import jge3d.monitoring.Observer;
 import jge3d.monitoring.Subject;
@@ -47,9 +46,10 @@ public class EntityComboBox extends JComboBox implements Subject{
 	
 	public void update() {
 		this.removeAllItems();
+		ArrayList<Entity> entityList = EntityList.getInstance().getEntities();
 		
-		for(int i=0; i<EntityList.getInstance().getListSize();i++) {
-			this.addItem(EntityList.getInstance().get(i).getName());
+		for(int i=0; i<entityList.size();i++) {
+			this.addItem(entityList.get(i).getName());
 		}
 	}
 	
@@ -63,7 +63,7 @@ public class EntityComboBox extends JComboBox implements Subject{
 	public void notifyObservers() {
 		for(Observer o : listOfObservers)
 		{
-			o.update(this.getValue());
+			o.update();
 		}
 	}
 

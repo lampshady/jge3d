@@ -1,17 +1,10 @@
 package jge3d;
 
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
 import javax.vecmath.Vector3f;
 
 import jge3d.gui.Window;
 import jge3d.render.Renderer;
 
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 
 public class Camera {

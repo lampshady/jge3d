@@ -14,9 +14,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import jge3d.Entity;
-
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
@@ -34,10 +31,6 @@ public class Window extends JFrame{
 	//holds the current monitor sizing mode
 	private DisplayMode chosenMode = null;
 
-	//frame rate calculations
-	private long prev_time=0;
-	private int frames=0;
-	
 	private Window()
 	{	
 		createAndShowGUI();
@@ -56,7 +49,6 @@ public class Window extends JFrame{
 		//Create pieces that make up the layout of the window
 		GLView = new Canvas();
 		RightPane = new JPanel();
-		
 		
 		//layout the window
 		chosenMode = new DisplayMode(targetWidth, targetHeight);
@@ -95,6 +87,8 @@ public class Window extends JFrame{
 		//Layout right pane
 		RightPane.setLayout(new BoxLayout(RightPane, BoxLayout.Y_AXIS));
 		RightPane.setBackground(new Color(0,0,0));
+		RightPane.add(FPSView.getInstance());
+		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
 		RightPane.add(TextureView.getInstance());
 		RightPane.add(Box.createRigidArea(new Dimension(0, 5)));
 		RightPane.add(LevelView.getInstance());
@@ -131,18 +125,6 @@ public class Window extends JFrame{
 			}
 		});
 	}
-
-	public void updateFPS() {
-		//Increment frame counter
-		frames++;
-		
-		//Update the frame-counter in the title bar if it has been a second or more
-		if ( (System.currentTimeMillis()-prev_time) >= 1000 ) {
-			this.setTitle("Fps: " + ((frames*1000)/(System.currentTimeMillis()-prev_time)) );
-			prev_time=System.currentTimeMillis();
-			frames = 0;
-		}
-	}
 	
 	public int getGLWidth() {
 		return GLView.getWidth();
@@ -160,7 +142,7 @@ public class Window extends JFrame{
 			return false;
 	}
 	
-	public static void setTableEntity(Entity ent) {
-		EntityTableModel.getInstance().setEntity(ent);
-	}
+	//public static void setTableEntity(Entity ent) {
+	//	EntityTableModel.getInstance().setEntity(ent);
+	//}
 }

@@ -21,6 +21,7 @@ public class Input {
 	private Player player;
 	private Level level;
 	private long deltaT, prev_time, last_update;
+	long frames=0;	
 	
 	public static Input getInstance()
 	{
@@ -134,6 +135,7 @@ public class Input {
 				if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
 					//System.out.print("w down\n");
 					player.move(new Vector3f(0,10,0),20);
+					System.out.println("sth");
 				} else {
 					//player.slow(new Vector3f(0,-10,0),20);
 				}
@@ -201,6 +203,7 @@ public class Input {
 		//System.out.print(last_update + "\n");
 		handleKeyboard();
 		handleMouse();
+		frames++;
 	}
 	
 	public boolean mouseInWindow() {
@@ -217,5 +220,12 @@ public class Input {
 		return deltaT;
 	}
 	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
+	}
 	
 }

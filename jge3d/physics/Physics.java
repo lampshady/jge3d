@@ -6,6 +6,7 @@ import java.util.List;
 import javax.vecmath.Vector3f;
 
 import jge3d.Entity;
+import jge3d.EntityList;
 
 import com.bulletphysics.collision.broadphase.AxisSweep3;
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
@@ -35,6 +36,7 @@ public class Physics {
 	private DynamicsWorld dynamicsWorld;
 	private List<CollisionShape> collisionShapes = new ArrayList<CollisionShape>();
 	float deltaT;
+	long frames=0;
 
 	public static Physics getInstance()
 	{
@@ -92,50 +94,7 @@ public class Physics {
 		return body;
 	}
 	
-	public Entity dropBox(float x, float y, float z, float cube_size){
-		//Give this thing some mass
-		float mass = 10f;
-		
-		//Create a shape for the object
-		CollisionShape boxShape = new BoxShape(new Vector3f(cube_size, cube_size, cube_size));
-		collisionShapes.add(boxShape);
-		
-		//Transform relative to initial position
-		Transform startTransform = new Transform();
-		startTransform.setIdentity();
-		startTransform.origin.set(new Vector3f(x,y,z));
-
-		//Create a rigid body to represent the object
-		RigidBody body = createRigidBody(mass, startTransform, boxShape);
-		
-		//Setup objects properties [ a lot of this is probably redundant]
-		body.setFriction(0.5f);
-		//body.setDamping(0.2f, 0.2f);
-		//body.setGravity(new Vector3f(0,1,0));
-		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
-		//body.setCollisionFlags(0);
-		
-		//body.setLinearVelocity(initial_velocity);
-		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
-		Entity ent = new Entity();
-		ent.setType("dropbox");
-		ent.setPositionX(x);
-		ent.setPositionY(y);
-		ent.setPositionZ(z);
-		ent.setGravityX(0.0);
-		ent.setGravityY(0.0);
-		ent.setGravityZ(0.0);
-		ent.setMass(1.0);
-		ent.setRigidBody(body);
-		ent.setTransparent(false);
-		ent.setAlpha(1.0f);
-		ent.setTexture_name("dirt2");
-		ent.setCollidable(true);
-		ent.setSize(1.0);
-		ent.setTTL(5);
-		
-		return ent;
-	}
+	
 		
 	public RigidBody createPlayer(float x, float y, float z, float cube_size){
 		//Give this thing some mass
@@ -198,14 +157,66 @@ public class Physics {
 		// simple dynamics world doesn't handle fixed-time-stepping
 		deltaT = (System.nanoTime()-prev_time);
 		prev_time = System.nanoTime();
-		
+		frames++;
 		// step the simulation
 		if (dynamicsWorld != null) {
 			dynamicsWorld.stepSimulation(deltaT / 1000000000f);
 		}
 	}
 	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
+	}
+	
 	public float getDeltaT() {
 		return deltaT;
+	}
+	
+	public Entity dropBox(float x, float y, float z, float cube_size){
+		//Give this thing some mass
+		float mass = 10f;
+		
+		//Create a shape for the object
+		CollisionShape boxShape = new BoxShape(new Vector3f(cube_size, cube_size, cube_size));
+		collisionShapes.add(boxShape);
+		
+		//Transform relative to initial position
+		Transform startTransform = new Transform();
+		startTransform.setIdentity();
+		startTransform.origin.set(new Vector3f(x,y,z));
+
+		//Create a rigid body to represent the object
+		RigidBody body = createRigidBody(mass, startTransform, boxShape);
+		
+		//Setup objects properties [ a lot of this is probably redundant]
+		body.setFriction(0.5f);
+		//body.setDamping(0.2f, 0.2f);
+		//body.setGravity(new Vector3f(0,1,0));
+		//body.setMassProps(1.0f, new Vector3f(0.0f,0.0f,0.0f));
+		//body.setCollisionFlags(0);
+		
+		//body.setLinearVelocity(initial_velocity);
+		//body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+		EntityList.getInstance().setType("dropbox","dropbox");
+		EntityList.getInstance().setPositionX("dropbox",x);
+		EntityList.getInstance().setPositionY("dropbox",y);
+		EntityList.getInstance().setPositionZ("dropbox",z);
+		EntityList.getInstance().setGravityX("dropbox",0.0);
+		EntityList.getInstance().setGravityY("dropbox",0.0);
+		EntityList.getInstance().setGravityZ("dropbox",0.0);
+		EntityList.getInstance().setMass("dropbox",1.0);
+		EntityList.getInstance().setRigidBody("dropbox",body);
+		EntityList.getInstance().setTransparent("dropbox",false);
+		EntityList.getInstance().setAlpha("dropbox",1.0f);
+		EntityList.getInstance().setTexture_name("dropbox","dirt2");
+		EntityList.getInstance().setCollidable("dropbox",true);
+		EntityList.getInstance().setSize("dropbox",1.0);
+		EntityList.getInstance().setTTL("dropbox",5);
+		
+		return EntityList.getInstance().getEntityByName("dropbox");
 	}
 }

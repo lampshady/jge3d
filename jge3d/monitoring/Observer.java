@@ -1,5 +1,5 @@
 package jge3d.monitoring;
 
 public interface Observer {
-	public void update(String s);
+	public void update();
 }
