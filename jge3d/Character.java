@@ -1,6 +1,6 @@
 package jge3d;
 
-import org.lwjgl.util.vector.Vector3f;
+import javax.vecmath.Vector3f;
 
 //Parent class of Players, NPCs, Monsters, etc.
 public class Character extends Object{
