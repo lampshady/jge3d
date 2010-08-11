@@ -10,6 +10,7 @@ import java.util.Queue;
 import jge3d.EntityList;
 import jge3d.Input;
 import jge3d.gui.EntityComboBox;
+import jge3d.gui.FPSView;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
@@ -113,7 +114,6 @@ public class Controller {
 		render_thread.start();
 		
 		//magic numbers go!
-		
 		input_thread.setPriority(3);
 		physics_thread.setPriority(5);
 		render_thread.setPriority(6);
@@ -143,7 +143,6 @@ public class Controller {
 	
 	public void monitor()
 	{
-		
 		//Here's the idea.  Branch out, come back together.  Input run twice for every 1 render/physics run.
 		//	The functions we call in the thread will go, any then join back. We wait for them to do so, run 
 		//	our entity checks and process the queue, then throw out the thread branches again.
@@ -171,6 +170,8 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		FPSView.getInstance().updateFPS();
 	}
 
 	private void check_entities() throws InterruptedException, FileNotFoundException, LWJGLException, IOException {

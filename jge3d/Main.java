@@ -98,9 +98,7 @@ public class Main extends Applet {
 				//Draw world
 				//Renderer.getInstance().draw();
 
-				frames++;
 				FPSView.getInstance().updateFPS();
-				System.out.print(frames+"\n");
 			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
