@@ -18,8 +18,6 @@ public class Main extends Applet {
 
 	private static  Main uniqueInstance = new Main();
 	
-	private long frames=0;
-	
 	public static Main getInstance(){ 
 		return uniqueInstance; 
 	}
@@ -60,46 +58,14 @@ public class Main extends Applet {
 				public void run() {
 					while (isRunning) 
 					{
-						Controller.getInstance().run_queue();
+						Controller.getInstance().monitor();
 					}
 				}
 			},"Controller");
 			
 			controller_thread.start();
 			controller_thread.setPriority(6);
-			
-			while (isRunning) 
-			{
-				if(LevelView.getInstance().getLoadLevel()) {
-					level.load();
-					System.out.println("You loaded the level\n");
-				}
-				
-				//Check if textureList has been altered since last frame
-				if(TextureList.getInstance().hasChanged()) {
-					TextureList.getInstance().loadQueuedTexture();
-				}
 
-				//Check to make sure none of the entities are marked as dead
-				EntityList.getInstance().pruneEntities();
-				
-				//Update the world's physical layout
-				//Physics.getInstance().clientUpdate();
-
-				//Camera check versus player position
-				//Camera.getInstance().moveToPlayerLocation(player);
-				
-				/*
-				if(Controller.getInstance().hasQueuedItems()) {
-					//Controller.getInstance().run_queue();
-				}
-				*/
-				
-				//Draw world
-				//Renderer.getInstance().draw();
-
-				FPSView.getInstance().updateFPS();
-			}
 		} catch(Exception e) {
 			System.out.print("\nError Occured.  Exiting." + e.toString());
 			e.printStackTrace();
@@ -117,13 +83,5 @@ public class Main extends Applet {
 		Input.getInstance();
 		Editor.getInstance();
 		Camera.getInstance();
-	}
-	
-	public long getFrames() {
-		return frames;
-	}
-	
-	public void resetFrames() {
-		frames=0;
 	}
 }

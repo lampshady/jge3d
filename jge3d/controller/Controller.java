@@ -9,8 +9,10 @@ import java.util.Queue;
 
 import jge3d.EntityList;
 import jge3d.Input;
+import jge3d.TextureList;
 import jge3d.gui.EntityComboBox;
 import jge3d.gui.FPSView;
+import jge3d.gui.LevelView;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
@@ -22,6 +24,8 @@ public class Controller {
 	
 	private static Controller uniqueInstance = new Controller();
 	Queue<Command> controller_queue = new LinkedList<Command>();
+	
+	long frames=0;
 	
 	//Create the Input Listening thread
 	Thread input_thread = new Thread(new Runnable(){
@@ -124,7 +128,7 @@ public class Controller {
 		Command commandToRunCommand;
 		try {
 			for(int i=0; i < controller_queue.size(); i++) {
-				commandToRunCommand=controller_queue.poll();
+				commandToRunCommand = controller_queue.poll();
 				Method methodToInvoke = commandToRunCommand.getClassInstance().getClass().getDeclaredMethod(commandToRunCommand.getMethodToInvoke());
 				methodToInvoke.invoke(commandToRunCommand.getClassInstance());
 			}
@@ -139,10 +143,53 @@ public class Controller {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		
+		++frames;
 	}
 	
 	public void monitor()
 	{
+		if(LevelView.getInstance().getLoadLevel()) {
+			//level.load();
+			System.out.println("You loaded the level\n");
+		}
+		
+		//Check if textureList has been altered since last frame
+		if(TextureList.getInstance().hasChanged()) {
+			try {
+				TextureList.getInstance().loadQueuedTexture();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (LWJGLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		//Check to make sure none of the entities are marked as dead
+		EntityList.getInstance().pruneEntities();
+		
+		//Update the world's physical layout
+		//Physics.getInstance().clientUpdate();
+
+		//Camera check versus player position
+		//Camera.getInstance().moveToPlayerLocation(player);
+		
+		/*
+		if(Controller.getInstance().hasQueuedItems()) {
+			//Controller.getInstance().run_queue();
+		}
+		*/
+		
+		//Draw world
+		//Renderer.getInstance().draw();
+
+		FPSView.getInstance().updateFPS();
+		
 		//Here's the idea.  Branch out, come back together.  Input run twice for every 1 render/physics run.
 		//	The functions we call in the thread will go, any then join back. We wait for them to do so, run 
 		//	our entity checks and process the queue, then throw out the thread branches again.
@@ -156,6 +203,8 @@ public class Controller {
 		//wait for both the physics and render threads to rejoin
 		
 		run_queue();
+
+		
 		try {
 			check_entities();
 		} catch (InterruptedException e) {
@@ -188,4 +237,11 @@ public class Controller {
 		}
 	}
 	
+	public long getFrames() {
+		return frames;
+	}
+	
+	public void resetFrames() {
+		frames=0;
+	}
 }

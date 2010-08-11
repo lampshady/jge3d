@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import jge3d.Input;
-import jge3d.Main;
+import jge3d.controller.Controller;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
@@ -72,9 +72,30 @@ public class FPSView extends JPanel {
 			Input.getInstance().resetFrames();
 		}
 		if ( (System.currentTimeMillis()-prev_time_main) >= 1000 ) {
-			mainFPS.setText("MainFPS:\t" + ((Main.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_main)) );
+			mainFPS.setText("ControllerFPS:\t" + ((Controller.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_main)) );
 			prev_time_main=System.currentTimeMillis();
-			Main.getInstance().resetFrames();
+			Controller.getInstance().resetFrames();
 		}
+	}
+	
+	public long getRendererFrames() {
+		long temp;
+		temp=((Renderer.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_render));
+		if (temp > 0)
+			return temp;
+		else
+			return 0;
+	}
+	
+	public long getPhysicsFrames() {
+		return ((Physics.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_render));
+	}
+	
+	public long getInputFrames() {
+		return ((Input.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_render));
+	}
+	
+	public long getControllerFrames() {
+		return ((Controller.getInstance().getFrames()*1000)/(System.currentTimeMillis()-prev_time_render));
 	}
 }
