@@ -4,8 +4,6 @@ package jge3d;
 import java.applet.Applet;
 
 import jge3d.controller.Controller;
-import jge3d.gui.FPSView;
-import jge3d.gui.LevelView;
 import jge3d.gui.Window;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
