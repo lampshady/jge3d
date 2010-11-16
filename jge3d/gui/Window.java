@@ -19,7 +19,6 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-
 public class Window extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static Window uniqueInstance = new Window();
@@ -101,7 +100,6 @@ public class Window extends JFrame{
 				
 		this.validate();
 		this.pack();
-		this.setVisible(true);
 		
 		//create a display instance in GLView
 		try {
@@ -124,6 +122,8 @@ public class Window extends JFrame{
 				);
 			}
 		});
+		
+		this.setVisible(true);
 	}
 	
 	public int getGLWidth() {
@@ -140,6 +140,11 @@ public class Window extends JFrame{
 			return true;
 		else
 			return false;
+	}
+	
+	public void updateCanvas() {
+		GLView.update(this.getGraphics());
+		//this.update(this.getGraphics());
 	}
 	
 	//public static void setTableEntity(Entity ent) {

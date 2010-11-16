@@ -1,0 +1,16 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE themes PUBLIC "-//www.matthiasmann.de//TWL-Theme//EN" "http://hg.l33tlabs.org/twl/raw-file/tip/src/de/matthiasmann/twl/theme/theme.dtd">
+<themes>
+    <fontDef name="normal" filename="./fonts/font.fnt" color="white">
+        <fontParam if="error" color="red"/>
+        <fontParam if="disabled" color="gray"/>
+        <fontParam if="textSelection" color="blue"/>
+    </fontDef>
+    <fontDef name="black" filename="./fonts/font.fnt" color="black"/>
+    <fontDef name="red" filename="./fonts/font.fnt" color="red"/>
+    <fontDef name="green" filename="./fonts/font.fnt" color="green"/>
+    <fontDef name="blue" filename="./fonts/font.fnt" color="blue"/>
+    <fontDef name="link" filename="./fonts/font.fnt" color="blue" underlineOffset="1">
+        <fontParam if="hover" color="blue" underline="true"/>
+    </fontDef>
+</themes>

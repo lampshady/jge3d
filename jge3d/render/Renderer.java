@@ -13,8 +13,6 @@ import jge3d.Camera;
 import jge3d.Editor;
 import jge3d.Entity;
 import jge3d.EntityList;
-import jge3d.Level;
-import jge3d.TextureList;
 import jge3d.gui.Window;
 import jge3d.physics.Physics;
 import jge3d.render.primitives.Cube;
@@ -66,15 +64,7 @@ public class Renderer {
     public static Renderer getInstance(){
     	return uniqueInstance;
     }
-    
-	private Renderer(Level _level, Physics _physics, TextureList _texture, EntityList _entity) {
-		//physics = _physics;
-		//texture = _texture;
-		//entity = _entity;
-		
-		//Buffer to hold LWJGL matrix transformations (for physics rendering)
-		buf = BufferUtils.createFloatBuffer(16);
-	}
+
 	public void draw() throws LWJGLException, FileNotFoundException, IOException {
 		//Make sure that the screen is active
 		//(doing this every frame slows stuff down)
@@ -111,7 +101,7 @@ public class Renderer {
         
         GL11.glFlush();
 		Display.update();	// now tell the screen to update
-		
+
 		Display.releaseContext();
 		
 		frames++;

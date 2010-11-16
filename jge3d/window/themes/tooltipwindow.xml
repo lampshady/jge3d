@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE themes PUBLIC "-//www.matthiasmann.de//TWL-Theme//EN" "http://hg.l33tlabs.org/twl/raw-file/tip/src/de/matthiasmann/twl/theme/theme.dtd">
+<themes>
+    <theme name="tooltipwindow" ref="-defaults">
+        <param name="border"><border>5</border></param>
+        <param name="fadeInTime"><int>0</int></param>
+        <theme name="label" ref="-defaults">
+            <param name="font"><font>normal</font></param>
+        </theme>
+    </theme>
+</themes>

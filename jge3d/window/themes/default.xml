@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE themes PUBLIC "-//www.matthiasmann.de//TWL-Theme//EN" "http://hg.l33tlabs.org/twl/raw-file/tip/src/de/matthiasmann/twl/theme/theme.dtd">
+<themes>
+	<include filename="./fonts.xml"/>
+	<include filename="./cursors.xml"/>
+	<include filename="./defaults.xml"/>
+	<include filename="./images.xml"/>
+
+	<include filename="./scrollpane.xml"/>
+	<include filename="./resizableframe.xml"/>
+	<include filename="./tooltipwindow.xml"/>
+	<include filename="./editfield.xml"/>
+
+	<!-- Outside frame -->
+    <theme name="window" ref="-defaults">
+		<param name="background"><image>background-image</image></param>
+		
+        <theme name="fpscounter" ref="-defaults">
+            <param name="tooltip"><string>Current FPS</string></param>
+        </theme>
+        <theme name="label" ref="-defaults"/>
+    	
+		<theme name="mainmenu" ref="resizableframe">
+			<theme name="content" ref="-defaults">
+				<param name="defaultGap"><dimension>5,5</dimension></param>
+				<param name="smallGap"><dimension>8,8</dimension></param>
+				<param name="mediumGap"><dimension>10,10</dimension></param>
+				<param name="largeGap"><dimension>15,15</dimension></param>
+				<param name="namedGaps"><map/></param>
+				<theme name="scrollpane" ref="scrollpane">
+					<param name="background"><image>innerframe.background</image></param>
+					<param name="border"><border>background.border</border></param>
+					<theme name="textarea" ref="-defaults">
+						<param name="fonts"><map>
+							<param name="default"><font>black</font></param>
+							<param name="color0"><font>red</font></param>
+							<param name="color1"><font>green</font></param>
+							<param name="color2"><font>blue</font></param>
+							<param name="link"><font>link</font></param>
+						</map></param>
+						<param name="images"><map>
+                        </map></param>
+                		<param name="classes"><map></map></param>
+						<theme name="image" ref="-defaults"/>
+						<param name="mouseCursor.link">
+							<cursor>cursor.finger</cursor>
+						</param>
+            		</theme>
+            	</theme>
+				<theme name="editfield" ref="editfield">
+					<param name="background"><image>innerframe.background</image></param>
+					<param name="border"><border>background.border</border></param>
+				</theme>
+			</theme>
+    	</theme>
+    </theme>
+</themes>

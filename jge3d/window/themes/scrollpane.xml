@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE themes PUBLIC "-//www.matthiasmann.de//TWL-Theme//EN" "http://hg.l33tlabs.org/twl/raw-file/tip/src/de/matthiasmann/twl/theme/theme.dtd">
+<themes>
+	<images file="./images/scrollbar.png" format="RGBA" filter="linear">
+	    <area name="tooltip.background" border="3" xywh="1,24,7,7" splitx="L3,R3" splity="T3,B3"/>
+	    <area name="innerframe.background" splitx="2,3" splity="2,3" border="2" xywh="17,1,5,5"/>
+        <grid name="frame.background" weightsX="0,0,1,0" weightsY="0,1,0" border="20,4,4,4" tint="#DFFF">
+            <area xywh="1,1,2,17"/>
+            <area sizeOverwriteH="40" xywh="4,1,1,17"/>
+            <area xywh="8,1,1,17"/>
+            <area xywh="13,1,2,17"/>
+            <area xywh="1,19,2,1"/>
+            <area sizeOverwriteH="40" xywh="4,19,1,1"/>
+            <area xywh="8,19,1,1"/>
+            <area xywh="13,19,2,1"/>
+            <area xywh="1,21,2,2"/>
+            <area sizeOverwriteH="40" xywh="4,21,1,2"/>
+            <area xywh="8,21,1,2"/>
+            <area xywh="13,21,2,2"/>
+        </grid>
+		<select name="vscrollbar.upbutton.background" center="true">
+			<area tint="#FF0000" if="pressed" xywh="16,7,7,4"/>
+			<area tint="#5A5A5A" if="hover" xywh="16,7,7,4"/>
+			<area tint="#000000" xywh="16,7,7,4"/>
+		</select>
+		<select name="vscrollbar.downbutton.background" center="true">
+			<area tint="#FF0000" if="pressed" xywh="16,12,7,4"/>
+			<area tint="#5A5A5A" if="hover" xywh="16,12,7,4"/>
+			<area tint="#000000" xywh="16,12,7,4"/>
+		</select>
+		<select name="vscrollbar.thumb.background">
+			<area splity="4,5" tint="#FF0000" if="pressed" xywh="16,17,7,10"/>
+			<area splity="4,5" tint="#5A5A5A" if="hover" xywh="16,17,7,10"/>
+			<area splity="4,5" tint="#000000" xywh="16,17,7,10"/>
+		</select>
+		<area name="-editfield.cursor" xywh="1,1,1,1"/>
+        <animation name="editfield.cursor" timeSource="keyboardFocus">
+            <frame ref="-editfield.cursor" duration="500"/>
+            <frame ref="none" duration="500"/>
+        </animation>
+        <area name="editfield.selection" tint="#E000FEFF" xywh="1,1,1,1"/>
+		<area name="evilframe.background" border="19,5,5,5" xywh="40,1,20,29" splitx="L5,R5" splity="T19,B5"/>
+	</images>
+	<theme name="vscrollbar" ref="-defaults" allowWildcard="true">
+        <theme name="upbutton" ref="-defaults">
+            <param name=""><image>vscrollbar.upbutton.*</image></param>
+            <param name="minHeight"><int>9</int></param>
+        </theme>
+        <theme name="downbutton" ref="-defaults">
+            <param name=""><image>vscrollbar.downbutton.*</image></param>
+            <param name="minHeight"><int>9</int></param>
+        </theme>
+        <theme name="thumb" ref="-defaults">
+            <param name=""><image>vscrollbar.thumb.*</image></param>
+        </theme>
+        <param name="scaleThumb"><bool>true</bool></param>
+        <param name="minWidth"><int>9</int></param>
+        <param name="minHeight"><int>48</int></param>
+    </theme>
+    <theme name="hscrollbar" ref="-defaults" allowWildcard="true">
+        <theme name="leftbutton" ref="-defaults"/>
+        <theme name="rightbutton" ref="-defaults"/>
+
+        <theme name="thumb" ref="-defaults"/>
+        <param name="scaleThumb"><bool>false</bool></param>
+    </theme>
+    <theme name="scrollpane" ref="-defaults" allowWildcard="true">
+        <theme name="hscrollbar" ref="hscrollbar"/>
+        <theme name="vscrollbar" ref="vscrollbar"/>
+        <param name="minWidth"><int>100</int></param>
+
+        <param name="minHeight"><int>100</int></param>
+        <param name="maxWidth"><int>32767</int></param>
+        <param name="maxHeight"><int>32767</int></param>
+        <param name="hasDragButton"><bool>false</bool></param>
+    </theme>
+</themes>

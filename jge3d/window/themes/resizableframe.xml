@@ -1,0 +1,30 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE themes PUBLIC "-//www.matthiasmann.de//TWL-Theme//EN" "http://hg.l33tlabs.org/twl/raw-file/tip/src/de/matthiasmann/twl/theme/theme.dtd">
+<themes>
+	<theme name="resizableframe" ref="-defaults" allowWildcard="true">
+		<param name="background"><image>frame.background</image></param>
+		<param name="border"><border>background.border</border></param>
+		<param name="titleAreaTop"><int>1</int></param>
+		<param name="titleAreaLeft"><int>8</int></param>
+		<param name="titleAreaRight"><int>-8</int></param>
+		<param name="titleAreaBottom"><int>15</int></param>
+		<param name="hasCloseButton"><bool>false</bool></param>
+		<param name="closeButtonX"><int>0</int></param>
+		<param name="closeButtonY"><int>0</int></param>
+		<param name="hasResizeHandle"><bool>false</bool></param>
+		<param name="resizeHandleX"><int>0</int></param>
+		<param name="resizeHandleY"><int>0</int></param>
+		<param name="fadeColorInactive"><color>white</color></param>
+		<param name="fadeDurationActivate"><int>0</int></param>
+		<param name="fadeDurationDeactivate"><int>0</int></param>
+		<param name="fadeDurationShow"><int>0</int></param>
+		<param name="fadeDurationHide"><int>0</int></param>
+		<param name="mouseCursor"><cursor>arrow.*</cursor></param>
+		<theme name="title" ref="-defaults">
+			<param name="textAlignment"><enum type="alignment">left</enum></param>
+			<param name="font"><font>black</font></param>
+		</theme>
+		<theme name="closeButton" ref="-defaults"/>
+		<theme name="resizeHandle" ref="-defaults"/>
+	</theme>
+</themes>

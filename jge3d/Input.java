@@ -14,7 +14,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-
 public class Input {
 	private static Input uniqueInstance = new Input();
 	private int deltaX, deltaY;	
@@ -50,8 +49,6 @@ public class Input {
 	
 
 	public void handleMouse() throws LWJGLException, FileNotFoundException, IOException {
-		//Handle Mouse Events here
-			
 		while(Mouse.next())	{
 			Mouse.poll();
 			

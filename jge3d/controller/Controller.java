@@ -1,5 +1,6 @@
 package jge3d.controller;
 
+import java.awt.EventQueue;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -7,12 +8,15 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.swing.SwingWorker;
+
 import jge3d.EntityList;
 import jge3d.Input;
 import jge3d.TextureList;
 import jge3d.gui.EntityComboBox;
 import jge3d.gui.FPSView;
 import jge3d.gui.LevelView;
+import jge3d.gui.Window;
 import jge3d.physics.Physics;
 import jge3d.render.Renderer;
 
@@ -27,11 +31,20 @@ public class Controller {
 	
 	long frames=0;
 	
-	//Create the Input Listening thread
-	Thread input_thread = new Thread(new Runnable(){
-		@Override
+	//Create the Controller Listening thread
+	Thread controller_thread  = new Thread() {
 		public void run() {
-			//Get rid of the loop here
+			while (isRunning) 
+			{
+				Controller.getInstance().monitor();
+				Window.getInstance().updateCanvas();
+			}
+		}
+	};
+	
+	//Create the Input Listening thread
+	Thread input_thread = new Thread() {
+		public void run() {
 			while (isRunning) 
 			{
 				//read keyboard and mouse
@@ -49,13 +62,11 @@ public class Controller {
 				}
 			}
 		}
-	},"Input");
+	};
 	
 	//Create the Physics Listening thread
-	Thread physics_thread = new Thread(new Runnable(){
-		@Override
+	Thread physics_thread = new Thread() {
 		public void run() {
-			//remove this
 			while (isRunning) 
 			{
 				//Update the physics world
@@ -64,13 +75,12 @@ public class Controller {
 				//Rejoin the controller thread
 			}
 		}
-	},"Physics");
+	};
+	//};
 	
 	//Create the vidya thread
-	Thread render_thread = new Thread(new Runnable(){
-		@Override
+	Thread render_thread  = new Thread() {
 		public void run() {
-			//remove this
 			while (isRunning) 
 			{
 				//Draw the next frame
@@ -88,7 +98,7 @@ public class Controller {
 				}
 			}
 		}
-	},"Renderer");
+	};
 	
 	
 	public static Controller getInstance()
@@ -113,14 +123,12 @@ public class Controller {
 	}
 	
 	public void start() {
+		controller_thread.start();
 		input_thread.start();
 		physics_thread.start();
 		render_thread.start();
 		
 		//magic numbers go!
-		input_thread.setPriority(3);
-		physics_thread.setPriority(5);
-		render_thread.setPriority(6);
 		
 	}
 	
@@ -191,7 +199,7 @@ public class Controller {
 		FPSView.getInstance().updateFPS();
 		
 		//Here's the idea.  Branch out, come back together.  Input run twice for every 1 render/physics run.
-		//	The functions we call in the thread will go, any then join back. We wait for them to do so, run 
+		//	The functions we call in the thread will go, and then join back. We wait for them to do so, run 
 		//	our entity checks and process the queue, then throw out the thread branches again.
 		
 		//Start the Render thread going
@@ -204,7 +212,6 @@ public class Controller {
 		
 		run_queue();
 
-		
 		try {
 			check_entities();
 		} catch (InterruptedException e) {

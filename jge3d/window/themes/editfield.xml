@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE themes PUBLIC "-//www.matthiasmann.de//TWL-Theme//EN" "http://hg.l33tlabs.org/twl/raw-file/tip/src/de/matthiasmann/twl/theme/theme.dtd">
+<themes>
+	<theme name="editfield" ref="-defaults" allowWildcard="true">
+		<param name=""><image>editfield.*</image></param>
+		<param name="border"><border>background.border</border></param>
+		<param name="passwordChar"><int>0x25CF</int></param>
+		<param name="maxWidth"><int>32767</int></param>
+		<param name="columns"><int>5</int></param>
+		<theme name="renderer" ref="-defaults"/>
+		<param name="autocompletion-height"><int>150</int></param>
+   	</theme>
+</themes>
